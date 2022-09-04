@@ -1,0 +1,45 @@
+<resources>
+    <string name="app_name">GymDiary</string>
+
+    <!-- Menu -->
+    <string name="workout_plan">Workout</string>
+    <string name="profile">Profile</string>
+    <string name="setting">Settings</string>
+
+    <!-- Affected Muscle -->
+    <string name="muscle_abductor">Abductors</string>
+    <string name="muscle_abs">Abs</string>
+    <string name="muscle_backs">Back</string>
+    <string name="muscle_bicep">Biceps</string>
+    <string name="muscle_calf">Calf</string>
+    <string name="muscle_chest">Chest</string>
+    <string name="muscle_femoral">Femorals</string>
+    <string name="muscle_forearm">Forearms</string>
+    <string name="muscle_glute">Glutes</string>
+    <string name="muscle_quadricep">Quadriceps</string>
+    <string name="muscle_shoulders">Shoulders</string>
+    <string name="muscle_triceps">Triceps</string>
+    <string name="muscle_full_body">Full body</string>
+
+    <string name="add_workout_plan">Let\'s add a workout plan</string>
+    <string name="add_exercises">Let\'s add some exercises</string>
+    <string name="name_first_workout_plan">My Workout plan 1</string>
+    <string name="today">Today</string>
+    <string name="week">Week</string>
+    <string name="of">of</string>
+    <string name="add_routine">Add your session</string>
+    <string name="title_new_routine">New session</string>
+    <string name="name_routine_text">Name session</string>
+    <string name="alert_btn_cancel">Cancel</string>
+    <string name="alert_btn_save">Save</string>
+    <string name="routine_added">Session added</string>
+    <string name="title_page_new_workout_day">New session</string>
+    <string name="title_page_edit_workout_day">Edit session</string>
+    <string name="save">Save</string>
+    <string name="notes">Notes</string>
+    <string name="text_affected_muscle">Affected muscles</string>
+    <string name="content_descr_button_return">Come back</string>
+    <string name="new_session">New</string>
+    <string name="title_workout_day_saved">Saved session</string>
+
+</resources>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GymDiary</string>
+    <string name="profile">Profilo</string>
+    <string name="setting">Impostazioni</string>
+    <string name="workout_plan">Workout</string>
+    <string name="add_workout_plan">Aggiungiamo una sessione di allenamento</string>
+    <string name="add_exercises">Aggiungiamo qualche esercizio</string>
+    <string name="name_first_workout_plan">Scheda allenamento 1</string>
+    <string name="today">Oggi</string>
+    <string name="of">di</string>
+    <string name="week">Settimana</string>
+    <string name="add_routine">Aggiungi una sessione</string>
+    <string name="title_new_routine">Nuova sessione</string>
+    <string name="name_routine_text">Nome sessione</string>
+    <string name="alert_btn_cancel">Annulla</string>
+    <string name="alert_btn_save">Salva</string>
+    <string name="routine_added">Sessione aggiunta</string>
+    <string name="title_page_new_workout_day">Nuova sessione</string>
+    <string name="title_page_edit_workout_day">Modifica sessione</string>
+    <string name="save">Salva</string>
+    <string name="notes">Note</string>
+    <string name="text_affected_muscle">Muscoli colpiti</string>
+    <string name="muscle_abs">Abs</string>
+    <string name="muscle_backs">Dorso</string>
+    <string name="muscle_calf">Polpacci</string>
+    <string name="muscle_chest">Petto</string>
+    <string name="muscle_femoral">Femorali</string>
+    <string name="muscle_abductor">Abduttori</string>
+    <string name="muscle_bicep">Bicipiti</string>
+    <string name="muscle_forearm">Avambracci</string>
+    <string name="muscle_glute">Glueti</string>
+    <string name="muscle_quadricep">Quadricipite</string>
+    <string name="muscle_shoulders">Spalle</string>
+    <string name="muscle_triceps">Tricipiti</string>
+    <string name="content_descr_button_return">Torna indietro</string>
+    <string name="muscle_full_body">Full body</string>
+    <string name="title_workout_day_saved">Sessione salvata</string>
+    <string name="new_session">nuova</string>
+</resources>

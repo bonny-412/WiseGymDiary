@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#000000</color>
+    <color name="secondary">#00B0FF</color>
+    <color name="error">#ff5464</color>
+    <color name="background">#f5f9fc</color>
+    <color name="background_card">#FFFFFF</color>
+    <color name="icon_color">#000000</color>
+    <color name="primary_text">#000000</color>
+    <color name="secondary_text">#979C9F</color>
+
+    <color name="blue_800">#E3F2FD</color>
+    <color name="blue_100">#1565C0</color>
+
+    <color name="foreground_input_edit_text">#757575</color>
+
+    <color name="not_select_icon_menu">#C8C8C8</color>
+    <color name="transparent">#00FFFFFF</color>
+</resources>
