@@ -11,7 +11,7 @@
     <string name="muscle_abs">Abs</string>
     <string name="muscle_backs">Back</string>
     <string name="muscle_bicep">Biceps</string>
-    <string name="muscle_calf">Calf</string>
+    <string name="muscle_calf">Calves</string>
     <string name="muscle_chest">Chest</string>
     <string name="muscle_femoral">Femorals</string>
     <string name="muscle_forearm">Forearms</string>
@@ -37,9 +37,20 @@
     <string name="title_page_edit_workout_day">Edit session</string>
     <string name="save">Save</string>
     <string name="notes">Notes</string>
-    <string name="text_affected_muscle">Affected muscles</string>
+    <string name="text_affected_muscle">Affected muscles:</string>
     <string name="content_descr_button_return">Come back</string>
     <string name="new_session">New</string>
     <string name="title_workout_day_saved">Saved session</string>
+    <string name="title_sessions">Sessions</string>
+    <string name="add_exercise">Add exercise</string>
+    <string name="text_exercise_empty">There are no exercises</string>
+
+    <string name="title_new_exercise">New exercise</string>
+    <string name="name_exercise_text">Name exercise</string>
+    <string name="title_sets_reps">Sets:</string>
+    <string name="title_series">Sets</string>
+    <string name="title_reps">Reps</string>
+    <string name="title_add_sets_reps">Add set</string>
+    <string name="title_time_rest">Rest time:</string>
 
 </resources>

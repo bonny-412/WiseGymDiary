@@ -22,16 +22,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.bonny.app.wisegymdiary.R;
+import it.bonny.app.wisegymdiary.bean.Exercise;
 import it.bonny.app.wisegymdiary.bean.WorkoutDay;
 
-public class WorkoutDayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ExerciseHomePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<WorkoutDay> workoutDayArrayList;
+    private List<Exercise> exerciseList;
     private Context mContext;
 
-    public WorkoutDayAdapter(Context context) {
+    public ExerciseHomePageAdapter(Context context) {
         this.mContext = context;
-        this.workoutDayArrayList = new ArrayList<>();
+        this.exerciseList = new ArrayList<>();
     }
 
     @NonNull
@@ -44,17 +45,17 @@ public class WorkoutDayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
-        WorkoutDay workoutDay = workoutDayArrayList.get(position);
+        Exercise exercise = exerciseList.get(position);
         RecyclerViewViewHolder viewHolder = (RecyclerViewViewHolder) holder;
 
-        if(viewHolder.textWorkedMuscle != null) {
+        /*if(viewHolder.textWorkedMuscle != null) {
             String numTimeDoneTxt = "" + workoutDay.getNumTimeDone();
             viewHolder.textWorkedMuscle.setText(numTimeDoneTxt);
-        }
-        viewHolder.titleWorkoutDay.setText(workoutDay.getName());
-        viewHolder.nameWorkedMuscle.setText(workoutDay.getWorkedMuscle());
+        }*/
+        viewHolder.titleWorkoutDay.setText(exercise.getName());
+        viewHolder.nameWorkedMuscle.setText(exercise.getWorkedMuscle());
 
-        viewHolder.btnOptionsWorkoutDay.setOnClickListener(new View.OnClickListener() {
+        /*viewHolder.btnOptionsWorkoutDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 PopupMenu popupMenu = new PopupMenu(mContext, viewHolder.btnOptionsWorkoutDay);
@@ -71,18 +72,18 @@ public class WorkoutDayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 });
                 popupMenu.show();
             }
-        });
+        });*/
 
     }
 
     @Override
     public int getItemCount() {
-        return workoutDayArrayList.size();
+        return exerciseList.size();
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void updateUserList(final List<WorkoutDay> workoutDayList) {
-        this.workoutDayArrayList = workoutDayList;
+    public void updateExerciseList(final List<Exercise> exerciseList) {
+        this.exerciseList = exerciseList;
         notifyDataSetChanged();
     }
 
@@ -91,7 +92,6 @@ public class WorkoutDayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         TextView titleWorkoutDay;
         TextView nameWorkedMuscle;
         ConstraintLayout mainLayout;
-        MaterialButton btnOptionsWorkoutDay;
 
         public RecyclerViewViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -99,7 +99,6 @@ public class WorkoutDayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             titleWorkoutDay = itemView.findViewById(R.id.titleWorkoutDay);
             nameWorkedMuscle = itemView.findViewById(R.id.nameWorkedMuscle);
             mainLayout = itemView.findViewById(R.id.mainLayout);
-            btnOptionsWorkoutDay = itemView.findViewById(R.id.btnOptionsWorkoutDay);
 
             Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.translate_anim);
             mainLayout.setAnimation(animation);

@@ -20,7 +20,7 @@
     <string name="title_page_edit_workout_day">Modifica sessione</string>
     <string name="save">Salva</string>
     <string name="notes">Note</string>
-    <string name="text_affected_muscle">Muscoli colpiti</string>
+    <string name="text_affected_muscle">Muscoli colpiti:</string>
     <string name="muscle_abs">Abs</string>
     <string name="muscle_backs">Dorso</string>
     <string name="muscle_calf">Polpacci</string>
@@ -37,4 +37,14 @@
     <string name="muscle_full_body">Full body</string>
     <string name="title_workout_day_saved">Sessione salvata</string>
     <string name="new_session">nuova</string>
+    <string name="title_sessions">Sessioni</string>
+    <string name="add_exercise">Aggiungi esercizio</string>
+    <string name="text_exercise_empty">Non ci sono esercizi</string>
+    <string name="title_new_exercise">Nuovo esercizio</string>
+    <string name="name_exercise_text">Nome esercizio</string>
+    <string name="title_sets_reps">Serie:</string>
+    <string name="title_series">Sets</string>
+    <string name="title_reps">Reps</string>
+    <string name="title_add_sets_reps">Aggiungi set</string>
+    <string name="title_time_rest">Tempo rec.:</string>
 </resources>
