@@ -3,27 +3,27 @@ package it.bonny.app.wisegymdiary.component;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import it.bonny.app.wisegymdiary.R;
 import it.bonny.app.wisegymdiary.bean.Exercise;
-import it.bonny.app.wisegymdiary.bean.WorkoutDay;
+import it.bonny.app.wisegymdiary.util.Utility;
 
 public class ExerciseHomePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -38,7 +38,7 @@ public class ExerciseHomePageAdapter extends RecyclerView.Adapter<RecyclerView.V
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View rootView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_workout_day_recyclerview, parent, false);
+        View rootView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_exercise_recyclerview, parent, false);
         return new RecyclerViewViewHolder(rootView);
     }
 
@@ -54,6 +54,17 @@ public class ExerciseHomePageAdapter extends RecyclerView.Adapter<RecyclerView.V
         }*/
         viewHolder.titleWorkoutDay.setText(exercise.getName());
         viewHolder.nameWorkedMuscle.setText(exercise.getWorkedMuscle());
+
+        viewHolder.layoutList.removeAllViews();
+        String[] splitNumSetsReps = exercise.getNumSetsReps().split(Utility.SYMBOL_SPLIT);
+        if(splitNumSetsReps != null && splitNumSetsReps.length > 0) {
+            for(String s: splitNumSetsReps) {
+                String[] split = s.split(":");
+                if(split != null && split.length > 0) {
+                    addView(split[0], split[1], viewHolder.layoutList);
+                }
+            }
+        }
 
         /*viewHolder.btnOptionsWorkoutDay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,6 +103,7 @@ public class ExerciseHomePageAdapter extends RecyclerView.Adapter<RecyclerView.V
         TextView titleWorkoutDay;
         TextView nameWorkedMuscle;
         ConstraintLayout mainLayout;
+        LinearLayout layoutList;
 
         public RecyclerViewViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -99,10 +111,29 @@ public class ExerciseHomePageAdapter extends RecyclerView.Adapter<RecyclerView.V
             titleWorkoutDay = itemView.findViewById(R.id.titleWorkoutDay);
             nameWorkedMuscle = itemView.findViewById(R.id.nameWorkedMuscle);
             mainLayout = itemView.findViewById(R.id.mainLayout);
+            layoutList = itemView.findViewById(R.id.layout_list);
 
             Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.translate_anim);
             mainLayout.setAnimation(animation);
         }
     }
+
+    private void addView(String numSets, String numReps, LinearLayout layoutList) {
+        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+        final View setsRepsView = inflater.inflate(R.layout.row_set_rep_item_exercise_recyclerview, null, false);
+
+        TextView textViewNumSeries = setsRepsView.findViewById(R.id.numSeries);
+        TextView textViewNumReps = setsRepsView.findViewById(R.id.numReps);
+
+        textViewNumSeries.setText(numSets);
+        textViewNumReps.setText(numReps);
+
+        layoutList.addView(setsRepsView);
+    }
+
+    private void removeView(LinearLayout layoutList, View view) {
+        layoutList.removeView(view);
+    }
+
 
 }

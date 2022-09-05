@@ -303,18 +303,53 @@
 
                             <TextView
                                 android:id="@+id/titleTimeRest"
-                                android:layout_width="0dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/primary_text"
                                 android:text="@string/title_time_rest"
                                 android:layout_marginBottom="10dp"
                                 android:textStyle="bold"
                                 android:textSize="16sp"
-                                app:layout_constraintTop_toBottomOf="@+id/btnAddNewSetsReps"
+                                app:layout_constraintTop_toTopOf="@+id/containerSelectTimeRest"
                                 app:layout_constraintStart_toStartOf="@+id/btnAddNewSetsReps"
-                                app:layout_constraintEnd_toEndOf="@+id/btnAddNewSetsReps"/>
+                                app:layout_constraintEnd_toStartOf="@+id/containerSelectTimeRest"
+                                app:layout_constraintBottom_toBottomOf="@+id/containerSelectTimeRest"/>
 
-
+                            <LinearLayout
+                                android:id="@+id/containerSelectTimeRest"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                app:layout_constraintTop_toBottomOf="@+id/btnAddNewSetsReps"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toEndOf="@+id/titleTimeRest"
+                                android:gravity="center"
+                                android:layout_marginTop="8dp">
+                                <NumberPicker
+                                    android:id="@+id/numPickerMin"
+                                    android:layout_width="48dp"
+                                    android:layout_height="96dp"
+                                    android:theme="@style/NumberPickerTheme" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/title_min"
+                                    android:textColor="@color/primary_text"
+                                    android:textSize="14sp"/>
+                                <NumberPicker
+                                    android:id="@+id/numPickerSec"
+                                    android:layout_width="48dp"
+                                    android:layout_height="96dp"
+                                    android:theme="@style/NumberPickerTheme"
+                                    />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/title_sec"
+                                    android:textColor="@color/primary_text"
+                                    android:textSize="14sp" />
+                            </LinearLayout>
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>

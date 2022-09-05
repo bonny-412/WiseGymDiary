@@ -4,11 +4,15 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Geroni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/drawable/custom_edit_text_rounded.xml" value="0.151" />
+        <entry key="..\:/Users/Geroni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/drawable/ic_circle.xml" value="0.151" />
         <entry key="..\:/Users/Geroni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/drawable/ic_empty_list.xml" value="0.2165" />
         <entry key="..\:/Users/Geroni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/drawable/sheet_line_background.xml" value="0.2165" />
         <entry key="..\:/Users/Geroni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/layout/activity_new_edit_exercise.xml" value="0.33" />
         <entry key="..\:/Users/Geroni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/layout/fragment_home.xml" value="0.25" />
+        <entry key="..\:/Users/Geroni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/layout/item_exercise_recyclerview.xml" value="0.33" />
         <entry key="..\:/Users/Geroni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/layout/item_workout_day_recyclerview.xml" value="0.25" />
+        <entry key="..\:/Users/Geroni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/layout/number_picker_material.xml" value="0.17074275362318841" />
+        <entry key="..\:/Users/Geroni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/layout/row_set_rep_item_exercise_recyclerview.xml" value="0.33" />
         <entry key="..\:/Users/Geroni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/layout/row_sets_reps.xml" value="0.33" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/drawable/alert_background.xml" value="0.163" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/drawable/background_border_bottom_round.xml" value="0.153" />

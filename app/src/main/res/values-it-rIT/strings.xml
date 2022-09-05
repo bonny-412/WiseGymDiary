@@ -47,4 +47,7 @@
     <string name="title_reps">Reps</string>
     <string name="title_add_sets_reps">Aggiungi set</string>
     <string name="title_time_rest">Tempo rec.:</string>
+    <string name="title_min">Min.</string>
+    <string name="title_sec">Sec.</string>
+    <string name="title_exercise_saved">Esercizio salvato</string>
 </resources>

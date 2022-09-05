@@ -31,5 +31,15 @@
     <style name="Widget.App.PopupMenu" parent="Widget.MaterialComponents.PopupMenu">
         <item name="android:popupBackground">@drawable/custom_popup_background</item>
     </style>
+
+    <style name="NumberPickerTheme" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@android:color/white</item>
+        <!-- To remove divider of the number picker -->
+        <item name="colorControlNormal">@android:color/transparent</item>
+
+        <item name="android:textColorPrimary">@color/primary_text</item>
+        <item name="android:background">@color/background</item>
+        <item name="android:textSize">16sp</item>
+    </style>
     
 </resources>

@@ -9,6 +9,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
@@ -35,6 +36,7 @@ public class NewEditExerciseActivity extends AppCompatActivity {
     private ChipGroup chipGroup;
     private LinearLayout linearLayout;
     private EditText editTextSets, editTextReps;
+    private NumberPicker numPickerMin, numPickerSec;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,13 +64,14 @@ public class NewEditExerciseActivity extends AppCompatActivity {
                 exercise.setNote(noteExercise.getEditText() != null ? noteExercise.getEditText().getText().toString(): "");
                 exercise.setWorkedMuscle(workedMuscleSelected);
                 exercise.setNumSetsReps(readAllSetsReps());
-                exercise.setRestTime("0");
-                    /*AppDatabase.databaseWriteExecutor.execute(() -> {
-                        AppDatabase appDatabase = AppDatabase.getInstance(getApplicationContext());
-                        appDatabase.workoutDayDAO().insert(workoutDay);
-                        Snackbar.make(getWindow().getDecorView().findViewById(android.R.id.content), getString(R.string.routine_added), Snackbar.LENGTH_SHORT).show();
-                        finish();
-                    });*/
+                String timeRest = numPickerMin.getValue() + Utility.SYMBOL_SPLIT + numPickerSec.getValue();
+                exercise.setRestTime(timeRest);
+                AppDatabase.databaseWriteExecutor.execute(() -> {
+                    AppDatabase appDatabase = AppDatabase.getInstance(getApplicationContext());
+                    appDatabase.exerciseDAO().insert(exercise);
+                    Snackbar.make(getWindow().getDecorView().findViewById(android.R.id.content), getString(R.string.title_exercise_saved), Snackbar.LENGTH_SHORT).show();
+                    finish();
+                });
             }
         });
 
@@ -124,11 +127,19 @@ public class NewEditExerciseActivity extends AppCompatActivity {
         linearLayout = findViewById(R.id.layout_list);
         editTextReps = findViewById(R.id.editTextReps);
         editTextSets = findViewById(R.id.editTextSets);
+        numPickerMin = findViewById(R.id.numPickerMin);
+        numPickerSec = findViewById(R.id.numPickerSec);
 
         TextInputEditText textInputNameExercise = findViewById(R.id.textInputNameExercise);
         TextInputEditText textInputNoteExercise = findViewById(R.id.textInputNoteExercise);
         textInputNameExercise.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         textInputNoteExercise.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+
+        numPickerMin.setMinValue(0);
+        numPickerMin.setMaxValue(59);
+        numPickerSec.setMinValue(0);
+        numPickerSec.setMaxValue(59);
+
     }
 
     private void checkButtonSave() {
