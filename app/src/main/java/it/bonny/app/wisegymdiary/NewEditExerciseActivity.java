@@ -3,6 +3,7 @@ package it.bonny.app.wisegymdiary;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.telecom.Call;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -55,7 +56,10 @@ public class NewEditExerciseActivity extends AppCompatActivity {
 
         checkButtonSave();
 
-        btnReturn.setOnClickListener(view -> finish());
+        btnReturn.setOnClickListener(view -> {
+            finish();
+            overridePendingTransition(R.anim.slide_up, R.anim.slide_down);
+        });
 
         btnSave.setOnClickListener(view -> {
             if(nameExercise.getEditText() != null) {
@@ -71,6 +75,7 @@ public class NewEditExerciseActivity extends AppCompatActivity {
                     appDatabase.exerciseDAO().insert(exercise);
                     Snackbar.make(getWindow().getDecorView().findViewById(android.R.id.content), getString(R.string.title_exercise_saved), Snackbar.LENGTH_SHORT).show();
                     finish();
+                    overridePendingTransition(R.anim.slide_up, R.anim.slide_down);
                 });
             }
         });
@@ -195,4 +200,15 @@ public class NewEditExerciseActivity extends AppCompatActivity {
         return result.toString();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_up, R.anim.slide_down);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        overridePendingTransition(R.anim.slide_up, R.anim.slide_down);
+    }
 }

@@ -26,5 +26,8 @@ public interface WorkoutDayDAO {
     @Query("SELECT * FROM workout_day WHERE id_work_plan = :idWorkPlan")
     LiveData<List<WorkoutDay>> getAllRoutineByIdWorkPlan(long idWorkPlan);
 
+    @Query("SELECT * FROM workout_day WHERE id_work_plan = :idWorkPlan")
+    List<WorkoutDay> getAllRoutineByIdWorkPlanNoLiveData(long idWorkPlan);
+
 }
 

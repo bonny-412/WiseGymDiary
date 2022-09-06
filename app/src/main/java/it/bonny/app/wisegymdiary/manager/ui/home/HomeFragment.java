@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.telecom.Call;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -12,12 +13,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -34,12 +39,15 @@ import it.bonny.app.wisegymdiary.NewEditWorkoutDay;
 import it.bonny.app.wisegymdiary.R;
 import it.bonny.app.wisegymdiary.bean.Exercise;
 import it.bonny.app.wisegymdiary.bean.WorkoutDay;
+import it.bonny.app.wisegymdiary.component.BottomSheetWorkoutDay;
+import it.bonny.app.wisegymdiary.manager.MainActivity;
+import it.bonny.app.wisegymdiary.util.BottomSheetClickListener;
 import it.bonny.app.wisegymdiary.util.Utility;
 import it.bonny.app.wisegymdiary.component.ExerciseHomePageAdapter;
 import it.bonny.app.wisegymdiary.bean.WorkoutPlan;
 import it.bonny.app.wisegymdiary.databinding.FragmentHomeBinding;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements BottomSheetClickListener {
 
     private FragmentHomeBinding binding;
     private HomeViewModel homeViewModel;
@@ -56,6 +64,10 @@ public class HomeFragment extends Fragment {
     private MaterialButton showTransactionListBtn;
     private ConstraintLayout containerRecyclerView;
     private TextView nameWorkoutDaySelected;
+
+    private BottomSheetWorkoutDay bottomSheetWorkoutDay;
+
+    Animation slide_down, slide_up;
 
     private WorkoutDay workoutDaySelected = new WorkoutDay();
 
@@ -142,6 +154,11 @@ public class HomeFragment extends Fragment {
 
         btnNewExerciseEmpty.setOnClickListener(v -> callNewExercise(root));
 
+        btnWorkoutDaySelected.setOnClickListener(v -> {
+            bottomSheetWorkoutDay = new BottomSheetWorkoutDay(workoutPlanApp.getId(), workoutDaySelected.getId(), getContext(), HomeFragment.this);
+            bottomSheetWorkoutDay.show(getParentFragmentManager(), "CHANGE_ACCOUNT");
+        });
+
         return root;
     }
 
@@ -172,6 +189,12 @@ public class HomeFragment extends Fragment {
 
     private void initElements(Context context) {
         workoutPlanApp = new WorkoutPlan();
+
+        slide_down = AnimationUtils.loadAnimation(context,
+                R.anim.slide_down);
+
+        slide_up = AnimationUtils.loadAnimation(context,
+                R.anim.slide_up);
 
         containerSettings = binding.containerSettings;
         containerWorkoutPlanEmpty = binding.containerWorkoutPlanEmpty;
@@ -216,6 +239,12 @@ public class HomeFragment extends Fragment {
         intent.putExtra("idWorkoutDay", workoutDaySelected.getId());
         intent.putExtra("newFlag", true);
         root.getContext().startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.slide_up, R.anim.slide_down);
+
     }
 
+    @Override
+    public void onItemClick(long idElement) {
+        Toast.makeText(getContext(), "" + idElement, Toast.LENGTH_SHORT).show();
+    }
 }
