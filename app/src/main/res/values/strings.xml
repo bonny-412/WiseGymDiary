@@ -52,7 +52,7 @@
 
     <string name="title_new_exercise">New exercise</string>
     <string name="name_exercise_text">Name exercise</string>
-    <string name="title_sets_reps">Sets:</string>
+    <string name="title_sets_reps">Sets/Reps:</string>
     <string name="title_series">Sets</string>
     <string name="title_reps">Reps</string>
     <string name="title_add_sets_reps">Add set</string>

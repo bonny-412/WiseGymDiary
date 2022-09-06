@@ -42,8 +42,8 @@
     <string name="text_exercise_empty">Non ci sono esercizi</string>
     <string name="title_new_exercise">Nuovo esercizio</string>
     <string name="name_exercise_text">Nome esercizio</string>
-    <string name="title_sets_reps">Serie:</string>
-    <string name="title_series">Sets</string>
+    <string name="title_sets_reps">Serie/Reps:</string>
+    <string name="title_series">Serie</string>
     <string name="title_reps">Reps</string>
     <string name="title_add_sets_reps">Aggiungi set</string>
     <string name="title_time_rest">Tempo rec.:</string>
