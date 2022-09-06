@@ -8,6 +8,7 @@
     <string name="profile">Profile</string>
     <string name="setting">Settings</string>
     <string name="text_max">Max</string>
+    <string name="slash">/</string>
 
     <!-- Affected Muscle -->
     <string name="muscle_abductor">Abductors</string>

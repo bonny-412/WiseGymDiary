@@ -56,4 +56,5 @@
     <string name="text_icon_exercise">Icona esercizio</string>
     <string name="muscle_adductors">Adduttori</string>
     <string name="text_max">Max</string>
+    <string name="slash">/</string>
 </resources>

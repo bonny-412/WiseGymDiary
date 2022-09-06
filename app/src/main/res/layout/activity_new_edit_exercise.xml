@@ -181,21 +181,6 @@
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintEnd_toStartOf="@+id/lineSheet1"
                                 android:gravity="center">
-                                <EditText
-                                    android:id="@+id/editTextSets"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:inputType="number"
-                                    android:minHeight="48dp"
-                                    android:padding="4dp"
-                                    android:maxLength="5"
-                                    android:autofillHints="name"
-                                    tools:ignore="LabelFor"
-                                    android:textAlignment="center"
-                                    android:minWidth="48dp"
-                                    android:background="@drawable/custom_edit_text_rounded"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintStart_toStartOf="parent"/>
                                 <TextView
                                     android:id="@+id/titleSets"
                                     android:layout_width="wrap_content"
@@ -203,10 +188,20 @@
                                     android:text="@string/title_series"
                                     android:textColor="@color/primary_text"
                                     android:textSize="16sp"
-                                    android:layout_marginStart="8dp"
-                                    app:layout_constraintTop_toTopOf="@+id/editTextSets"
-                                    app:layout_constraintBottom_toBottomOf="@+id/editTextSets"
-                                    app:layout_constraintStart_toEndOf="@+id/editTextSets" />
+                                    android:layout_marginEnd="8dp" />
+                                <EditText
+                                    android:id="@+id/editTextSets"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="number"
+                                    android:minHeight="48dp"
+                                    android:padding="4dp"
+                                    android:maxLength="2"
+                                    android:autofillHints="name"
+                                    tools:ignore="LabelFor"
+                                    android:textAlignment="center"
+                                    android:minWidth="48dp"
+                                    android:background="@drawable/custom_edit_text_rounded" />
                             </LinearLayout>
 
                             <View
@@ -231,6 +226,14 @@
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toEndOf="@+id/lineSheet1"
                                 android:gravity="center">
+                                <TextView
+                                    android:id="@+id/titleReps"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/title_reps"
+                                    android:textColor="@color/primary_text"
+                                    android:textSize="16sp"
+                                    android:layout_marginEnd="8dp" />
                                 <EditText
                                     android:id="@+id/editTextReps"
                                     android:layout_width="wrap_content"
@@ -239,26 +242,33 @@
                                     android:minHeight="48dp"
                                     android:minWidth="48dp"
                                     android:padding="4dp"
-                                    android:maxLength="5"
+                                    android:maxLength="2"
                                     android:autofillHints="name"
                                     tools:ignore="LabelFor"
                                     android:textAlignment="center"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    android:background="@drawable/custom_edit_text_rounded"
-                                    app:layout_constraintEnd_toStartOf="@+id/titleReps"
-                                    app:layout_constraintStart_toEndOf="@+id/lineSheet1"/>
+                                    android:background="@drawable/custom_edit_text_rounded"/>
                                 <TextView
-                                    android:id="@+id/titleReps"
+                                    android:id="@+id/slash"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="@string/title_reps"
+                                    android:text="@string/slash"
                                     android:textColor="@color/primary_text"
-                                    android:textSize="16sp"
-                                    android:layout_marginStart="8dp"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintTop_toTopOf="@+id/editTextReps"
-                                    app:layout_constraintBottom_toBottomOf="@+id/editTextReps"
-                                    app:layout_constraintStart_toEndOf="@+id/editTextReps" />
+                                    android:textSize="22sp"
+                                    android:layout_marginStart="4dp"
+                                    android:layout_marginEnd="4dp"/>
+                                <EditText
+                                    android:id="@+id/editTextReps1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:inputType="number"
+                                    android:minHeight="48dp"
+                                    android:minWidth="48dp"
+                                    android:padding="4dp"
+                                    android:maxLength="2"
+                                    android:autofillHints="name"
+                                    tools:ignore="LabelFor"
+                                    android:textAlignment="center"
+                                    android:background="@drawable/custom_edit_text_rounded" />
                             </LinearLayout>
 
                             <View
