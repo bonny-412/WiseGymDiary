@@ -29,8 +29,8 @@
     <string name="muscle_abductor">Abduttori</string>
     <string name="muscle_bicep">Bicipiti</string>
     <string name="muscle_forearm">Avambracci</string>
-    <string name="muscle_glute">Glueti</string>
-    <string name="muscle_quadricep">Quadricipite</string>
+    <string name="muscle_glute">Glutei</string>
+    <string name="muscle_quadricep">Quadricipiti</string>
     <string name="muscle_shoulders">Spalle</string>
     <string name="muscle_triceps">Tricipiti</string>
     <string name="content_descr_button_return">Torna indietro</string>
@@ -52,4 +52,8 @@
     <string name="title_exercise_saved">Esercizio salvato</string>
     <string name="title_bottom_sheet_workout_day">Sessioni</string>
     <string name="content_description_radio_button">Selezionato</string>
+    <string name="required_field">Campo obbligatorio</string>
+    <string name="text_icon_exercise">Icona esercizio</string>
+    <string name="muscle_adductors">Adduttori</string>
+    <string name="text_max">Max</string>
 </resources>

@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -99,7 +100,7 @@ public class ExerciseHomePageAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     public class RecyclerViewViewHolder extends RecyclerView.ViewHolder {
-        TextView textWorkedMuscle;
+        AppCompatImageView iconExercise;
         TextView titleWorkoutDay;
         TextView nameWorkedMuscle;
         ConstraintLayout mainLayout;
@@ -107,7 +108,7 @@ public class ExerciseHomePageAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         public RecyclerViewViewHolder(@NonNull View itemView) {
             super(itemView);
-            textWorkedMuscle = itemView.findViewById(R.id.textWorkedMuscle);
+            iconExercise = itemView.findViewById(R.id.iconExercise);
             titleWorkoutDay = itemView.findViewById(R.id.titleWorkoutDay);
             nameWorkedMuscle = itemView.findViewById(R.id.nameWorkedMuscle);
             mainLayout = itemView.findViewById(R.id.mainLayout);

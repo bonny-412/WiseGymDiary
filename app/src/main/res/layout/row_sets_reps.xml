@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/background"
+    android:background="@color/background_card"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginTop="8dp">
     <LinearLayout
@@ -54,7 +54,6 @@
         app:layout_constraintTop_toTopOf="@+id/containerSets"
         app:layout_constraintBottom_toBottomOf="@+id/containerSets"
         app:layout_constraintStart_toEndOf="@+id/containerSets"
-        android:backgroundTint="@color/background_card"
         app:layout_constraintEnd_toStartOf="@+id/containerReps"
         />
 
@@ -108,7 +107,6 @@
         app:layout_constraintStart_toStartOf="@+id/containerSets"
         app:layout_constraintEnd_toEndOf="@+id/containerReps"
         app:layout_constraintBottom_toBottomOf="@+id/btnDelete"
-        android:backgroundTint="@color/background_card"
         />
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnDelete"
@@ -125,7 +123,7 @@
         android:insetBottom="0dp"
         app:icon="@drawable/ic_delete"
         app:iconGravity="textStart"
-        android:backgroundTint="@color/background_card"
+        android:backgroundTint="@color/background"
         app:iconPadding="0dp"
         app:layout_constraintTop_toBottomOf="@+id/containerReps"
         app:layout_constraintStart_toStartOf="@+id/containerSets"

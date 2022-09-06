@@ -60,7 +60,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:padding="10dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
         android:elevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -74,7 +75,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/btnSave"
-            android:layout_marginBottom="8dp">
+            android:layout_marginBottom="8dp"
+            android:paddingTop="10dp"
+            android:layout_marginTop="20dp">
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -92,6 +95,8 @@
                     app:boxCornerRadiusBottomStart="10dp"
                     app:boxCornerRadiusBottomEnd="10dp"
                     app:errorEnabled="true"
+                    android:inputType="textCapWords"
+                    android:imeOptions="actionDone"
                     android:textColorHint="@color/foreground_input_edit_text"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <com.google.android.material.textfield.TextInputEditText
@@ -147,14 +152,17 @@
                     app:cardCornerRadius="6dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
-                    app:cardBackgroundColor="@color/background"
+                    app:cardElevation="0dp"
+
+                    app:cardBackgroundColor="@color/background_card"
                     app:layout_constraintTop_toBottomOf="@+id/titleSetsReps"
                     app:layout_constraintStart_toStartOf="@+id/titleSetsReps"
                     app:layout_constraintEnd_toEndOf="@+id/titleSetsReps"
                     android:padding="8dp">
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:background="@drawable/border_background_sets_reps">
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/containerSetsReps"
                             android:layout_width="0dp"
@@ -179,15 +187,15 @@
                                     android:layout_height="wrap_content"
                                     android:inputType="number"
                                     android:minHeight="48dp"
-                                    android:minWidth="48dp"
-                                    android:textAlignment="center"
+                                    android:padding="4dp"
                                     android:maxLength="5"
                                     android:autofillHints="name"
-                                    android:padding="4dp"
+                                    tools:ignore="LabelFor"
+                                    android:textAlignment="center"
+                                    android:minWidth="48dp"
                                     android:background="@drawable/custom_edit_text_rounded"
                                     app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    tools:ignore="LabelFor" />
+                                    app:layout_constraintStart_toStartOf="parent"/>
                                 <TextView
                                     android:id="@+id/titleSets"
                                     android:layout_width="wrap_content"
@@ -211,7 +219,6 @@
                                 app:layout_constraintTop_toTopOf="@+id/containerSets"
                                 app:layout_constraintBottom_toBottomOf="@+id/containerSets"
                                 app:layout_constraintStart_toEndOf="@+id/containerSets"
-                                android:backgroundTint="@color/background_card"
                                 app:layout_constraintEnd_toStartOf="@+id/containerReps"
                                 />
 
@@ -231,15 +238,15 @@
                                     android:inputType="number"
                                     android:minHeight="48dp"
                                     android:minWidth="48dp"
+                                    android:padding="4dp"
                                     android:maxLength="5"
                                     android:autofillHints="name"
-                                    android:padding="4dp"
+                                    tools:ignore="LabelFor"
                                     android:textAlignment="center"
                                     app:layout_constraintTop_toTopOf="parent"
                                     android:background="@drawable/custom_edit_text_rounded"
                                     app:layout_constraintEnd_toStartOf="@+id/titleReps"
-                                    app:layout_constraintStart_toEndOf="@+id/lineSheet1"
-                                    tools:ignore="LabelFor"/>
+                                    app:layout_constraintStart_toEndOf="@+id/lineSheet1"/>
                                 <TextView
                                     android:id="@+id/titleReps"
                                     android:layout_width="wrap_content"
@@ -261,10 +268,10 @@
                                 android:background="@drawable/sheet_line_background"
                                 android:layout_marginStart="8dp"
                                 android:layout_marginEnd="8dp"
-                                app:layout_constraintTop_toBottomOf="@+id/containerReps"
+                                app:layout_constraintTop_toBottomOf="@+id/containerSets"
                                 app:layout_constraintStart_toStartOf="@+id/containerSets"
-                                android:backgroundTint="@color/background_card"
                                 app:layout_constraintEnd_toEndOf="@+id/containerReps"
+                                app:layout_constraintBottom_toTopOf="@+id/layout_list"
                                 android:layout_marginTop="8dp"
                                 />
 
@@ -294,7 +301,7 @@
                                 app:iconTint="@color/secondary"
                                 app:cornerRadius="8dp"
                                 app:iconGravity="textStart"
-                                android:backgroundTint="@color/background_card"
+                                android:backgroundTint="@color/background"
                                 android:layout_marginTop="4dp"
                                 android:padding="2dp"
                                 android:textSize="12sp"
@@ -330,23 +337,28 @@
                                     android:id="@+id/numPickerMin"
                                     android:layout_width="48dp"
                                     android:layout_height="96dp"
-                                    android:theme="@style/NumberPickerTheme" />
+                                    android:background="@drawable/border_background_sets_reps"
+                                    android:theme="@style/NumberPickerTheme"/>
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/title_min"
+                                    android:layout_marginEnd="4dp"
+                                    android:layout_marginStart="4dp"
                                     android:textColor="@color/primary_text"
                                     android:textSize="14sp"/>
                                 <NumberPicker
                                     android:id="@+id/numPickerSec"
                                     android:layout_width="48dp"
                                     android:layout_height="96dp"
+                                    android:background="@drawable/border_background_sets_reps"
                                     android:theme="@style/NumberPickerTheme"
                                     />
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/title_sec"
+                                    android:layout_marginStart="4dp"
                                     android:textColor="@color/primary_text"
                                     android:textSize="14sp" />
                             </LinearLayout>
@@ -367,7 +379,7 @@
                     android:orientation="vertical"
                     android:layout_marginTop="4dp">
                     <TextView
-                        android:id="@+id/titleChooseIconNewAccount"
+                        android:id="@+id/titleChooseIconMuscle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/primary_text"
@@ -386,166 +398,13 @@
                         android:layout_height="wrap_content"
                         app:selectionRequired="true"
                         app:singleSelection="true"
-                        app:layout_constraintTop_toBottomOf="@+id/titleChooseIconNewAccount"
+                        app:layout_constraintTop_toBottomOf="@+id/titleChooseIconMuscle"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent">
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chipAbductor"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/muscle_abductor"
-                            style="@style/Widget.MaterialComponents.Chip.Filter"
-                            app:chipIconVisible="false"
-                            app:closeIconVisible="false"
-                            app:checkedIcon="@drawable/ic_check"
-                            app:chipBackgroundColor="@color/chip_background"
-                            android:textColor="@color/chip_text"
-                            app:checkedIconTint="@color/chip_text"
-                            android:checkable="true"/>
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chipAbs"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/muscle_abs"
-                            style="@style/Widget.MaterialComponents.Chip.Filter"
-                            app:chipIconVisible="false"
-                            app:closeIconVisible="false"
-                            app:checkedIcon="@drawable/ic_check"
-                            app:chipBackgroundColor="@color/chip_background"
-                            android:textColor="@color/chip_text"
-                            app:checkedIconTint="@color/chip_text"
-                            android:checkable="true"/>
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chipBack"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/muscle_backs"
-                            style="@style/Widget.MaterialComponents.Chip.Filter"
-                            app:chipIconVisible="false"
-                            app:closeIconVisible="false"
-                            app:checkedIcon="@drawable/ic_check"
-                            app:chipBackgroundColor="@color/chip_background"
-                            android:textColor="@color/chip_text"
-                            app:checkedIconTint="@color/chip_text"
-                            android:checkable="true"/>
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chipBicep"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/muscle_bicep"
-                            style="@style/Widget.MaterialComponents.Chip.Filter"
-                            app:chipIconVisible="false"
-                            app:closeIconVisible="false"
-                            app:checkedIcon="@drawable/ic_check"
-                            app:chipBackgroundColor="@color/chip_background"
-                            android:textColor="@color/chip_text"
-                            app:checkedIconTint="@color/chip_text"
-                            android:checkable="true"/>
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chipCalf"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/muscle_calf"
-                            style="@style/Widget.MaterialComponents.Chip.Filter"
-                            app:chipIconVisible="false"
-                            app:closeIconVisible="false"
-                            app:checkedIcon="@drawable/ic_check"
-                            app:chipBackgroundColor="@color/chip_background"
-                            android:textColor="@color/chip_text"
-                            app:checkedIconTint="@color/chip_text"
-                            android:checkable="true"/>
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chipChest"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/muscle_chest"
-                            style="@style/Widget.MaterialComponents.Chip.Filter"
-                            app:chipIconVisible="false"
-                            app:closeIconVisible="false"
-                            app:checkedIcon="@drawable/ic_check"
-                            app:chipBackgroundColor="@color/chip_background"
-                            android:textColor="@color/chip_text"
-                            app:checkedIconTint="@color/chip_text"
-                            android:checkable="true"/>
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chipForearm"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/muscle_forearm"
-                            style="@style/Widget.MaterialComponents.Chip.Filter"
-                            app:chipIconVisible="false"
-                            app:closeIconVisible="false"
-                            app:checkedIcon="@drawable/ic_check"
-                            app:chipBackgroundColor="@color/chip_background"
-                            android:textColor="@color/chip_text"
-                            app:checkedIconTint="@color/chip_text"
-                            android:checkable="true"/>
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chipFullBody"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/muscle_full_body"
-                            style="@style/Widget.MaterialComponents.Chip.Filter"
-                            app:chipIconVisible="false"
-                            app:closeIconVisible="false"
-                            app:checkedIcon="@drawable/ic_check"
-                            app:chipBackgroundColor="@color/chip_background"
-                            android:textColor="@color/chip_text"
-                            app:checkedIconTint="@color/chip_text"
-                            android:checkable="true"/>
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chipGlute"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/muscle_glute"
-                            style="@style/Widget.MaterialComponents.Chip.Filter"
-                            app:chipIconVisible="false"
-                            app:closeIconVisible="false"
-                            app:checkedIcon="@drawable/ic_check"
-                            app:chipBackgroundColor="@color/chip_background"
-                            android:textColor="@color/chip_text"
-                            app:checkedIconTint="@color/chip_text"
-                            android:checkable="true"/>
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chipQuadricep"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/muscle_quadricep"
-                            style="@style/Widget.MaterialComponents.Chip.Filter"
-                            app:chipIconVisible="false"
-                            app:closeIconVisible="false"
-                            app:checkedIcon="@drawable/ic_check"
-                            app:chipBackgroundColor="@color/chip_background"
-                            android:textColor="@color/chip_text"
-                            app:checkedIconTint="@color/chip_text"
-                            android:checkable="true"/>
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chipShoulder"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/muscle_shoulders"
-                            style="@style/Widget.MaterialComponents.Chip.Filter"
-                            app:chipIconVisible="false"
-                            app:closeIconVisible="false"
-                            app:checkedIcon="@drawable/ic_check"
-                            app:chipBackgroundColor="@color/chip_background"
-                            android:textColor="@color/chip_text"
-                            app:checkedIconTint="@color/chip_text"
-                            android:checkable="true"/>
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chipTriceps"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/muscle_triceps"
-                            style="@style/Widget.MaterialComponents.Chip.Filter"
-                            app:chipIconVisible="false"
-                            app:closeIconVisible="false"
-                            app:checkedIcon="@drawable/ic_check"
-                            app:chipBackgroundColor="@color/chip_background"
-                            android:textColor="@color/chip_text"
-                            app:checkedIconTint="@color/chip_text"
-                            android:checkable="true"/>
+
+                        <include layout="@layout/include_chip_muscles" />
+
                     </com.google.android.material.chip.ChipGroup>
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -568,7 +427,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:visibility="invisible"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

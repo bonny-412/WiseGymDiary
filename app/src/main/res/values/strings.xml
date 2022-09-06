@@ -1,14 +1,18 @@
 <resources>
     <string name="app_name">GymDiary</string>
+    <string name="required_field">Required field</string>
+    <string name="text_icon_exercise">Icon exercise</string>
 
     <!-- Menu -->
     <string name="workout_plan">Workout</string>
     <string name="profile">Profile</string>
     <string name="setting">Settings</string>
+    <string name="text_max">Max</string>
 
     <!-- Affected Muscle -->
     <string name="muscle_abductor">Abductors</string>
     <string name="muscle_abs">Abs</string>
+    <string name="muscle_adductors">Adductors</string>
     <string name="muscle_backs">Back</string>
     <string name="muscle_bicep">Biceps</string>
     <string name="muscle_calf">Calves</string>

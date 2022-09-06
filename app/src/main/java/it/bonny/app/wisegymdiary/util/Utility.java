@@ -36,14 +36,16 @@ public class Utility {
         Map<Integer, String> map = new HashMap<>();
         map.put(1, activity.getString(R.string.muscle_abductor));
         map.put(2, activity.getString(R.string.muscle_abs));
-        map.put(3, activity.getString(R.string.muscle_backs));
-        map.put(4, activity.getString(R.string.muscle_bicep));
-        map.put(5, activity.getString(R.string.muscle_chest));
-        map.put(6, activity.getString(R.string.muscle_forearm));
-        map.put(7, activity.getString(R.string.muscle_glute));
-        map.put(8, activity.getString(R.string.muscle_quadricep));
-        map.put(9, activity.getString(R.string.muscle_shoulders));
-        map.put(10, activity.getString(R.string.muscle_triceps));
+        map.put(3, activity.getString(R.string.muscle_adductors));
+        map.put(4, activity.getString(R.string.muscle_backs));
+        map.put(5, activity.getString(R.string.muscle_bicep));
+        map.put(6, activity.getString(R.string.muscle_chest));
+        map.put(7, activity.getString(R.string.muscle_femoral));
+        map.put(8, activity.getString(R.string.muscle_forearm));
+        map.put(9, activity.getString(R.string.muscle_glute));
+        map.put(10, activity.getString(R.string.muscle_quadricep));
+        map.put(11, activity.getString(R.string.muscle_shoulders));
+        map.put(12, activity.getString(R.string.muscle_triceps));
 
         return map;
     }
