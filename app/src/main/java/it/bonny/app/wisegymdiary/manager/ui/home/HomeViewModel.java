@@ -33,12 +33,16 @@ public class HomeViewModel extends AndroidViewModel {
         return workoutPlanDAO.loadWorkoutPlanOpen();
     }
 
-    public LiveData<List<WorkoutDay>> getWorkoutDay(long idWorkoutPlan) {
+    public LiveData<List<WorkoutDay>> getWorkoutDays(long idWorkoutPlan) {
         return workoutDayDAO.getAllRoutineByIdWorkPlan(idWorkoutPlan);
     }
 
-    public LiveData<List<Exercise>> getExercise(long idWorkoutDay) {
+    public LiveData<List<Exercise>> getExercises(long idWorkoutDay) {
         return exerciseDAO.getAllExercisesByIdWorkoutDay(idWorkoutDay);
+    }
+
+    public LiveData<WorkoutDay> findWorkoutDayByPrimaryKey(long id) {
+        return workoutDayDAO.findWorkoutDayByPrimaryKey(id);
     }
 
     public void insert(WorkoutPlan workoutPlan) { workoutPlanDAO.insert(workoutPlan); }

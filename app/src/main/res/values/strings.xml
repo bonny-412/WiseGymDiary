@@ -33,6 +33,7 @@
     <string name="week">Week</string>
     <string name="of">of</string>
     <string name="add_routine">Add your session</string>
+    <string name="title_add_session">Add session</string>
     <string name="title_new_routine">New session</string>
     <string name="name_routine_text">Name session</string>
     <string name="alert_btn_cancel">Cancel</string>

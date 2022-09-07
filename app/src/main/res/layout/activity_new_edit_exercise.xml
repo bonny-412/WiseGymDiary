@@ -216,14 +216,15 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:text="@string/title_reps"
-                                    android:textAlignment="viewEnd0"
+                                    android:textAlignment="viewEnd"
                                     android:textColor="@color/primary_text"
                                     android:textSize="16sp"
                                     android:layout_marginStart="8dp"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toEndOf="@+id/lineSheet3"
                                     app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintVertical_bias="0.0" />
+                                    app:layout_constraintVertical_bias="0.0"
+                                    android:paddingEnd="4dp"/>
                                 <EditText
                                     android:id="@+id/editTextSets"
                                     android:layout_width="wrap_content"

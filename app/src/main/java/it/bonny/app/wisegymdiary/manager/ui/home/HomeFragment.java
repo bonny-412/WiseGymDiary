@@ -23,6 +23,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -69,7 +70,7 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
 
     Animation slide_down, slide_up;
 
-    private WorkoutDay workoutDaySelected = new WorkoutDay();
+    private LiveData<WorkoutDay> workoutDaySelected;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
@@ -103,18 +104,14 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
                 containerRoutineEmpty.setVisibility(View.GONE);
                 btnWorkoutDaySelected.setVisibility(View.VISIBLE);
                 showTransactionListBtn.setVisibility(View.VISIBLE);
-                //containerRecyclerView.setVisibility(View.VISIBLE);
-                //btnAddWorkoutDay = binding.btnAddWorkoutDay;
-                //btnAddWorkoutDay.setOnClickListener(view -> callNewWorkoutDay(root));
-                //workoutDayAdapter.updateUserList(routines);
-                workoutDaySelected.copy(routines.get(0));
-                nameWorkoutDaySelected.setText(workoutDaySelected.getName());
-                homeViewModel.getExercise(workoutDaySelected.getId()).observe(getViewLifecycleOwner(), exerciseObserver);
+
+                workoutDaySelected = homeViewModel.findWorkoutDayByPrimaryKey(routines.get(0).getId());
+                nameWorkoutDaySelected.setText(workoutDaySelected.getValue().getName());
+                homeViewModel.getExercises(workoutDaySelected.getValue().getId()).observe(getViewLifecycleOwner(), exerciseObserver);
             }else {
                 containerRoutineEmpty.setVisibility(View.VISIBLE);
                 btnWorkoutDaySelected.setVisibility(View.GONE);
                 showTransactionListBtn.setVisibility(View.GONE);
-                //containerRecyclerView.setVisibility(View.GONE);
                 btnNewRoutine.setOnClickListener(view -> callNewWorkoutDay(root));
             }
         };
@@ -136,7 +133,7 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
 
                 workoutPlanApp.copy(workoutPlan);
 
-                homeViewModel.getWorkoutDay(workoutPlan.getId()).observe(getViewLifecycleOwner(), routineObserver);
+                homeViewModel.getWorkoutDays(workoutPlan.getId()).observe(getViewLifecycleOwner(), routineObserver);
             }else {
                 containerSettings.setVisibility(View.INVISIBLE);
                 containerWorkoutPlanEmpty.setVisibility(View.VISIBLE);
@@ -155,7 +152,7 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
         btnNewExerciseEmpty.setOnClickListener(v -> callNewExercise(root));
 
         btnWorkoutDaySelected.setOnClickListener(v -> {
-            bottomSheetWorkoutDay = new BottomSheetWorkoutDay(workoutPlanApp.getId(), workoutDaySelected.getId(), getContext(), HomeFragment.this);
+            bottomSheetWorkoutDay = new BottomSheetWorkoutDay(workoutPlanApp.getId(), workoutDaySelected.getValue().getId(), getContext(), HomeFragment.this);
             bottomSheetWorkoutDay.show(getParentFragmentManager(), "CHANGE_ACCOUNT");
         });
 
@@ -236,7 +233,7 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
 
     private void callNewExercise(View root) {
         Intent intent = new Intent(root.getContext(), NewEditExerciseActivity.class);
-        intent.putExtra("idWorkoutDay", workoutDaySelected.getId());
+        intent.putExtra("idWorkoutDay", workoutDaySelected.getValue().getId());
         intent.putExtra("newFlag", true);
         root.getContext().startActivity(intent);
         getActivity().overridePendingTransition(R.anim.slide_up, R.anim.slide_down);
@@ -246,5 +243,6 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
     @Override
     public void onItemClick(long idElement) {
         Toast.makeText(getContext(), "" + idElement, Toast.LENGTH_SHORT).show();
+        workoutDaySelected =
     }
 }
