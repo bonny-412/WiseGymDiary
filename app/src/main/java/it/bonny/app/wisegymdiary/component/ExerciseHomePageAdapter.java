@@ -3,58 +3,71 @@ package it.bonny.app.wisegymdiary.component;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.PopupMenu;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import it.bonny.app.wisegymdiary.R;
-import it.bonny.app.wisegymdiary.bean.WorkoutDay;
+import it.bonny.app.wisegymdiary.bean.Exercise;
+import it.bonny.app.wisegymdiary.util.Utility;
 
-public class WorkoutDayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ExerciseHomePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<WorkoutDay> workoutDayArrayList;
+    private List<Exercise> exerciseList;
     private Context mContext;
 
-    public WorkoutDayAdapter(Context context) {
+    public ExerciseHomePageAdapter(Context context) {
         this.mContext = context;
-        this.workoutDayArrayList = new ArrayList<>();
+        this.exerciseList = new ArrayList<>();
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View rootView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_workout_day_recyclerview, parent, false);
+        View rootView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_exercise_recyclerview, parent, false);
         return new RecyclerViewViewHolder(rootView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
-        WorkoutDay workoutDay = workoutDayArrayList.get(position);
+        Exercise exercise = exerciseList.get(position);
         RecyclerViewViewHolder viewHolder = (RecyclerViewViewHolder) holder;
 
-        if(viewHolder.textWorkedMuscle != null) {
+        /*if(viewHolder.textWorkedMuscle != null) {
             String numTimeDoneTxt = "" + workoutDay.getNumTimeDone();
             viewHolder.textWorkedMuscle.setText(numTimeDoneTxt);
-        }
-        viewHolder.titleWorkoutDay.setText(workoutDay.getName());
-        viewHolder.nameWorkedMuscle.setText(workoutDay.getWorkedMuscle());
+        }*/
+        viewHolder.titleWorkoutDay.setText(exercise.getName());
+        viewHolder.nameWorkedMuscle.setText(exercise.getWorkedMuscle());
 
-        viewHolder.btnOptionsWorkoutDay.setOnClickListener(new View.OnClickListener() {
+        viewHolder.layoutList.removeAllViews();
+        String[] splitNumSetsReps = exercise.getNumSetsReps().split(Utility.SYMBOL_SPLIT);
+        if(splitNumSetsReps != null && splitNumSetsReps.length > 0) {
+            for(String s: splitNumSetsReps) {
+                String[] split = s.split(":");
+                if(split != null && split.length > 0) {
+                    addView(split[0], split[1], viewHolder.layoutList);
+                }
+            }
+        }
+
+        /*viewHolder.btnOptionsWorkoutDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 PopupMenu popupMenu = new PopupMenu(mContext, viewHolder.btnOptionsWorkoutDay);
@@ -71,39 +84,57 @@ public class WorkoutDayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 });
                 popupMenu.show();
             }
-        });
+        });*/
 
     }
 
     @Override
     public int getItemCount() {
-        return workoutDayArrayList.size();
+        return exerciseList.size();
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void updateUserList(final List<WorkoutDay> workoutDayList) {
-        this.workoutDayArrayList = workoutDayList;
+    public void updateExerciseList(final List<Exercise> exerciseList) {
+        this.exerciseList = exerciseList;
         notifyDataSetChanged();
     }
 
     public class RecyclerViewViewHolder extends RecyclerView.ViewHolder {
-        TextView textWorkedMuscle;
+        AppCompatImageView iconExercise;
         TextView titleWorkoutDay;
         TextView nameWorkedMuscle;
         ConstraintLayout mainLayout;
-        MaterialButton btnOptionsWorkoutDay;
+        LinearLayout layoutList;
 
         public RecyclerViewViewHolder(@NonNull View itemView) {
             super(itemView);
-            textWorkedMuscle = itemView.findViewById(R.id.textWorkedMuscle);
+            iconExercise = itemView.findViewById(R.id.iconExercise);
             titleWorkoutDay = itemView.findViewById(R.id.titleWorkoutDay);
             nameWorkedMuscle = itemView.findViewById(R.id.nameWorkedMuscle);
             mainLayout = itemView.findViewById(R.id.mainLayout);
-            btnOptionsWorkoutDay = itemView.findViewById(R.id.btnOptionsWorkoutDay);
+            layoutList = itemView.findViewById(R.id.layout_list);
 
             Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.translate_anim);
             mainLayout.setAnimation(animation);
         }
     }
+
+    private void addView(String numSets, String numReps, LinearLayout layoutList) {
+        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+        final View setsRepsView = inflater.inflate(R.layout.row_set_rep_item_exercise_recyclerview, null, false);
+
+        TextView textViewNumSeries = setsRepsView.findViewById(R.id.numSeries);
+        TextView textViewNumReps = setsRepsView.findViewById(R.id.numReps);
+
+        textViewNumSeries.setText(numSets);
+        textViewNumReps.setText(numReps);
+
+        layoutList.addView(setsRepsView);
+    }
+
+    private void removeView(LinearLayout layoutList, View view) {
+        layoutList.removeView(view);
+    }
+
 
 }

@@ -14,12 +14,14 @@ import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import it.bonny.app.wisegymdiary.bean.Exercise;
 import it.bonny.app.wisegymdiary.bean.WorkoutDay;
 import it.bonny.app.wisegymdiary.bean.WorkoutPlan;
+import it.bonny.app.wisegymdiary.dao.ExerciseDAO;
 import it.bonny.app.wisegymdiary.dao.WorkoutDayDAO;
 import it.bonny.app.wisegymdiary.dao.WorkoutPlanDAO;
 
-@Database(entities = {WorkoutPlan.class, WorkoutDay.class}, exportSchema = false, version = 1)
+@Database(entities = {WorkoutPlan.class, WorkoutDay.class, Exercise.class}, exportSchema = false, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
     private static final String DB_NAME = "gymdiary_db";
     private static AppDatabase instance;
@@ -40,6 +42,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract WorkoutPlanDAO workoutPlanDAO();
     public abstract WorkoutDayDAO workoutDayDAO();
+    public abstract ExerciseDAO exerciseDAO();
 
     private static final RoomDatabase.Callback callback = new Callback() {
         @Override

@@ -80,5 +80,15 @@ public class WorkoutDay {
         this.workedMuscle = workedMuscle;
     }
 
+    @Ignore
+    public void copy(WorkoutDay obj) {
+        setId(obj.getId());
+        setName(obj.getName());
+        setIdWorkPlan(obj.getIdWorkPlan());
+        setNumTimeDone(obj.getNumTimeDone());
+        setNote(obj.getNote());
+        setWorkedMuscle(obj.getWorkedMuscle());
+    }
+
 }
 

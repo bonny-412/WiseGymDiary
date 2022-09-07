@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.telecom.Call;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -12,12 +13,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -25,29 +31,46 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 
 import java.util.List;
 
+import it.bonny.app.wisegymdiary.NewEditExerciseActivity;
 import it.bonny.app.wisegymdiary.NewEditWorkoutDay;
 import it.bonny.app.wisegymdiary.R;
+import it.bonny.app.wisegymdiary.bean.Exercise;
 import it.bonny.app.wisegymdiary.bean.WorkoutDay;
+import it.bonny.app.wisegymdiary.component.BottomSheetWorkoutDay;
+import it.bonny.app.wisegymdiary.manager.MainActivity;
+import it.bonny.app.wisegymdiary.util.BottomSheetClickListener;
 import it.bonny.app.wisegymdiary.util.Utility;
-import it.bonny.app.wisegymdiary.component.WorkoutDayAdapter;
+import it.bonny.app.wisegymdiary.component.ExerciseHomePageAdapter;
 import it.bonny.app.wisegymdiary.bean.WorkoutPlan;
 import it.bonny.app.wisegymdiary.databinding.FragmentHomeBinding;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements BottomSheetClickListener {
 
     private FragmentHomeBinding binding;
     private HomeViewModel homeViewModel;
 
-    private ConstraintLayout containerSettings, containerWorkoutPlanEmpty, containerWorkoutPlan, containerRoutineEmpty;
+    private ConstraintLayout containerSettings, containerWorkoutPlanEmpty, containerWorkoutPlan, containerRoutineEmpty, containerExerciseEmpty;
     private TextView nameWorkoutPlan, infoWeekWorkoutPlan;
     private WorkoutPlan workoutPlanApp;
-    private MaterialButton btnNewRoutine, btnOptionsWorkoutPlan;
-    private WorkoutDayAdapter workoutDayAdapter;
-    private RecyclerView recyclerViewWorkoutDay;
-    private MaterialButton btnAddWorkoutDay;
+    private MaterialButton btnNewRoutine, btnOptionsWorkoutPlan, btnNewExerciseEmpty;
+    private ExerciseHomePageAdapter exerciseHomePageAdapter;
+    private RecyclerView recyclerViewExercise;
+    private MaterialButton btnAddWorkoutDay, btnAddExercise;
+
+    private MaterialCardView btnWorkoutDaySelected;
+    private MaterialButton showTransactionListBtn;
+    private ConstraintLayout containerRecyclerView;
+    private TextView nameWorkoutDaySelected;
+
+    private BottomSheetWorkoutDay bottomSheetWorkoutDay;
+
+    Animation slide_down, slide_up;
+
+    private LiveData<WorkoutDay> workoutDaySelected;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
@@ -59,14 +82,36 @@ public class HomeFragment extends Fragment {
         final TextView textView = binding.nameWorkoutPlan;
         initElements(root.getContext());
 
+        Observer<List<Exercise>> exerciseObserver = new Observer<List<Exercise>>() {
+            @Override
+            public void onChanged(List<Exercise> exercises) {
+                if(exercises != null && exercises.size() > 0) {
+                    containerExerciseEmpty.setVisibility(View.GONE);
+                    containerRecyclerView.setVisibility(View.VISIBLE);
+                    btnAddExercise.setVisibility(View.VISIBLE);
+
+                    exerciseHomePageAdapter.updateExerciseList(exercises);
+                }else {
+                    containerExerciseEmpty.setVisibility(View.VISIBLE);
+                    containerRecyclerView.setVisibility(View.GONE);
+                    btnAddExercise.setVisibility(View.GONE);
+                }
+            }
+        };
+
         Observer<List<WorkoutDay>> routineObserver = routines -> {
             if(routines != null && routines.size() > 0) {
                 containerRoutineEmpty.setVisibility(View.GONE);
-                //btnAddWorkoutDay = binding.btnAddWorkoutDay;
-                //btnAddWorkoutDay.setOnClickListener(view -> callNewWorkoutDay(root));
-                workoutDayAdapter.updateUserList(routines);
+                btnWorkoutDaySelected.setVisibility(View.VISIBLE);
+                showTransactionListBtn.setVisibility(View.VISIBLE);
+
+                workoutDaySelected = homeViewModel.findWorkoutDayByPrimaryKey(routines.get(0).getId());
+                nameWorkoutDaySelected.setText(workoutDaySelected.getValue().getName());
+                homeViewModel.getExercises(workoutDaySelected.getValue().getId()).observe(getViewLifecycleOwner(), exerciseObserver);
             }else {
                 containerRoutineEmpty.setVisibility(View.VISIBLE);
+                btnWorkoutDaySelected.setVisibility(View.GONE);
+                showTransactionListBtn.setVisibility(View.GONE);
                 btnNewRoutine.setOnClickListener(view -> callNewWorkoutDay(root));
             }
         };
@@ -88,7 +133,7 @@ public class HomeFragment extends Fragment {
 
                 workoutPlanApp.copy(workoutPlan);
 
-                homeViewModel.getWorkoutDay(workoutPlan.getId()).observe(getViewLifecycleOwner(), routineObserver);
+                homeViewModel.getWorkoutDays(workoutPlan.getId()).observe(getViewLifecycleOwner(), routineObserver);
             }else {
                 containerSettings.setVisibility(View.INVISIBLE);
                 containerWorkoutPlanEmpty.setVisibility(View.VISIBLE);
@@ -100,6 +145,15 @@ public class HomeFragment extends Fragment {
 
         btnOptionsWorkoutPlan.setOnClickListener(view -> {
 
+        });
+
+        btnAddExercise.setOnClickListener(v -> callNewExercise(root));
+
+        btnNewExerciseEmpty.setOnClickListener(v -> callNewExercise(root));
+
+        btnWorkoutDaySelected.setOnClickListener(v -> {
+            bottomSheetWorkoutDay = new BottomSheetWorkoutDay(workoutPlanApp.getId(), workoutDaySelected.getValue().getId(), getContext(), HomeFragment.this);
+            bottomSheetWorkoutDay.show(getParentFragmentManager(), "CHANGE_ACCOUNT");
         });
 
         return root;
@@ -133,6 +187,12 @@ public class HomeFragment extends Fragment {
     private void initElements(Context context) {
         workoutPlanApp = new WorkoutPlan();
 
+        slide_down = AnimationUtils.loadAnimation(context,
+                R.anim.slide_down);
+
+        slide_up = AnimationUtils.loadAnimation(context,
+                R.anim.slide_up);
+
         containerSettings = binding.containerSettings;
         containerWorkoutPlanEmpty = binding.containerWorkoutPlanEmpty;
         containerWorkoutPlan = binding.containerWorkoutPlan;
@@ -143,16 +203,25 @@ public class HomeFragment extends Fragment {
         btnNewRoutine = binding.btnNewRoutine;
         btnOptionsWorkoutPlan = binding.btnOptionsWorkoutPlan;
 
-        recyclerViewWorkoutDay = binding.recyclerView;
-        workoutDayAdapter = new WorkoutDayAdapter(context);
+        containerExerciseEmpty = binding.containerExerciseEmpty;
+        btnAddExercise = binding.btnAddExercise;
+        btnNewExerciseEmpty = binding.btnNewExerciseEmpty;
+
+        btnWorkoutDaySelected = binding.btnWorkoutDaySelected;
+        showTransactionListBtn = binding.showTransactionListBtn;
+        containerRecyclerView = binding.containerRecyclerView;
+        nameWorkoutDaySelected = binding.nameWorkoutDaySelected;
+
+        recyclerViewExercise = binding.recyclerView;
+        exerciseHomePageAdapter = new ExerciseHomePageAdapter(context);
         setAdapter();
     }
 
     void setAdapter() {
-        recyclerViewWorkoutDay.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerViewWorkoutDay.setHasFixedSize(true);
-        recyclerViewWorkoutDay.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewWorkoutDay.setAdapter(workoutDayAdapter);
+        recyclerViewExercise.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerViewExercise.setHasFixedSize(true);
+        recyclerViewExercise.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewExercise.setAdapter(exerciseHomePageAdapter);
     }
 
     private void callNewWorkoutDay(View root) {
@@ -162,4 +231,18 @@ public class HomeFragment extends Fragment {
         root.getContext().startActivity(intent);
     }
 
+    private void callNewExercise(View root) {
+        Intent intent = new Intent(root.getContext(), NewEditExerciseActivity.class);
+        intent.putExtra("idWorkoutDay", workoutDaySelected.getValue().getId());
+        intent.putExtra("newFlag", true);
+        root.getContext().startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.slide_up, R.anim.slide_down);
+
+    }
+
+    @Override
+    public void onItemClick(long idElement) {
+        Toast.makeText(getContext(), "" + idElement, Toast.LENGTH_SHORT).show();
+        workoutDaySelected =
+    }
 }

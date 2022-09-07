@@ -3,6 +3,27 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Geroni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/drawable/background_border_bottom_round.xml" value="0.113" />
+        <entry key="..\:/Users/Geroni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/drawable/background_page_new_edit.xml" value="0.2165" />
+        <entry key="..\:/Users/Geroni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/drawable/background_rounded_bottom_sheet.xml" value="0.151" />
+        <entry key="..\:/Users/Geroni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/drawable/border_background_sets_reps.xml" value="0.151" />
+        <entry key="..\:/Users/Geroni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/drawable/bottom_sheet_line.xml" value="0.151" />
+        <entry key="..\:/Users/Geroni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/drawable/custom_edit_text_rounded.xml" value="0.151" />
+        <entry key="..\:/Users/Geroni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/drawable/ic_circle.xml" value="0.151" />
+        <entry key="..\:/Users/Geroni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/drawable/ic_empty_list.xml" value="0.2165" />
+        <entry key="..\:/Users/Geroni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/drawable/icon_leg_back.xml" value="0.113" />
+        <entry key="..\:/Users/Geroni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/drawable/sheet_line_background.xml" value="0.2165" />
+        <entry key="..\:/Users/Geroni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/layout/activity_new_edit_exercise.xml" value="0.3192771084337349" />
+        <entry key="..\:/Users/Geroni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/layout/activity_new_edit_workout_day.xml" value="0.1793478260869565" />
+        <entry key="..\:/Users/Geroni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/layout/bottom_sheet_workout_day.xml" value="0.21" />
+        <entry key="..\:/Users/Geroni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/layout/fragment_home.xml" value="0.25" />
+        <entry key="..\:/Users/Geroni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/layout/include_chip_muscles.xml" value="0.17074275362318841" />
+        <entry key="..\:/Users/Geroni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/layout/item_exercise_recyclerview.xml" value="0.33" />
+        <entry key="..\:/Users/Geroni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/layout/item_list_workout_day_bottom_sheet.xml" value="0.17074275362318841" />
+        <entry key="..\:/Users/Geroni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/layout/item_workout_day_recyclerview.xml" value="0.25" />
+        <entry key="..\:/Users/Geroni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/layout/number_picker_material.xml" value="0.17074275362318841" />
+        <entry key="..\:/Users/Geroni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/layout/row_set_rep_item_exercise_recyclerview.xml" value="0.33" />
+        <entry key="..\:/Users/Geroni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/layout/row_sets_reps.xml" value="0.3247172859450727" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/drawable/alert_background.xml" value="0.163" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/drawable/background_border_bottom_round.xml" value="0.153" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/drawable/background_item_gridview.xml" value="0.126" />
@@ -28,7 +49,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_X" default="true" project-jdk-name="openjdk-18" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

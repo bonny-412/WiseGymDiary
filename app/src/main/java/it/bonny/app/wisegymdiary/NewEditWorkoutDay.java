@@ -1,10 +1,13 @@
 package it.bonny.app.wisegymdiary;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.os.Bundle;
 import android.text.InputType;
-import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
@@ -26,6 +29,7 @@ public class NewEditWorkoutDay extends AppCompatActivity {
     private List<String> workedMuscleListSelected;
     private WorkoutDay workoutDay;
     private ChipGroup chipGroup;
+    private MaterialButton btnReturn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,57 +45,54 @@ public class NewEditWorkoutDay extends AppCompatActivity {
         }
 
 
-        MaterialButton btnReturn = findViewById(R.id.btnReturn);
-        btnSave = findViewById(R.id.btnSave);
-        nameWorkoutDay = findViewById(R.id.nameWorkoutDay);
-        noteWorkoutDay = findViewById(R.id.noteWorkoutDay);
-        chipGroup = findViewById(R.id.chipGroup);
-        TextInputEditText textInputNameWorkoutDay = findViewById(R.id.textInputNameWorkoutDay);
-        TextInputEditText textInputNoteWorkoutDay = findViewById(R.id.textInputNoteWorkoutDay);
-        textInputNameWorkoutDay.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-        textInputNoteWorkoutDay.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-
-        checkButtonSave();
+        initElements();
 
         btnReturn.setOnClickListener(view -> finish());
 
         btnSave.setOnClickListener(view -> {
-            if(nameWorkoutDay.getEditText() != null) {
+            boolean isError = false;
+            if(nameWorkoutDay.getEditText() == null || "".equals(nameWorkoutDay.getEditText().getText().toString())) {
+                isError = true;
+                nameWorkoutDay.setError(getText(R.string.required_field));
+            }else {
+                nameWorkoutDay.setError(null);
                 workoutDay.setName(nameWorkoutDay.getEditText().getText().toString());
-                workoutDay.setNumTimeDone(0);
-                workoutDay.setIdWorkPlan(idWorkoutPlan);
-                workoutDay.setNote(noteWorkoutDay.getEditText() != null ? noteWorkoutDay.getEditText().getText().toString(): "");
-                if(workedMuscleListSelected != null && workedMuscleListSelected.size() > 0) {
-                    StringBuilder app = new StringBuilder();
-                    for(int i = 0; i < workedMuscleListSelected.size(); i ++) {
-                        app.append(workedMuscleListSelected.get(i));
-                        if(i < workedMuscleListSelected.size() - 1)
-                            app.append(", ");
-                    }
-                    workoutDay.setWorkedMuscle(app.toString());
-                    AppDatabase.databaseWriteExecutor.execute(() -> {
-                        AppDatabase appDatabase = AppDatabase.getInstance(getApplicationContext());
-                        appDatabase.workoutDayDAO().insert(workoutDay);
-                        Snackbar.make(getWindow().getDecorView().findViewById(android.R.id.content), getString(R.string.routine_added), Snackbar.LENGTH_SHORT).show();
-                        finish();
-                    });
+            }
+
+            workoutDay.setNumTimeDone(0);
+            workoutDay.setIdWorkPlan(idWorkoutPlan);
+            workoutDay.setNote(noteWorkoutDay.getEditText() != null ? noteWorkoutDay.getEditText().getText().toString(): "");
+
+            TextView titleChooseIconNewAccount = findViewById(R.id.titleChooseIconNewAccount);
+            if(workedMuscleListSelected == null || workedMuscleListSelected.size() == 0) {
+                isError = true;
+                titleChooseIconNewAccount.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.error));
+            }else {
+                titleChooseIconNewAccount.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.primary_text));
+                StringBuilder app = new StringBuilder();
+                for(int i = 0; i < workedMuscleListSelected.size(); i ++) {
+                    app.append(workedMuscleListSelected.get(i));
+                    if(i < workedMuscleListSelected.size() - 1)
+                        app.append(", ");
                 }
+                workoutDay.setWorkedMuscle(app.toString());
+            }
+
+            if(!isError) {
+                AppDatabase.databaseWriteExecutor.execute(() -> {
+                    AppDatabase appDatabase = AppDatabase.getInstance(getApplicationContext());
+                    appDatabase.workoutDayDAO().insert(workoutDay);
+                    Snackbar.make(getWindow().getDecorView().findViewById(android.R.id.content), getString(R.string.routine_added), Snackbar.LENGTH_SHORT).show();
+                    finish();
+                });
+            }else {
+                Animation shake = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shake);
+                btnSave.startAnimation(shake);
             }
         });
 
         chipGroup.setOnCheckedStateChangeListener((group, checkedIds) -> registerFilterChipChanged());
 
-        nameWorkoutDay.addOnEditTextAttachedListener(textInputLayout -> checkButtonSave());
-
-    }
-
-    private void checkButtonSave() {
-        if(workedMuscleListSelected.size() > 0 && nameWorkoutDay.getEditText() != null &&
-                nameWorkoutDay.getEditText().getText() != null && nameWorkoutDay.getEditText().getText().length() > 0){
-            btnSave.setVisibility(View.VISIBLE);
-        }else {
-            btnSave.setVisibility(View.INVISIBLE);
-        }
     }
 
     private void registerFilterChipChanged() {
@@ -102,8 +103,18 @@ public class NewEditWorkoutDay extends AppCompatActivity {
             Chip chip = chipGroup.findViewById(id);
             workedMuscleListSelected.add(chip.getText().toString());
         }
+    }
 
-        checkButtonSave();
+    private void initElements() {
+        btnReturn = findViewById(R.id.btnReturn);
+        btnSave = findViewById(R.id.btnSave);
+        nameWorkoutDay = findViewById(R.id.nameWorkoutDay);
+        noteWorkoutDay = findViewById(R.id.noteWorkoutDay);
+        chipGroup = findViewById(R.id.chipGroup);
+        TextInputEditText textInputNameWorkoutDay = findViewById(R.id.textInputNameWorkoutDay);
+        TextInputEditText textInputNoteWorkoutDay = findViewById(R.id.textInputNoteWorkoutDay);
+        textInputNameWorkoutDay.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+        textInputNoteWorkoutDay.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
     }
 
 }
