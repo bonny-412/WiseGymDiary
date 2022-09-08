@@ -1,6 +1,7 @@
 package it.bonny.app.wisegymdiary.dao;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -30,7 +31,10 @@ public interface WorkoutDayDAO {
     List<WorkoutDay> getAllRoutineByIdWorkPlanNoLiveData(long idWorkPlan);
 
     @Query("SELECT * FROM workout_day WHERE id = :id")
-    LiveData<WorkoutDay> findWorkoutDayByPrimaryKey(long id);
+    WorkoutDay findWorkoutDayByPrimaryKey(long id);
+
+    @Query("SELECT * FROM  workout_day WHERE id = :id")
+    WorkoutDay getWorkoutDayById(long id);
 
 }
 

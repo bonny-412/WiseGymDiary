@@ -2,6 +2,7 @@ package it.bonny.app.wisegymdiary.bean;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "exercise")
@@ -29,13 +30,28 @@ public class Exercise {
     @ColumnInfo(name = "worked_muscle")
     private String workedMuscle;
 
-    @ColumnInfo(name = "weight")
-    private String weight;
+    public Exercise(long id, String name, long idWorkDay, String note, String restTime, String numSetsReps, String workedMuscle) {
+        this.id = id;
+        this.name = name;
+        this.idWorkDay = idWorkDay;
+        this.note = note;
+        this.restTime = restTime;
+        this.numSetsReps = numSetsReps;
+        this.workedMuscle = workedMuscle;
+    }
 
-    @ColumnInfo(name = "done_date")
-    private String doneDate;
-
+    @Ignore
     public Exercise() {}
+
+    @Ignore
+    public Exercise(String name, long idWorkDay, String note, String restTime, String numSetsReps, String workedMuscle) {
+        this.name = name;
+        this.idWorkDay = idWorkDay;
+        this.note = note;
+        this.restTime = restTime;
+        this.numSetsReps = numSetsReps;
+        this.workedMuscle = workedMuscle;
+    }
 
     public long getId() {
         return id;
@@ -86,18 +102,5 @@ public class Exercise {
         this.workedMuscle = workedMuscle;
     }
 
-    public String getDoneDate() {
-        return doneDate;
-    }
-    public void setDoneDate(String doneDate) {
-        this.doneDate = doneDate;
-    }
-
-    public String getWeight() {
-        return weight;
-    }
-    public void setWeight(String weight) {
-        this.weight = weight;
-    }
 
 }

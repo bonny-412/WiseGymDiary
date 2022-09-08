@@ -24,15 +24,19 @@ import java.util.List;
 
 import it.bonny.app.wisegymdiary.R;
 import it.bonny.app.wisegymdiary.bean.Exercise;
+import it.bonny.app.wisegymdiary.util.RecyclerViewClickBottomSheetInterface;
+import it.bonny.app.wisegymdiary.util.RecyclerViewClickInterface;
 import it.bonny.app.wisegymdiary.util.Utility;
 
 public class ExerciseHomePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Exercise> exerciseList;
-    private Context mContext;
+    private final Context mContext;
+    private RecyclerViewClickInterface listener;
 
-    public ExerciseHomePageAdapter(Context context) {
+    public ExerciseHomePageAdapter(Context context, RecyclerViewClickInterface listener) {
         this.mContext = context;
+        this.listener = listener;
         this.exerciseList = new ArrayList<>();
     }
 
@@ -86,6 +90,8 @@ public class ExerciseHomePageAdapter extends RecyclerView.Adapter<RecyclerView.V
             }
         });*/
 
+        viewHolder.mainLayout.setOnClickListener(view -> listener.recyclerViewItemClick(holder.getAdapterPosition()));
+
     }
 
     @Override
@@ -95,6 +101,7 @@ public class ExerciseHomePageAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @SuppressLint("NotifyDataSetChanged")
     public void updateExerciseList(final List<Exercise> exerciseList) {
+        this.exerciseList.clear();
         this.exerciseList = exerciseList;
         notifyDataSetChanged();
     }

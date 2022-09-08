@@ -38,6 +38,24 @@ public class WorkoutDay {
         this.idWorkPlan = idWorkPlan;
     }
 
+    @Ignore
+    public WorkoutDay(String name, Integer numTimeDone,long idWorkPlan, String workedMuscle, String note) {
+        this.name = name;
+        this.numTimeDone = numTimeDone;
+        this.idWorkPlan = idWorkPlan;
+        this.workedMuscle = workedMuscle;
+        this.note = note;
+    }
+
+    public WorkoutDay(long id, String name, Integer numTimeDone,long idWorkPlan, String workedMuscle, String note) {
+        this.id = id;
+        this.name = name;
+        this.numTimeDone = numTimeDone;
+        this.idWorkPlan = idWorkPlan;
+        this.workedMuscle = workedMuscle;
+        this.note = note;
+    }
+
     public long getId() {
         return id;
     }

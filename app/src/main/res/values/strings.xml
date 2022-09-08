@@ -25,6 +25,8 @@
     <string name="muscle_shoulders">Shoulders</string>
     <string name="muscle_triceps">Triceps</string>
     <string name="muscle_full_body">Full body</string>
+    <string name="muscle_upper">Upper body</string>
+    <string name="muscle_lower">Lower body</string>
 
     <string name="add_workout_plan">Let\'s add a workout plan</string>
     <string name="add_exercises">Let\'s add some exercises</string>

@@ -3,32 +3,29 @@ package it.bonny.app.wisegymdiary;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
-import android.telecom.Call;
-import android.text.Editable;
 import android.text.InputType;
-import android.text.TextWatcher;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import it.bonny.app.wisegymdiary.bean.Exercise;
-import it.bonny.app.wisegymdiary.bean.WorkoutDay;
+import it.bonny.app.wisegymdiary.bean.MuscleBean;
 import it.bonny.app.wisegymdiary.database.AppDatabase;
 import it.bonny.app.wisegymdiary.util.Utility;
 
@@ -42,6 +39,7 @@ public class NewEditExerciseActivity extends AppCompatActivity {
     private LinearLayout linearLayout;
     private EditText editTextSets, editTextReps;
     private NumberPicker numPickerMin, numPickerSec;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +56,7 @@ public class NewEditExerciseActivity extends AppCompatActivity {
 
         initElements();
 
-        btnReturn.setOnClickListener(view -> {
-            finish();
-            overridePendingTransition(R.anim.slide_up, R.anim.slide_down);
-        });
+        btnReturn.setOnClickListener(view -> finish());
 
         btnSave.setOnClickListener(view -> {
             if(nameExercise.getEditText() != null) {
@@ -99,13 +94,16 @@ public class NewEditExerciseActivity extends AppCompatActivity {
                 String timeRest = numPickerMin.getValue() + Utility.SYMBOL_SPLIT + numPickerSec.getValue();
                 exercise.setRestTime(timeRest);
                 if(!isError) {
-                    AppDatabase.databaseWriteExecutor.execute(() -> {
-                        AppDatabase appDatabase = AppDatabase.getInstance(getApplicationContext());
-                        appDatabase.exerciseDAO().insert(exercise);
-                        Snackbar.make(getWindow().getDecorView().findViewById(android.R.id.content), getString(R.string.title_exercise_saved), Snackbar.LENGTH_SHORT).show();
-                        finish();
-                        overridePendingTransition(R.anim.slide_up, R.anim.slide_down);
-                    });
+                    Intent intent = new Intent();
+                    intent.putExtra("page", Utility.ADD_EXERCISE);
+                    intent.putExtra(Utility.EXTRA_EXERCISE_NAME, exercise.getName());
+                    intent.putExtra(Utility.EXTRA_EXERCISE_ID_WORK_DAY, exercise.getIdWorkDay());
+                    intent.putExtra(Utility.EXTRA_EXERCISE_NOTE, exercise.getNote());
+                    intent.putExtra(Utility.EXTRA_EXERCISE_REST_TIME, exercise.getRestTime());
+                    intent.putExtra(Utility.EXTRA_EXERCISE_NUM_SETS_REPS, exercise.getNumSetsReps());
+                    intent.putExtra(Utility.EXTRA_EXERCISE_WORKED_MUSCLE, exercise.getWorkedMuscle());
+                    setResult(RESULT_OK, intent);
+                    finish();
                 }else {
                     Animation shake = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shake);
                     btnSave.startAnimation(shake);
@@ -113,9 +111,9 @@ public class NewEditExerciseActivity extends AppCompatActivity {
             }
         });
 
-        chipGroup.setOnCheckedStateChangeListener((group, checkedIds) -> registerFilterChipChanged());
-
         btnAddNewSetsReps.setOnClickListener(v -> addView());
+
+        populateChipMuscle();
 
     }
 
@@ -131,6 +129,7 @@ public class NewEditExerciseActivity extends AppCompatActivity {
         editTextSets = findViewById(R.id.editTextSets);
         numPickerMin = findViewById(R.id.numPickerMin);
         numPickerSec = findViewById(R.id.numPickerSec);
+        progressBar = findViewById(R.id.progressBar);
 
         TextInputEditText textInputNameExercise = findViewById(R.id.textInputNameExercise);
         TextInputEditText textInputNoteExercise = findViewById(R.id.textInputNoteExercise);
@@ -144,26 +143,14 @@ public class NewEditExerciseActivity extends AppCompatActivity {
 
     }
 
-    /*private void checkButtonSave() {
-        if(!"".equals(workedMuscleSelected) &&
-                nameExercise.getEditText() != null &&
-                nameExercise.getEditText().getText() != null &&
-                nameExercise.getEditText().getText().length() > 0 &&
-                !"".equals(editTextSets.getText().toString()) &&
-                !"".equals(editTextReps.getText().toString()) ){
-            btnSave.setVisibility(View.VISIBLE);
-        }else {
-            btnSave.setVisibility(View.INVISIBLE);
-        }
-    }*/
-
     private void registerFilterChipChanged() {
-        Integer id = chipGroup.getCheckedChipId();
+        int id = chipGroup.getCheckedChipId();
         workedMuscleSelected = "";
         Chip chip = chipGroup.findViewById(id);
         workedMuscleSelected = chip.getText().toString();
     }
 
+    @SuppressLint("InflateParams")
     private void addView() {
         final View setsRepsView = getLayoutInflater().inflate(R.layout.row_sets_reps, null, false);
 
@@ -184,7 +171,7 @@ public class NewEditExerciseActivity extends AppCompatActivity {
         if(!"".equals(editTextSets.getText().toString()) && !"".equals(editTextReps.getText().toString())) {
             result = new StringBuilder(editTextSets.getText().toString() + ":" + editTextReps.getText().toString() + Utility.SYMBOL_SPLIT);
         }else {
-            result = new StringBuilder("");
+            result = new StringBuilder();
         }
 
         for(int i=0; i < linearLayout.getChildCount(); i++){
@@ -204,12 +191,35 @@ public class NewEditExerciseActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        overridePendingTransition(R.anim.slide_up, R.anim.slide_down);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        overridePendingTransition(R.anim.slide_up, R.anim.slide_down);
     }
+
+    private void populateChipMuscle() {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            List<MuscleBean> muscleBeanList = AppDatabase.getInstance(getApplicationContext()).muscleDAO().findAllMuscles();
+
+            runOnUiThread(() -> {
+                for(MuscleBean muscleBean: muscleBeanList) {
+                    addChip(muscleBean.getName());
+                }
+                progressBar.setVisibility(View.GONE);
+                chipGroup.setVisibility(View.VISIBLE);
+                chipGroup.setOnCheckedStateChangeListener((group, checkedIds) -> registerFilterChipChanged());
+            });
+        });
+    }
+
+    private void addChip(String nameChip) {
+        final View chipView = getLayoutInflater().inflate(R.layout.merge_chip, null, false);
+
+        Chip chip = chipView.findViewById(R.id.chip);
+        chip.setText(nameChip);
+
+        chipGroup.addView(chipView);
+    }
+
 }

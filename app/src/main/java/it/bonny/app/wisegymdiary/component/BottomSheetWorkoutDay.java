@@ -2,7 +2,6 @@ package it.bonny.app.wisegymdiary.component;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +21,6 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import it.bonny.app.wisegymdiary.NewEditWorkoutDay;
 import it.bonny.app.wisegymdiary.R;
 import it.bonny.app.wisegymdiary.bean.WorkoutDay;
 import it.bonny.app.wisegymdiary.database.AppDatabase;
@@ -55,11 +53,9 @@ public class BottomSheetWorkoutDay extends BottomSheetDialogFragment implements 
         MaterialButton btnNewWorkoutDay = view.findViewById(R.id.btnNewWorkoutDay);
 
         btnNewWorkoutDay.setOnClickListener(v -> {
-            Intent intent = new Intent(view.getContext(), NewEditWorkoutDay.class);
-            intent.putExtra("idWorkoutPlan", idWorkoutPlan);
-            intent.putExtra("newFlag", true);
-            view.getContext().startActivity(intent);
+            bottomSheetClickListener.onItemClick(-1);
             dismiss();
+
         });
 
         myTask();

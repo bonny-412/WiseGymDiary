@@ -58,4 +58,6 @@
     <string name="text_max">Max</string>
     <string name="slash">/</string>
     <string name="title_add_session">Aggiungi sessione</string>
+    <string name="muscle_upper">Upper body</string>
+    <string name="muscle_lower">Lower body</string>
 </resources>

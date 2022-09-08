@@ -54,5 +54,5 @@
     </style>
 
     <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog" />
-    
+    <style name="CustomChipChoice" parent="Theme.AppCompat" />
 </resources>

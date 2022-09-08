@@ -73,6 +73,8 @@
         app:layout_constraintTop_toBottomOf="@+id/btnNewWorkoutDay"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:backgroundTint="@color/secondary"
+        android:progressTint="@color/secondary"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp" />
 

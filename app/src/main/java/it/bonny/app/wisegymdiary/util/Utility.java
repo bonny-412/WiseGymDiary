@@ -16,6 +16,25 @@ public class Utility {
     public static  final String PREFS_NAME_FILE = "GymDiaryFileConf";
     public static final String SYMBOL_SPLIT = "&_&";
 
+    public static final int ADD_WORKOUT_DAY = 1;
+    public static final int EDIT_WORKOUT_DAY = 2;
+    public static final String EXTRA_WORKOUT_DAY_ID = "id";
+    public static final String EXTRA_WORKOUT_DAY_NAME = "name";
+    public static final String EXTRA_WORKOUT_DAY_NUM_TIME_DONE = "numTimeDone";
+    public static final String EXTRA_WORKOUT_DAY_ID_WORK_PLAIN = "idWorkPlain";
+    public static final String EXTRA_WORKOUT_DAY_WORKED_MUSCLE = "workedMuscle";
+    public static final String EXTRA_WORKOUT_DAY_NOTE = "note";
+
+    public static final int ADD_EXERCISE = 3;
+    public static final int EDIT_EXERCISE = 4;
+    public static final String EXTRA_EXERCISE_ID = "id";
+    public static final String EXTRA_EXERCISE_NAME = "name";
+    public static final String EXTRA_EXERCISE_ID_WORK_DAY = "idWorkDay";
+    public static final String EXTRA_EXERCISE_NOTE = "note";
+    public static final String EXTRA_EXERCISE_REST_TIME = "restTime";
+    public static final String EXTRA_EXERCISE_NUM_SETS_REPS = "numSetsReps";
+    public static final String EXTRA_EXERCISE_WORKED_MUSCLE = "workedMuscle";
+
     public static String getDayMonthCurrent() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE, dd MMMM", Locale.getDefault());
         return capitalizeWord(simpleDateFormat.format(Calendar.getInstance().getTime()));
