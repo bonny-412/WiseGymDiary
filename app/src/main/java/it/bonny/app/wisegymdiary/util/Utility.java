@@ -15,6 +15,8 @@ import it.bonny.app.wisegymdiary.R;
 public class Utility {
     public static  final String PREFS_NAME_FILE = "GymDiaryFileConf";
     public static final String SYMBOL_SPLIT = "&_&";
+    public static final String SYMBOL_SPLIT_BETWEEN_SET_REP = ":";
+    public static final String SYMBOL_SPLIT_BETWEEN_REPS = "_";
 
     public static final int ADD_WORKOUT_DAY = 1;
     public static final int EDIT_WORKOUT_DAY = 2;

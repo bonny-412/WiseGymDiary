@@ -26,4 +26,7 @@ public interface ExerciseDAO {
     @Query("SELECT * FROM exercise WHERE id_work_day = :idWorkoutDay")
     LiveData<List<Exercise>> getAllExercisesByIdWorkoutDay(long idWorkoutDay);
 
+    @Query("SELECT * FROM exercise WHERE id = :id")
+    Exercise findExerciseById(long id);
+
 }

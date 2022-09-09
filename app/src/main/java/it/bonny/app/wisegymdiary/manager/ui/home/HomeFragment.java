@@ -56,7 +56,7 @@ import it.bonny.app.wisegymdiary.component.ExerciseHomePageAdapter;
 import it.bonny.app.wisegymdiary.bean.WorkoutPlan;
 import it.bonny.app.wisegymdiary.databinding.FragmentHomeBinding;
 
-public class HomeFragment extends Fragment implements BottomSheetClickListener, RecyclerViewClickInterface {
+public class HomeFragment extends Fragment implements BottomSheetClickListener {
     private FragmentHomeBinding binding;
     private HomeViewModel homeViewModel;
 
@@ -127,9 +127,9 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener, 
 
         });
 
-        btnAddExercise.setOnClickListener(v -> callNewExercise());
+        btnAddExercise.setOnClickListener(v -> callNewExercise(0));
 
-        btnNewExerciseEmpty.setOnClickListener(v -> callNewExercise());
+        btnNewExerciseEmpty.setOnClickListener(v -> callNewExercise(0));
 
         btnWorkoutDaySelected.setOnClickListener(v -> {
             if(homeViewModel.getWorkoutDaySelected() != null && homeViewModel.getWorkoutDaySelected().getValue() != null) {
@@ -195,7 +195,12 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener, 
         nameWorkoutDaySelected = binding.nameWorkoutDaySelected;
 
         recyclerViewExercise = binding.recyclerView;
-        exerciseHomePageAdapter = new ExerciseHomePageAdapter(context, this);
+        exerciseHomePageAdapter = new ExerciseHomePageAdapter(context, new RecyclerViewClickInterface() {
+            @Override
+            public void recyclerViewItemClick(long idElement) {
+                callNewExercise(idElement);
+            }
+        });
         setAdapter();
     }
 
@@ -237,15 +242,17 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener, 
         someActivityResultLauncher.launch(intent);
     }
 
-    private void callNewExercise() {
+    private void callNewExercise(long idExercise) {
         if(homeViewModel.getWorkoutDaySelected() != null && homeViewModel.getWorkoutDaySelected().getValue() != null) {
             Intent intent = new Intent(getActivity(), NewEditExerciseActivity.class);
             intent.putExtra("idWorkoutDay", homeViewModel.getWorkoutDaySelected().getValue().getId());
-            intent.putExtra("newFlag", true);
+            if(idExercise > 0)
+                intent.putExtra("idExercise", idExercise);
             someActivityResultLauncher.launch(intent);
         }
     }
 
+    //Bottom sheet
     @Override
     public void onItemClick(long idElement) {
         if(idElement > 0) {
@@ -314,16 +321,4 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener, 
                 }
         });
 
-    @Override
-    public void recyclerViewItemClick(long idElement) {
-        /*if(homeViewModel.getWorkoutDaySelected() != null && homeViewModel.getWorkoutDaySelected().getValue() != null) {
-            Intent intent = new Intent(getContext(), NewEditExerciseActivity.class);
-            intent.putExtra("idWorkoutDay", homeViewModel.getWorkoutDaySelected().getValue().getId());
-            intent.putExtra("newFlag", true);
-            getActivity().startActivity(intent);
-            if(getActivity() != null)
-                getActivity().overridePendingTransition(R.anim.slide_up, R.anim.slide_down);
-        }*/
-        Toast.makeText(getContext(), "" + idElement, Toast.LENGTH_SHORT).show();
-    }
 }

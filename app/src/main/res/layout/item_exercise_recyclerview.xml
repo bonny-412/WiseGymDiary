@@ -4,8 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/background"
     android:orientation="vertical"
+    android:backgroundTint="@color/background"
     android:id="@+id/mainLayout">
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -24,13 +24,15 @@
             app:cardBackgroundColor="@color/background_card"
             app:cardCornerRadius="10dp"
             app:cardElevation="0dp"
-            android:elevation="0dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?attr/selectableItemBackgroundBorderless">
+            android:elevation="0dp">
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintClicked"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
+                >
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/hello"

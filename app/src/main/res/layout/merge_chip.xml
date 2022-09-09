@@ -8,7 +8,9 @@
         app:chipIconVisible="false"
         app:closeIconVisible="false"
         app:checkedIcon="@drawable/ic_check"
-        app:chipBackgroundColor="@color/chip_background"
-        android:textColor="@color/chip_text"
-        app:checkedIconTint="@color/chip_text"
-        android:checkable="true"/>
+        app:chipBackgroundColor="@color/blue_background"
+        android:textColor="@color/blue_text"
+        app:checkedIconTint="@color/blue_text"
+        android:clickable="false"
+        android:checkable="false"
+    android:focusable="true" />

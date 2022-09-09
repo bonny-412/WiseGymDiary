@@ -2,6 +2,7 @@ package it.bonny.app.wisegymdiary;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -14,7 +15,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
@@ -33,28 +36,41 @@ public class NewEditExerciseActivity extends AppCompatActivity {
 
     private MaterialButton btnReturn, btnSave, btnAddNewSetsReps;
     private TextInputLayout nameExercise, noteExercise;
-    private String workedMuscleSelected;
     private Exercise exercise;
     private ChipGroup chipGroup;
     private LinearLayout linearLayout;
     private EditText editTextSets, editTextReps;
     private NumberPicker numPickerMin, numPickerSec;
-    private ProgressBar progressBar;
+    private ProgressBar progressBar, progressBar1;
+    private Chip chipSelected = null;
+    private String chipSelectedEdit = "";
+    private ScrollView scrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_edit_exercise);
 
-        boolean newFlag = getIntent().getBooleanExtra("newFlag", false);
         long idWorkoutDay = getIntent().getLongExtra("idWorkoutDay", 0);
-
-        if(newFlag) {
-            workedMuscleSelected = "";
-            exercise = new Exercise();
-        }
+        long idExercise = getIntent().getLongExtra("idExercise", 0);
 
         initElements();
+
+        if(idExercise == 0) {
+            exercise = new Exercise();
+            progressBar1.setVisibility(View.GONE);
+            scrollView.setVisibility(View.VISIBLE);
+            btnSave.setVisibility(View.VISIBLE);
+
+            populateChipMuscle();
+        }else {
+            progressBar1.setVisibility(View.VISIBLE);
+            scrollView.setVisibility(View.GONE);
+            btnSave.setVisibility(View.GONE);
+
+            retrieveExercise(idExercise);
+        }
+
 
         btnReturn.setOnClickListener(view -> finish());
 
@@ -71,12 +87,12 @@ public class NewEditExerciseActivity extends AppCompatActivity {
                 }
 
                 TextView titleChooseIconMuscle = findViewById(R.id.titleChooseIconMuscle);
-                if("".equals(workedMuscleSelected)) {
+                if(chipSelected == null) {
                     isError = true;
                     titleChooseIconMuscle.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.error));
                 }else {
                     titleChooseIconMuscle.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.primary_text));
-                    exercise.setWorkedMuscle(workedMuscleSelected);
+                    exercise.setWorkedMuscle(chipSelected.getText().toString());
                 }
 
                 TextView titleSetsReps = findViewById(R.id.titleSetsReps);
@@ -111,9 +127,9 @@ public class NewEditExerciseActivity extends AppCompatActivity {
             }
         });
 
-        btnAddNewSetsReps.setOnClickListener(v -> addView());
+        btnAddNewSetsReps.setOnClickListener(v -> addView(null, null));
 
-        populateChipMuscle();
+
 
     }
 
@@ -130,6 +146,8 @@ public class NewEditExerciseActivity extends AppCompatActivity {
         numPickerMin = findViewById(R.id.numPickerMin);
         numPickerSec = findViewById(R.id.numPickerSec);
         progressBar = findViewById(R.id.progressBar);
+        progressBar1 = findViewById(R.id.progressBar1);
+        scrollView = findViewById(R.id.scrollView);
 
         TextInputEditText textInputNameExercise = findViewById(R.id.textInputNameExercise);
         TextInputEditText textInputNoteExercise = findViewById(R.id.textInputNoteExercise);
@@ -143,20 +161,21 @@ public class NewEditExerciseActivity extends AppCompatActivity {
 
     }
 
-    private void registerFilterChipChanged() {
-        int id = chipGroup.getCheckedChipId();
-        workedMuscleSelected = "";
-        Chip chip = chipGroup.findViewById(id);
-        workedMuscleSelected = chip.getText().toString();
-    }
-
     @SuppressLint("InflateParams")
-    private void addView() {
+    private void addView(String numSets, String numReps) {
         final View setsRepsView = getLayoutInflater().inflate(R.layout.row_sets_reps, null, false);
 
         MaterialButton btnDelete = setsRepsView.findViewById(R.id.btnDelete);
 
         btnDelete.setOnClickListener(v -> removeView(setsRepsView));
+
+        if(numSets != null && numReps != null) {
+            TextView sets = setsRepsView.findViewById(R.id.editTextSets);
+            TextView reps = setsRepsView.findViewById(R.id.editTextReps);
+
+            sets.setText(numSets);
+            reps.setText(numReps);
+        }
 
         linearLayout.addView(setsRepsView);
     }
@@ -181,7 +200,7 @@ public class NewEditExerciseActivity extends AppCompatActivity {
             EditText editTextRepsApp = view.findViewById(R.id.editTextReps);
 
             if(!"".equals(editTextSetsApp.getText().toString()) && !"".equals(editTextRepsApp.getText().toString())) {
-                result.append(editTextSetsApp.getText().toString()).append(":").append(editTextRepsApp.getText().toString()).append(Utility.SYMBOL_SPLIT);
+                result.append(editTextSetsApp.getText().toString()).append(Utility.SYMBOL_SPLIT_BETWEEN_SET_REP).append(editTextRepsApp.getText().toString()).append(Utility.SYMBOL_SPLIT);
             }
 
         }
@@ -208,18 +227,91 @@ public class NewEditExerciseActivity extends AppCompatActivity {
                 }
                 progressBar.setVisibility(View.GONE);
                 chipGroup.setVisibility(View.VISIBLE);
-                chipGroup.setOnCheckedStateChangeListener((group, checkedIds) -> registerFilterChipChanged());
+                chipGroup.setSelectionRequired(true);
             });
         });
     }
 
     private void addChip(String nameChip) {
-        final View chipView = getLayoutInflater().inflate(R.layout.merge_chip, null, false);
-
-        Chip chip = chipView.findViewById(R.id.chip);
+        Chip chip = new Chip(this);
         chip.setText(nameChip);
+        chip.setChipBackgroundColor(getColorStateList(R.color.blue_background));
+        chip.setTextColor(getColor(R.color.blue_text));
+        chip.setChecked(false);
 
-        chipGroup.addView(chipView);
+        if(exercise.getWorkedMuscle() != null && nameChip.equals(exercise.getWorkedMuscle())) {
+            chip.setChipBackgroundColor(getColorStateList(R.color.blue_text));
+            chip.setTextColor(getColor(R.color.blue_background));
+            chip.setChecked(true);
+        }else {
+            chip.setChipBackgroundColor(getColorStateList(R.color.blue_background));
+            chip.setTextColor(getColor(R.color.blue_text));
+            chip.setChecked(false);
+        }
+
+        chip.setOnClickListener(view -> {
+            if(chipSelected == null) {
+                chip.setChecked(true);
+                chip.setChipBackgroundColor(getColorStateList(R.color.blue_text));
+                chip.setTextColor(getColor(R.color.blue_background));
+                chipSelected = chip;
+            }else {
+                if(!chipSelected.equals(chip)) {
+                    chipSelected.setChecked(true);
+                    chipSelected.setChipBackgroundColor(getColorStateList(R.color.blue_background));
+                    chipSelected.setTextColor(getColor(R.color.blue_text));
+                    chip.setChecked(true);
+                    chip.setChipBackgroundColor(getColorStateList(R.color.blue_text));
+                    chip.setTextColor(getColor(R.color.blue_background));
+                    chipSelected = chip;
+                }
+            }
+        });
+
+        chipGroup.addView(chip);
+    }
+
+    private void retrieveExercise(long idExercise) {
+        AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                exercise = AppDatabase.getInstance(getApplicationContext()).exerciseDAO().findExerciseById(idExercise);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(nameExercise.getEditText() != null)
+                            nameExercise.getEditText().setText(exercise.getName());
+                        if(noteExercise.getEditText() != null)
+                            noteExercise.getEditText().setText(exercise.getNote());
+
+                        String[] splitRestTime = exercise.getRestTime().split(Utility.SYMBOL_SPLIT);
+                        numPickerMin.setValue(Integer.parseInt(splitRestTime[0]));
+                        numPickerSec.setValue(Integer.parseInt(splitRestTime[1]));
+
+                        String[] splitNumSetsReps = exercise.getNumSetsReps().split(Utility.SYMBOL_SPLIT);
+                        for(int i = 0; i < splitNumSetsReps.length; i ++) {
+                            String[] singleNumSetsReps = splitNumSetsReps[i].split(Utility.SYMBOL_SPLIT_BETWEEN_SET_REP);
+                            String numSet = singleNumSetsReps[0];
+                            String numReps = singleNumSetsReps[1];
+
+
+
+                            if(i >= 1) {
+                                addView(numSet, numReps);
+                            }else {
+                                editTextSets.setText(numSet);
+                                editTextReps.setText(numReps);
+                            }
+                        }
+
+                        populateChipMuscle();
+                        progressBar1.setVisibility(View.GONE);
+                        scrollView.setVisibility(View.VISIBLE);
+                        btnSave.setVisibility(View.VISIBLE);
+                    }
+                });
+            }
+        });
     }
 
 }

@@ -31,6 +31,7 @@
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/drawable/custom_edit_text_cursor.xml" value="0.163" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/drawable/custom_popup_background.xml" value="0.169" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/drawable/ic_icon_ab_logo.xml" value="0.163" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/drawable/progress_bg.xml" value="0.169" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/drawable/sheet_line_background.xml" value="0.163" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/layout-v28/item_workout_day_gridview.xml" value="0.11510416666666666" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/layout-v28/item_workout_day_recyclerview.xml" value="0.2484375" />
@@ -45,10 +46,13 @@
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/layout/fragment_routine_object_home_fragment.xml" value="0.10416666666666667" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/layout/include_chip_muscles.xml" value="0.12135416666666667" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/layout/item_checkbox_gridview.xml" value="0.24739583333333334" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/layout/item_exercise_recyclerview.xml" value="0.2484375" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/layout/item_gridview_chip_muscle.xml" value="0.2484375" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/layout/item_workout_day_gridview.xml" value="0.176" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/layout/item_workout_day_recyclerview.xml" value="0.2484375" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/layout/merge_chip.xml" value="0.24739583333333334" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/layout/row_set_rep_item_exercise_recyclerview.xml" value="0.2484375" />
+        <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/layout/row_sets_reps.xml" value="0.2484375" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/menu/bottom_nav_menu.xml" value="0.10520833333333333" />
         <entry key="..\:/Users/Gianni/AndroidStudioProjects/WiseGymDiary/app/src/main/res/menu/popup_menu_workoutday.xml" value="0.2484375" />
       </map>

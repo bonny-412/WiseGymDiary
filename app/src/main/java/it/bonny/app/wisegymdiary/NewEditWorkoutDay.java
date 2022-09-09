@@ -9,8 +9,11 @@ import android.text.InputType;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
@@ -19,10 +22,13 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import it.bonny.app.wisegymdiary.bean.MuscleBean;
 import it.bonny.app.wisegymdiary.bean.WorkoutDay;
+import it.bonny.app.wisegymdiary.component.ChipMuscleAdapter;
 import it.bonny.app.wisegymdiary.database.AppDatabase;
 import it.bonny.app.wisegymdiary.util.Utility;
 
@@ -30,11 +36,11 @@ public class NewEditWorkoutDay extends AppCompatActivity {
 
     private MaterialButton btnSave;
     private TextInputLayout nameWorkoutDay, noteWorkoutDay;
-    private List<String> workedMuscleListSelected;
     private WorkoutDay workoutDay;
-    private ChipGroup chipGroup;
     private MaterialButton btnReturn;
     private ProgressBar progressBar;
+    private List<String> chipsSelectedList = null;
+    private ChipGroup chipGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +51,12 @@ public class NewEditWorkoutDay extends AppCompatActivity {
         long idWorkoutPlan = getIntent().getLongExtra("idWorkoutPlan", 0);
 
         if(newFlag) {
-            workedMuscleListSelected = new ArrayList<>();
             workoutDay = new WorkoutDay();
         }
 
         initElements();
+
+        chipsSelectedList = new ArrayList<>();
 
         btnReturn.setOnClickListener(view -> finish());
 
@@ -68,18 +75,22 @@ public class NewEditWorkoutDay extends AppCompatActivity {
             workoutDay.setNote(noteWorkoutDay.getEditText() != null ? noteWorkoutDay.getEditText().getText().toString(): "");
 
             TextView titleChooseIconNewAccount = findViewById(R.id.titleChooseIconNewAccount);
-            if(workedMuscleListSelected == null || workedMuscleListSelected.size() == 0) {
+            if(chipsSelectedList == null || chipsSelectedList.size() == 0) {
                 isError = true;
                 titleChooseIconNewAccount.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.error));
             }else {
                 titleChooseIconNewAccount.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.primary_text));
                 StringBuilder app = new StringBuilder();
-                for(int i = 0; i < workedMuscleListSelected.size(); i ++) {
-                    app.append(workedMuscleListSelected.get(i));
-                    if(i < workedMuscleListSelected.size() - 1)
+                String[] strings = new String[chipsSelectedList.size()];
+                chipsSelectedList.toArray(strings);
+                Arrays.sort(strings);
+                for(int i = 0; i < strings.length; i ++) {
+                    app.append(strings[i]);
+                    if(i < strings.length - 1)
                         app.append(", ");
                 }
                 workoutDay.setWorkedMuscle(app.toString());
+                Toast.makeText(this, workoutDay.getWorkedMuscle(), Toast.LENGTH_SHORT).show();
             }
 
             if(!isError) {
@@ -98,20 +109,8 @@ public class NewEditWorkoutDay extends AppCompatActivity {
             }
         });
 
-
-
         populateChipMuscle();
 
-    }
-
-    private void registerFilterChipChanged() {
-        List<Integer> ids = chipGroup.getCheckedChipIds();
-        workedMuscleListSelected.clear();
-
-        for(Integer id: ids) {
-            Chip chip = chipGroup.findViewById(id);
-            workedMuscleListSelected.add(chip.getText().toString());
-        }
     }
 
     private void initElements() {
@@ -137,18 +136,33 @@ public class NewEditWorkoutDay extends AppCompatActivity {
                 }
                 progressBar.setVisibility(View.GONE);
                 chipGroup.setVisibility(View.VISIBLE);
-                chipGroup.setOnCheckedStateChangeListener((group, checkedIds) -> registerFilterChipChanged());
+                chipGroup.setSelectionRequired(true);
             });
         });
     }
 
     private void addChip(String nameChip) {
-        final View chipView = getLayoutInflater().inflate(R.layout.merge_chip, null, false);
-
-        Chip chip = chipView.findViewById(R.id.chip);
+        Chip chip = new Chip(this);
         chip.setText(nameChip);
+        chip.setChipBackgroundColor(getColorStateList(R.color.blue_background));
+        chip.setTextColor(getColor(R.color.blue_text));
+        chip.setChecked(false);
 
-        chipGroup.addView(chipView);
+        chip.setOnClickListener(view -> {
+            if(!chipsSelectedList.contains(chip.getText().toString())) {
+                chip.setChecked(true);
+                chip.setChipBackgroundColor(getColorStateList(R.color.blue_text));
+                chip.setTextColor(getColor(R.color.blue_background));
+                chipsSelectedList.add(chip.getText().toString());
+            }else {
+                chip.setChecked(false);
+                chip.setChipBackgroundColor(getColorStateList(R.color.blue_background));
+                chip.setTextColor(getColor(R.color.blue_text));
+                chipsSelectedList.remove(chip.getText().toString());
+            }
+        });
+
+        chipGroup.addView(chip);
     }
 
 }

@@ -12,8 +12,8 @@
 
     <color name="prova">#233B40</color>
 
-    <color name="blue_800">#022b4b</color>
-    <color name="blue_100">#79bcd9</color>
+    <color name="blue_text">#79bcd9</color>
+    <color name="blue_background">#022b4b</color>
 
     <color name="img_empty_bg">#022133</color>
     <color name="img_empty_1">#0182c3</color>

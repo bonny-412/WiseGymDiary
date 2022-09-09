@@ -2,6 +2,7 @@ package it.bonny.app.wisegymdiary.component;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
@@ -32,7 +34,7 @@ public class ExerciseHomePageAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     private List<Exercise> exerciseList;
     private final Context mContext;
-    private RecyclerViewClickInterface listener;
+    private final RecyclerViewClickInterface listener;
 
     public ExerciseHomePageAdapter(Context context, RecyclerViewClickInterface listener) {
         this.mContext = context;
@@ -62,35 +64,16 @@ public class ExerciseHomePageAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         viewHolder.layoutList.removeAllViews();
         String[] splitNumSetsReps = exercise.getNumSetsReps().split(Utility.SYMBOL_SPLIT);
-        if(splitNumSetsReps != null && splitNumSetsReps.length > 0) {
+        if(splitNumSetsReps.length > 0) {
             for(String s: splitNumSetsReps) {
                 String[] split = s.split(":");
-                if(split != null && split.length > 0) {
+                if(split.length > 0) {
                     addView(split[0], split[1], viewHolder.layoutList);
                 }
             }
         }
 
-        /*viewHolder.btnOptionsWorkoutDay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PopupMenu popupMenu = new PopupMenu(mContext, viewHolder.btnOptionsWorkoutDay);
-                popupMenu.getMenuInflater().inflate(R.menu.popup_menu_workoutday, popupMenu.getMenu());
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(MenuItem item) {
-                        Toast.makeText(
-                                mContext,
-                                "You Clicked : " + item.getTitle(),
-                                Toast.LENGTH_SHORT
-                        ).show();
-                        return true;
-                    }
-                });
-                popupMenu.show();
-            }
-        });*/
-
-        viewHolder.mainLayout.setOnClickListener(view -> listener.recyclerViewItemClick(holder.getAdapterPosition()));
+        viewHolder.constraintClicked.setOnClickListener(view -> listener.recyclerViewItemClick(exercise.getId()));
 
     }
 
@@ -110,7 +93,7 @@ public class ExerciseHomePageAdapter extends RecyclerView.Adapter<RecyclerView.V
         AppCompatImageView iconExercise;
         TextView titleWorkoutDay;
         TextView nameWorkedMuscle;
-        ConstraintLayout mainLayout;
+        ConstraintLayout mainLayout, constraintClicked;
         LinearLayout layoutList;
 
         public RecyclerViewViewHolder(@NonNull View itemView) {
@@ -119,11 +102,22 @@ public class ExerciseHomePageAdapter extends RecyclerView.Adapter<RecyclerView.V
             titleWorkoutDay = itemView.findViewById(R.id.titleWorkoutDay);
             nameWorkedMuscle = itemView.findViewById(R.id.nameWorkedMuscle);
             mainLayout = itemView.findViewById(R.id.mainLayout);
+            constraintClicked = itemView.findViewById(R.id.constraintClicked);
             layoutList = itemView.findViewById(R.id.layout_list);
+
+            /*itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.e("Bonny412", "eccomi");
+                    int position = getAdapterPosition();
+                    listener.recyclerViewItemClick(exerciseList.get(position).getId());
+                }
+            });*/
 
             Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.translate_anim);
             mainLayout.setAnimation(animation);
         }
+
     }
 
     private void addView(String numSets, String numReps, LinearLayout layoutList) {
