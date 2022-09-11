@@ -26,4 +26,7 @@ public interface MuscleDAO {
     @Query("SELECT * FROM muscle ORDER BY name_muscle ASC")
     List<MuscleBean> findAllMuscles();
 
+    @Query("SELECT * FROM muscle WHERE id != 14 and id != 15 and id != 16 ORDER BY name_muscle ASC")
+    List<MuscleBean> findAllMusclesToExercise();
+
 }

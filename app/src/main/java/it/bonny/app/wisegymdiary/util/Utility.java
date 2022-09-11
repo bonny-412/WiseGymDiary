@@ -17,6 +17,7 @@ public class Utility {
     public static final String SYMBOL_SPLIT = "&_&";
     public static final String SYMBOL_SPLIT_BETWEEN_SET_REP = ":";
     public static final String SYMBOL_SPLIT_BETWEEN_REPS = "_";
+    public static final String SYMBOL_MAX = "Max";
 
     public static final int ADD_WORKOUT_DAY = 1;
     public static final int EDIT_WORKOUT_DAY = 2;
@@ -28,7 +29,7 @@ public class Utility {
     public static final String EXTRA_WORKOUT_DAY_NOTE = "note";
 
     public static final int ADD_EXERCISE = 3;
-    public static final int EDIT_EXERCISE = 4;
+    public static final int DELETE_EXERCISE = 4;
     public static final String EXTRA_EXERCISE_ID = "id";
     public static final String EXTRA_EXERCISE_NAME = "name";
     public static final String EXTRA_EXERCISE_ID_WORK_DAY = "idWorkDay";

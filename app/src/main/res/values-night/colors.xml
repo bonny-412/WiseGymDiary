@@ -7,10 +7,8 @@
     <color name="background_card">#152228</color>
     <color name="icon_color">#ffffff</color>
     <color name="primary_text">#ffffff</color>
-    <color name="secondary_text">#77787A</color>
+    <color name="secondary_text">#979C9F</color>
     <color name="green">#73c76f</color>
-
-    <color name="prova">#233B40</color>
 
     <color name="blue_text">#79bcd9</color>
     <color name="blue_background">#022b4b</color>

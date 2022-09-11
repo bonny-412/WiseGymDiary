@@ -16,12 +16,14 @@
         app:layout_constraintTop_toTopOf="parent">
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnReturn"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="48dp"
             app:cornerRadius="10dp"
             android:layout_height="48dp"
             android:insetLeft="0dp"
             android:insetTop="0dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             app:iconTint="@color/primary_text"
@@ -37,10 +39,10 @@
             />
         <TextView
             android:id="@+id/titlePage"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/primary_text"
-            android:textStyle="bold"
+            android:textStyle="normal"
             android:textSize="20sp"
             android:text="@string/title_new_exercise"
             app:layout_constraintTop_toTopOf="@+id/btnReturn"
@@ -54,440 +56,484 @@
             android:marqueeRepeatLimit="marquee_forever"
             android:scrollHorizontally="true"
             />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mainConstraint"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/background_page_new_edit"
+        android:elevation="8dp"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
-        android:elevation="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearToolbar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:background="@drawable/background_page_new_edit">
+        app:layout_constraintVertical_bias="1.0">
 
         <ProgressBar
             android:id="@+id/progressBar1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:indeterminate="true"
             android:indeterminateDrawable="@drawable/progress_bg"
             android:progress="0"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDelete"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/background"
+            android:contentDescription="@string/content_description_delete"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            android:visibility="gone"
+            app:cornerRadius="10dp"
+            app:icon="@drawable/ic_delete"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconTint="@color/error"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ScrollView
             android:id="@+id/scrollView"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/btnSave"
+            android:layout_marginTop="20dp"
             android:layout_marginBottom="8dp"
             android:paddingTop="10dp"
-            android:layout_marginTop="20dp"
-            android:visibility="gone">
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/btnSave"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnDelete">
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/nameExercise"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/name_exercise_text"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:imeOptions="actionDone"
+                    android:inputType="textCapWords"
+                    android:textColorHint="@color/foreground_input_edit_text"
+                    app:boxCornerRadiusBottomEnd="10dp"
+                    app:boxCornerRadiusBottomStart="10dp"
                     app:boxCornerRadiusTopEnd="10dp"
                     app:boxCornerRadiusTopStart="10dp"
-                    app:boxCornerRadiusBottomStart="10dp"
-                    app:boxCornerRadiusBottomEnd="10dp"
                     app:errorEnabled="true"
-                    android:inputType="textCapWords"
-                    android:imeOptions="actionDone"
-                    android:textColorHint="@color/foreground_input_edit_text"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/textInputNameExercise"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColorHint="@color/foreground_input_edit_text"
                         android:textColor="@color/primary_text"
-                        />
+                        android:textColorHint="@color/foreground_input_edit_text"
+                        tools:ignore="TextContrastCheck" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/noteExercise"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/notes"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/nameExercise"
+                    app:boxCornerRadiusBottomEnd="10dp"
+                    app:boxCornerRadiusBottomStart="10dp"
                     app:boxCornerRadiusTopEnd="10dp"
                     app:boxCornerRadiusTopStart="10dp"
-                    app:boxCornerRadiusBottomStart="10dp"
-                    app:boxCornerRadiusBottomEnd="10dp"
-                    app:errorEnabled="true"
                     app:endIconMode="clear_text"
-                    android:textColorHint="@color/foreground_input_edit_text"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                    app:errorEnabled="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/nameExercise">
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/textInputNoteExercise"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColorHint="@color/foreground_input_edit_text"
-                        />
+                        android:textColorHint="#757575"
+                        tools:ignore="TextContrastCheck" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
                     android:id="@+id/titleSetsReps"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/primary_text"
-                    android:text="@string/title_sets_reps"
                     android:layout_marginBottom="10dp"
-                    android:textStyle="bold"
+                    android:text="@string/title_sets_reps"
+                    android:textColor="@color/primary_text"
                     android:textSize="16sp"
-                    app:layout_constraintTop_toBottomOf="@+id/noteExercise"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/noteExercise"
                     app:layout_constraintStart_toStartOf="@+id/noteExercise"
-                    app:layout_constraintEnd_toEndOf="@+id/noteExercise"/>
+                    app:layout_constraintTop_toBottomOf="@+id/noteExercise" />
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/containerGenericSetsReps"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="6dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
-                    app:cardElevation="0dp"
-
+                    android:padding="8dp"
                     app:cardBackgroundColor="@color/background_card"
-                    app:layout_constraintTop_toBottomOf="@+id/titleSetsReps"
-                    app:layout_constraintStart_toStartOf="@+id/titleSetsReps"
+
+                    app:cardCornerRadius="6dp"
+                    app:cardElevation="0dp"
                     app:layout_constraintEnd_toEndOf="@+id/titleSetsReps"
-                    android:padding="8dp">
+                    app:layout_constraintStart_toStartOf="@+id/titleSetsReps"
+                    app:layout_constraintTop_toBottomOf="@+id/titleSetsReps">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/containerSetsReps"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/border_background_sets_reps"
+                        android:padding="8dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+
                         <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/containerSetsReps"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
+                            android:id="@+id/containerSets"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            app:layout_constraintBottom_toTopOf="@+id/lineSheet2"
                             app:layout_constraintEnd_toEndOf="parent"
-                            android:background="@drawable/border_background_sets_reps"
-                            android:padding="8dp">
-
-
-
-                            <androidx.constraintlayout.widget.ConstraintLayout
-                                android:id="@+id/containerSets"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintBottom_toTopOf="@+id/lineSheet2"
-                                android:gravity="center"
-                                android:layout_marginTop="8dp">
-                                <TextView
-                                    android:id="@+id/titleSets"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/title_series"
-                                    android:textColor="@color/primary_text"
-                                    android:textSize="16sp"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintStart_toEndOf="@+id/titleReps"
-                                    app:layout_constraintEnd_toStartOf="@+id/lineSheet3"
-                                    app:layout_constraintBottom_toTopOf="@+id/editTextSets"
-                                    android:textAlignment="viewStart"/>
-                                <View
-                                    android:id="@+id/lineSheet3"
-                                    android:layout_width="2dp"
-                                    android:layout_height="0dp"
-                                    android:background="@drawable/sheet_line_background"
-                                    android:layout_marginStart="8dp"
-                                    android:layout_marginEnd="8dp"
-                                    app:layout_constraintTop_toTopOf="@+id/titleSets"
-                                    app:layout_constraintBottom_toBottomOf="@id/titleSets"
-                                    app:layout_constraintStart_toStartOf="@id/lineSheet1"
-                                    app:layout_constraintEnd_toEndOf="@id/lineSheet1"
-                                    />
-
-                                <TextView
-                                    android:id="@+id/titleReps"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/title_reps"
-                                    android:textAlignment="viewEnd"
-                                    android:textColor="@color/primary_text"
-                                    android:textSize="16sp"
-                                    android:layout_marginStart="8dp"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintStart_toEndOf="@+id/lineSheet3"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintVertical_bias="0.0"
-                                    android:paddingEnd="4dp"
-                                    android:paddingStart="4dp"/>
-                                <EditText
-                                    android:id="@+id/editTextSets"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:inputType="number"
-                                    android:minHeight="48dp"
-                                    android:padding="4dp"
-                                    android:maxLength="2"
-                                    android:autofillHints="name"
-                                    tools:ignore="LabelFor"
-                                    android:textAlignment="center"
-                                    android:minWidth="48dp"
-                                    android:layout_marginTop="8dp"
-                                    android:background="@drawable/custom_edit_text_rounded"
-                                    app:layout_constraintTop_toBottomOf="@id/titleSets"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintEnd_toStartOf="@+id/lineSheet1"/>
-                                <View
-                                    android:id="@+id/lineSheet1"
-                                    android:layout_width="2dp"
-                                    android:layout_height="0dp"
-                                    android:layout_marginTop="8dp"
-                                    android:background="@drawable/sheet_line_background"
-                                    android:layout_marginStart="8dp"
-                                    android:layout_marginEnd="8dp"
-                                    android:layout_marginBottom="8dp"
-                                    app:layout_constraintTop_toTopOf="@id/editTextSets"
-                                    app:layout_constraintBottom_toBottomOf="@id/editTextSets"
-                                    app:layout_constraintStart_toEndOf="@+id/editTextSets"
-                                    app:layout_constraintEnd_toStartOf="@+id/editTextReps"
-                                    />
-
-                                <EditText
-                                    android:id="@+id/editTextReps"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:inputType="number"
-                                    android:minHeight="48dp"
-                                    android:minWidth="48dp"
-                                    android:padding="4dp"
-                                    android:maxLength="2"
-                                    android:autofillHints="name"
-                                    tools:ignore="LabelFor"
-                                    android:textAlignment="center"
-                                    android:background="@drawable/custom_edit_text_rounded"
-                                    app:layout_constraintTop_toTopOf="@id/editTextSets"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintStart_toEndOf="@+id/lineSheet1"
-                                    app:layout_constraintEnd_toStartOf="@+id/slash"/>
-                                <TextView
-                                    android:id="@+id/slash"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/slash"
-                                    android:textColor="@color/primary_text"
-                                    android:textSize="22sp"
-                                    app:layout_constraintTop_toTopOf="@+id/editTextSets"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintStart_toEndOf="@+id/editTextReps"
-                                    app:layout_constraintEnd_toStartOf="@+id/editTextReps1"/>
-                                <EditText
-                                    android:id="@+id/editTextReps1"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:inputType="number"
-                                    android:minHeight="48dp"
-                                    android:minWidth="48dp"
-                                    android:padding="4dp"
-                                    android:maxLength="2"
-                                    android:autofillHints="name"
-                                    tools:ignore="LabelFor"
-                                    android:textAlignment="center"
-                                    android:background="@drawable/custom_edit_text_rounded"
-                                    app:layout_constraintTop_toTopOf="@id/editTextSets"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintStart_toEndOf="@+id/slash"
-                                    app:layout_constraintEnd_toEndOf="@+id/btnMaxReps"/>
-                                <com.google.android.material.button.MaterialButton
-                                    android:id="@+id/btnMaxReps"
-                                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                                    android:layout_width="wrap_content"
-                                    app:cornerRadius="10dp"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/text_max"
-                                    android:backgroundTint="@color/background_card"
-                                    android:textColor="@color/secondary_text"
-                                    app:layout_constraintTop_toTopOf="@id/editTextSets"
-                                    app:layout_constraintBottom_toBottomOf="@+id/editTextReps"
-                                    app:layout_constraintStart_toEndOf="@+id/editTextReps1"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    />
-                            </androidx.constraintlayout.widget.ConstraintLayout>
-
-                            <View
-                                android:id="@+id/lineSheet2"
-                                android:layout_width="0dp"
-                                android:layout_height="2dp"
-                                android:background="@drawable/sheet_line_background"
-                                android:layout_marginStart="8dp"
-                                android:layout_marginEnd="8dp"
-                                app:layout_constraintTop_toBottomOf="@+id/containerSets"
-                                app:layout_constraintStart_toStartOf="@+id/containerSets"
-                                app:layout_constraintEnd_toEndOf="@+id/containerSets"
-                                app:layout_constraintBottom_toTopOf="@+id/layout_list"
-                                android:layout_marginTop="8dp"
-                                />
-
-                            <LinearLayout
-                                android:id="@+id/layout_list"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                app:layout_constraintTop_toBottomOf="@+id/lineSheet2"
-                                app:layout_constraintEnd_toEndOf="@+id/containerSets"
-                                app:layout_constraintStart_toStartOf="@+id/containerSets"
-                                app:layout_constraintBottom_toTopOf="@+id/btnAddNewSetsReps"
-                                android:layout_marginTop="8dp"
-                                android:layout_marginBottom="8dp"/>
-
-                            <com.google.android.material.button.MaterialButton
-                                android:id="@+id/btnAddNewSetsReps"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:minHeight="48dp"
-                                style="@style/Widget.MaterialComponents.Button.TextButton"
-                                app:layout_constraintTop_toBottomOf="@+id/layout_list"
-                                app:layout_constraintEnd_toEndOf="@+id/lineSheet2"
-                                app:layout_constraintStart_toStartOf="@+id/lineSheet2"
-                                android:textColor="@color/primary_text"
-                                app:icon="@drawable/ic_add"
-                                app:iconTint="@color/secondary"
-                                app:cornerRadius="8dp"
-                                app:iconGravity="textStart"
-                                android:backgroundTint="@color/background"
-                                android:layout_marginTop="4dp"
-                                android:padding="2dp"
-                                android:textSize="12sp"
-                                android:text="@string/title_add_sets_reps"
-                                android:contentDescription="@string/title_add_sets_reps"/>
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
 
                             <TextView
-                                android:id="@+id/titleTimeRest"
-                                android:layout_width="wrap_content"
+                                android:id="@+id/titleSets"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
+                                android:text="@string/title_series"
+                                android:textAlignment="viewStart"
                                 android:textColor="@color/primary_text"
-                                android:text="@string/title_time_rest"
-                                android:layout_marginBottom="10dp"
-                                android:textStyle="bold"
                                 android:textSize="16sp"
-                                app:layout_constraintTop_toTopOf="@+id/containerSelectTimeRest"
-                                app:layout_constraintStart_toStartOf="@+id/btnAddNewSetsReps"
-                                app:layout_constraintEnd_toStartOf="@+id/containerSelectTimeRest"
-                                app:layout_constraintBottom_toBottomOf="@+id/containerSelectTimeRest"/>
+                                app:layout_constraintBottom_toTopOf="@+id/editTextSets"
+                                app:layout_constraintEnd_toStartOf="@+id/lineSheet3"
+                                app:layout_constraintStart_toEndOf="@+id/titleReps"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
 
-                            <LinearLayout
-                                android:id="@+id/containerSelectTimeRest"
+                            <View
+                                android:id="@+id/lineSheet3"
+                                android:layout_width="2dp"
+                                android:layout_height="0dp"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginEnd="8dp"
+                                android:background="@drawable/sheet_line_background"
+                                app:layout_constraintBottom_toBottomOf="@id/titleSets"
+                                app:layout_constraintEnd_toEndOf="@id/lineSheet1"
+                                app:layout_constraintStart_toStartOf="@id/lineSheet1"
+                                app:layout_constraintTop_toTopOf="@+id/titleSets" />
+
+                            <TextView
+                                android:id="@+id/titleReps"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:paddingStart="4dp"
+                                android:paddingEnd="4dp"
+                                android:text="@string/title_reps"
+                                android:textAlignment="viewEnd"
+                                android:textColor="@color/primary_text"
+                                android:textSize="16sp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toEndOf="@+id/lineSheet3"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintVertical_bias="0.0" />
+
+                            <EditText
+                                android:id="@+id/editTextSets"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                app:layout_constraintTop_toBottomOf="@+id/btnAddNewSetsReps"
-                                app:layout_constraintEnd_toEndOf="parent"
+                                android:layout_marginTop="8dp"
+                                android:autofillHints="name"
+                                android:background="@drawable/custom_edit_text_rounded"
+                                android:hint="@string/text_hint_one"
+                                android:inputType="number"
+                                android:maxLength="2"
+                                android:minWidth="48dp"
+                                android:minHeight="48dp"
+                                android:padding="4dp"
+                                android:textAlignment="center"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toEndOf="@+id/titleTimeRest"
-                                android:gravity="center"
-                                android:layout_marginTop="8dp">
-                                <NumberPicker
-                                    android:id="@+id/numPickerMin"
-                                    android:layout_width="48dp"
-                                    android:layout_height="96dp"
-                                    android:background="@drawable/border_background_sets_reps"
-                                    android:theme="@style/NumberPickerTheme"/>
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/title_min"
-                                    android:layout_marginEnd="4dp"
-                                    android:layout_marginStart="4dp"
-                                    android:textColor="@color/primary_text"
-                                    android:textSize="14sp"/>
-                                <NumberPicker
-                                    android:id="@+id/numPickerSec"
-                                    android:layout_width="48dp"
-                                    android:layout_height="96dp"
-                                    android:background="@drawable/border_background_sets_reps"
-                                    android:theme="@style/NumberPickerTheme"
-                                    />
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/title_sec"
-                                    android:layout_marginStart="4dp"
-                                    android:textColor="@color/primary_text"
-                                    android:textSize="14sp" />
-                            </LinearLayout>
+                                app:layout_constraintEnd_toStartOf="@+id/lineSheet1"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/titleSets"
+                                tools:ignore="LabelFor,TextContrastCheck,DuplicateSpeakableTextCheck" />
 
+                            <View
+                                android:id="@+id/lineSheet1"
+                                android:layout_width="2dp"
+                                android:layout_height="0dp"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginEnd="8dp"
+                                android:layout_marginBottom="8dp"
+                                android:background="@drawable/sheet_line_background"
+                                app:layout_constraintBottom_toBottomOf="@id/editTextSets"
+                                app:layout_constraintEnd_toStartOf="@+id/editTextReps"
+                                app:layout_constraintStart_toEndOf="@+id/editTextSets"
+                                app:layout_constraintTop_toTopOf="@id/editTextSets" />
+
+                            <EditText
+                                android:id="@+id/editTextReps"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:autofillHints="name"
+                                android:background="@drawable/custom_edit_text_rounded"
+                                android:hint="@string/text_hint_one"
+                                android:inputType="number"
+                                android:maxLength="2"
+                                android:minWidth="48dp"
+                                android:minHeight="48dp"
+                                android:padding="4dp"
+                                android:textAlignment="center"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toStartOf="@+id/slash"
+                                app:layout_constraintStart_toEndOf="@+id/lineSheet1"
+                                app:layout_constraintTop_toTopOf="@id/editTextSets"
+                                tools:ignore="LabelFor,TextContrastCheck" />
+
+                            <TextView
+                                android:id="@+id/slash"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/slash"
+                                android:textColor="@color/primary_text"
+                                android:textSize="22sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toStartOf="@+id/editTextReps1"
+                                app:layout_constraintStart_toEndOf="@+id/editTextReps"
+                                app:layout_constraintTop_toTopOf="@+id/editTextSets" />
+
+                            <EditText
+                                android:id="@+id/editTextReps1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:autofillHints="name"
+                                android:background="@drawable/custom_edit_text_rounded"
+                                android:hint="@string/text_hint_one"
+                                android:inputType="number"
+                                android:maxLength="2"
+                                android:minWidth="48dp"
+                                android:minHeight="48dp"
+                                android:padding="4dp"
+                                android:textAlignment="center"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="@+id/btnMaxReps"
+                                app:layout_constraintStart_toEndOf="@+id/slash"
+                                app:layout_constraintTop_toTopOf="@id/editTextSets"
+                                tools:ignore="LabelFor,TextContrastCheck" />
+
+                            <ToggleButton
+                                android:id="@+id/btnMaxReps"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:backgroundTint="@color/background_card"
+                                android:background="?attr/selectableItemBackground"
+                                android:text="@string/text_max"
+                                android:textOff="@string/text_max"
+                                android:textOn="@string/text_max"
+                                android:textColor="@color/secondary_text"
+                                app:cornerRadius="10dp"
+                                app:layout_constraintBottom_toBottomOf="@+id/editTextReps"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toEndOf="@+id/editTextReps1"
+                                app:layout_constraintTop_toTopOf="@id/editTextSets" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <View
+                            android:id="@+id/lineSheet2"
+                            android:layout_width="0dp"
+                            android:layout_height="2dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:background="@drawable/sheet_line_background"
+                            app:layout_constraintBottom_toTopOf="@+id/layout_list"
+                            app:layout_constraintEnd_toEndOf="@+id/containerSets"
+                            app:layout_constraintStart_toStartOf="@+id/containerSets"
+                            app:layout_constraintTop_toBottomOf="@+id/containerSets" />
+
+                        <LinearLayout
+                            android:id="@+id/layout_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:orientation="vertical"
+                            app:layout_constraintBottom_toTopOf="@+id/btnAddNewSetsReps"
+                            app:layout_constraintEnd_toEndOf="@+id/containerSets"
+                            app:layout_constraintStart_toStartOf="@+id/containerSets"
+                            app:layout_constraintTop_toBottomOf="@+id/lineSheet2" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnAddNewSetsReps"
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:backgroundTint="@color/background"
+                            android:contentDescription="@string/title_add_sets_reps"
+                            android:minHeight="48dp"
+                            android:padding="2dp"
+                            android:text="@string/title_add_sets_reps"
+                            android:textColor="@color/primary_text"
+                            android:textSize="12sp"
+                            app:cornerRadius="8dp"
+                            app:icon="@drawable/ic_add"
+                            app:iconGravity="textStart"
+                            app:iconTint="@color/secondary"
+                            app:layout_constraintEnd_toEndOf="@+id/lineSheet2"
+                            app:layout_constraintStart_toStartOf="@+id/lineSheet2"
+                            app:layout_constraintTop_toBottomOf="@+id/layout_list"
+                            tools:ignore="TextContrastCheck" />
+
+                        <TextView
+                            android:id="@+id/titleTimeRest"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:text="@string/title_time_rest"
+                            android:textColor="@color/primary_text"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="@+id/containerSelectTimeRest"
+                            app:layout_constraintEnd_toStartOf="@+id/containerSelectTimeRest"
+                            app:layout_constraintStart_toStartOf="@+id/btnAddNewSetsReps"
+                            app:layout_constraintTop_toTopOf="@+id/containerSelectTimeRest" />
+
+                        <LinearLayout
+                            android:id="@+id/containerSelectTimeRest"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/titleTimeRest"
+                            app:layout_constraintTop_toBottomOf="@+id/btnAddNewSetsReps">
+
+                            <NumberPicker
+                                android:id="@+id/numPickerMin"
+                                android:layout_width="48dp"
+                                android:layout_height="96dp"
+                                android:background="@drawable/border_background_sets_reps"
+                                android:theme="@style/NumberPickerTheme" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:layout_marginEnd="4dp"
+                                android:text="@string/title_min"
+                                android:textColor="@color/primary_text"
+                                android:textSize="14sp" />
+
+                            <NumberPicker
+                                android:id="@+id/numPickerSec"
+                                android:layout_width="48dp"
+                                android:layout_height="96dp"
+                                android:background="@drawable/border_background_sets_reps"
+                                android:theme="@style/NumberPickerTheme" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:text="@string/title_sec"
+                                android:textColor="@color/primary_text"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                 </com.google.android.material.card.MaterialCardView>
 
                 <LinearLayout
                     android:id="@+id/containerChip"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/containerGenericSetsReps"
-                    app:layout_constraintStart_toStartOf="@+id/titleSetsReps"
-                    app:layout_constraintEnd_toEndOf="@+id/titleSetsReps"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginTop="4dp"
                     android:layout_marginBottom="8dp"
                     android:orientation="vertical"
-                    android:layout_marginTop="4dp">
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/titleSetsReps"
+                    app:layout_constraintStart_toStartOf="@+id/titleSetsReps"
+                    app:layout_constraintTop_toBottomOf="@+id/containerGenericSetsReps">
+
                     <TextView
                         android:id="@+id/titleChooseIconMuscle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/primary_text"
-                        android:text="@string/text_affected_muscle"
-                        android:layout_marginBottom="8dp"
-                        android:textStyle="bold"
-                        android:textSize="16sp"
                         android:layout_marginTop="8dp"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/text_affected_muscle"
+                        android:textColor="@color/primary_text"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@+id/chipGroup"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toTopOf="@+id/chipGroup"/>
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
                     <ProgressBar
                         android:id="@+id/progressBar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/titleChooseIconNewAccount"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
                         android:indeterminate="true"
                         android:indeterminateDrawable="@drawable/progress_bg"
                         android:progress="0"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp" />
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/titleChooseIconNewAccount" />
+
                     <com.google.android.material.chip.ChipGroup
                         android:id="@+id/chipGroup"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:selectionRequired="true"
-                        app:singleSelection="true"
-                        app:layout_constraintTop_toBottomOf="@+id/titleChooseIconMuscle"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        android:visibility="gone" />
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/titleChooseIconMuscle"
+                        app:selectionRequired="true"
+                        app:singleSelection="true" />
 
                 </LinearLayout>
 
@@ -498,20 +544,19 @@
             android:id="@+id/btnSave"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="0dp"
-            app:cornerRadius="10dp"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/blue_background"
-            android:textColor="@color/blue_text"
-            android:layout_marginEnd="16dp"
-            android:text="@string/save"
-            app:iconTint="@color/background_card"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/blue_background"
             android:contentDescription="@string/save"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/save"
+            android:textColor="@color/blue_text"
             android:visibility="gone"
-            />
+            app:cornerRadius="10dp"
+            app:iconTint="@color/background_card"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

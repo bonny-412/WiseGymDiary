@@ -60,4 +60,8 @@
     <string name="title_add_session">Aggiungi sessione</string>
     <string name="muscle_upper">Upper body</string>
     <string name="muscle_lower">Lower body</string>
+    <string name="content_description_delete">Elimina</string>
+    <string name="text_hint_one">1</string>
+    <string name="title_exercise_deleted">Esercizio eliminato</string>
+
 </resources>

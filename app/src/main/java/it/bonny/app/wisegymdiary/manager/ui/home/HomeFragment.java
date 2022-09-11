@@ -303,17 +303,37 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
                                 if(getActivity() != null)
                                     Snackbar.make(getActivity().getWindow().getDecorView().findViewById(android.R.id.content), getString(R.string.routine_added), Snackbar.LENGTH_SHORT).show();
                             }else if(page == Utility.ADD_EXERCISE) {
+                                long id = data.getLongExtra(Utility.EXTRA_EXERCISE_ID, 0);
                                 String name = data.getStringExtra(Utility.EXTRA_EXERCISE_NAME);
                                 long idWorkoutPlan = data.getLongExtra(Utility.EXTRA_EXERCISE_ID_WORK_DAY,0);
                                 String note = data.getStringExtra(Utility.EXTRA_EXERCISE_NOTE);
                                 String restTime = data.getStringExtra(Utility.EXTRA_EXERCISE_REST_TIME);
                                 String numSetsReps = data.getStringExtra(Utility.EXTRA_EXERCISE_NUM_SETS_REPS);
                                 String workedMuscle = data.getStringExtra(Utility.EXTRA_EXERCISE_WORKED_MUSCLE);
+                                Exercise exercise;
+                                if(id == 0) {
+                                    exercise = new Exercise(name, idWorkoutPlan, note, restTime, numSetsReps, workedMuscle);
+                                    homeViewModel.insert(exercise);
+                                }else {
+                                    exercise = new Exercise(id, name, idWorkoutPlan, note, restTime, numSetsReps, workedMuscle);
+                                    homeViewModel.update(exercise);
+                                }
 
-                                Exercise exercise = new Exercise(name, idWorkoutPlan, note, restTime, numSetsReps, workedMuscle);
-                                homeViewModel.insert(exercise);
                                 if(getActivity() != null)
                                     Snackbar.make(getActivity().getWindow().getDecorView().findViewById(android.R.id.content), getString(R.string.title_exercise_saved), Snackbar.LENGTH_SHORT).show();
+                            }else if(page == Utility.DELETE_EXERCISE) {
+                                long id = data.getLongExtra(Utility.EXTRA_EXERCISE_ID, 0);
+                                String name = data.getStringExtra(Utility.EXTRA_EXERCISE_NAME);
+                                long idWorkoutPlan = data.getLongExtra(Utility.EXTRA_EXERCISE_ID_WORK_DAY,0);
+                                String note = data.getStringExtra(Utility.EXTRA_EXERCISE_NOTE);
+                                String restTime = data.getStringExtra(Utility.EXTRA_EXERCISE_REST_TIME);
+                                String numSetsReps = data.getStringExtra(Utility.EXTRA_EXERCISE_NUM_SETS_REPS);
+                                String workedMuscle = data.getStringExtra(Utility.EXTRA_EXERCISE_WORKED_MUSCLE);
+                                Exercise exercise = new Exercise(id, name, idWorkoutPlan, note, restTime, numSetsReps, workedMuscle);
+                                homeViewModel.delete(exercise);
+
+                                if(getActivity() != null)
+                                    Snackbar.make(getActivity().getWindow().getDecorView().findViewById(android.R.id.content), getString(R.string.title_exercise_deleted), Snackbar.LENGTH_SHORT).show();
                             }
                         }
 

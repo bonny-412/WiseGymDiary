@@ -2,6 +2,7 @@ package it.bonny.app.wisegymdiary.component;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.Resources;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
@@ -66,11 +68,45 @@ public class ExerciseHomePageAdapter extends RecyclerView.Adapter<RecyclerView.V
         String[] splitNumSetsReps = exercise.getNumSetsReps().split(Utility.SYMBOL_SPLIT);
         if(splitNumSetsReps.length > 0) {
             for(String s: splitNumSetsReps) {
-                String[] split = s.split(":");
+                String[] split = s.split(Utility.SYMBOL_SPLIT_BETWEEN_SET_REP);
                 if(split.length > 0) {
-                    addView(split[0], split[1], viewHolder.layoutList);
+                    String numSet = split[0];
+                    String numReps = split[1];
+
+                    if(numReps.contains(Utility.SYMBOL_SPLIT_BETWEEN_REPS)) {
+                        String[] splitNumReps = numReps.split(Utility.SYMBOL_SPLIT_BETWEEN_REPS);
+                        addView(numSet, splitNumReps[0], splitNumReps[1], viewHolder.layoutList);
+                    }else {
+                        addView(numSet, numReps, null, viewHolder.layoutList);
+                    }
                 }
             }
+        }
+
+        if(exercise.getWorkedMuscle().equals(mContext.getString(R.string.muscle_abductor)) ||
+                exercise.getWorkedMuscle().equals(mContext.getString(R.string.muscle_femoral))) {
+            viewHolder.iconExercise.setImageDrawable(AppCompatResources.getDrawable(mContext, R.drawable.icon_leg_back));
+        }else if(exercise.getWorkedMuscle().equals(mContext.getString(R.string.muscle_abs))) {
+            viewHolder.iconExercise.setImageDrawable(AppCompatResources.getDrawable(mContext, R.drawable.icon_abdominal));
+        }else if(exercise.getWorkedMuscle().equals(mContext.getString(R.string.muscle_adductors)) ||
+                exercise.getWorkedMuscle().equals(mContext.getString(R.string.muscle_quadricep))) {
+            viewHolder.iconExercise.setImageDrawable(AppCompatResources.getDrawable(mContext, R.drawable.icon_quadricep));
+        }else if(exercise.getWorkedMuscle().equals(mContext.getString(R.string.muscle_forearm))) {
+            viewHolder.iconExercise.setImageDrawable(AppCompatResources.getDrawable(mContext, R.drawable.icon_arm));
+        }else if(exercise.getWorkedMuscle().equals(mContext.getString(R.string.muscle_bicep))) {
+            viewHolder.iconExercise.setImageDrawable(AppCompatResources.getDrawable(mContext, R.drawable.icon_biceps));
+        }else if(exercise.getWorkedMuscle().equals(mContext.getString(R.string.muscle_backs))) {
+            viewHolder.iconExercise.setImageDrawable(AppCompatResources.getDrawable(mContext, R.drawable.icon_back));
+        }else if(exercise.getWorkedMuscle().equals(mContext.getString(R.string.muscle_glute))) {
+            viewHolder.iconExercise.setImageDrawable(AppCompatResources.getDrawable(mContext, R.drawable.icon_gluteus));
+        }else if(exercise.getWorkedMuscle().equals(mContext.getString(R.string.muscle_chest))) {
+            viewHolder.iconExercise.setImageDrawable(AppCompatResources.getDrawable(mContext, R.drawable.icon_pectorals));
+        }else if(exercise.getWorkedMuscle().equals(mContext.getString(R.string.muscle_calf))) {
+            viewHolder.iconExercise.setImageDrawable(AppCompatResources.getDrawable(mContext, R.drawable.icon_calves));
+        }else if(exercise.getWorkedMuscle().equals(mContext.getString(R.string.muscle_shoulders))) {
+            viewHolder.iconExercise.setImageDrawable(AppCompatResources.getDrawable(mContext, R.drawable.icon_shoulders));
+        }else if(exercise.getWorkedMuscle().equals(mContext.getString(R.string.muscle_triceps))) {
+            viewHolder.iconExercise.setImageDrawable(AppCompatResources.getDrawable(mContext, R.drawable.icon_triceps));
         }
 
         viewHolder.constraintClicked.setOnClickListener(view -> listener.recyclerViewItemClick(exercise.getId()));
@@ -120,12 +156,16 @@ public class ExerciseHomePageAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     }
 
-    private void addView(String numSets, String numReps, LinearLayout layoutList) {
+    private void addView(String numSets, String numRep, String numRep1, LinearLayout layoutList) {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
         final View setsRepsView = inflater.inflate(R.layout.row_set_rep_item_exercise_recyclerview, null, false);
 
         TextView textViewNumSeries = setsRepsView.findViewById(R.id.numSeries);
         TextView textViewNumReps = setsRepsView.findViewById(R.id.numReps);
+
+        String numReps = numRep;
+        if(numRep1 != null)
+            numReps += "/" + numRep1;
 
         textViewNumSeries.setText(numSets);
         textViewNumReps.setText(numReps);
