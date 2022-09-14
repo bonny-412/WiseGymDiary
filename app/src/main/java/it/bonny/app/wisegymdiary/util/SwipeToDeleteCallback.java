@@ -1,4 +1,4 @@
-package it.bonny.app.wisegymdiary.manager;
+package it.bonny.app.wisegymdiary.util;
 
 import android.content.Context;
 import android.graphics.Canvas;
