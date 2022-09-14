@@ -36,7 +36,7 @@ import it.bonny.app.wisegymdiary.util.Utility;
 
 public class NewEditExerciseActivity extends AppCompatActivity {
 
-    private MaterialButton btnReturn, btnSave, btnAddNewSetsReps,btnDelete;
+    private MaterialButton btnReturn, btnSave, btnAddNewSetsReps;
     private ToggleButton btnMaxReps;
     private TextInputLayout nameExercise, noteExercise;
     private Exercise exercise;
@@ -47,7 +47,6 @@ public class NewEditExerciseActivity extends AppCompatActivity {
     private NumberPicker numPickerMin, numPickerSec;
     private ProgressBar progressBar, progressBar1;
     private Chip chipSelected = null;
-    private String chipSelectedEdit = "";
     private ScrollView scrollView;
     private long idWorkoutDay;
 
@@ -66,14 +65,12 @@ public class NewEditExerciseActivity extends AppCompatActivity {
             progressBar1.setVisibility(View.GONE);
             scrollView.setVisibility(View.VISIBLE);
             btnSave.setVisibility(View.VISIBLE);
-            btnDelete.setVisibility(View.GONE);
 
             populateChipMuscle();
         }else {
             progressBar1.setVisibility(View.VISIBLE);
             scrollView.setVisibility(View.GONE);
             btnSave.setVisibility(View.GONE);
-            btnDelete.setVisibility(View.GONE);
 
             retrieveExercise(idExercise);
         }
@@ -105,27 +102,6 @@ public class NewEditExerciseActivity extends AppCompatActivity {
 
         btnAddNewSetsReps.setOnClickListener(v -> addView(null, null, null));
 
-        btnDelete.setOnClickListener(view -> {
-            boolean isError = controlForm();
-            if(!isError) {
-                Intent intent = new Intent();
-                intent.putExtra("page", Utility.DELETE_EXERCISE);
-                if(exercise.getId() > 0) {
-                    intent.putExtra(Utility.EXTRA_EXERCISE_ID, exercise.getId());
-                }
-                intent.putExtra(Utility.EXTRA_EXERCISE_NAME, exercise.getName());
-                intent.putExtra(Utility.EXTRA_EXERCISE_ID_WORK_DAY, exercise.getIdWorkDay());
-                intent.putExtra(Utility.EXTRA_EXERCISE_NOTE, exercise.getNote());
-                intent.putExtra(Utility.EXTRA_EXERCISE_REST_TIME, exercise.getRestTime());
-                intent.putExtra(Utility.EXTRA_EXERCISE_NUM_SETS_REPS, exercise.getNumSetsReps());
-                intent.putExtra(Utility.EXTRA_EXERCISE_WORKED_MUSCLE, exercise.getWorkedMuscle());
-                setResult(RESULT_OK, intent);
-                finish();
-            }else {
-                Animation shake = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shake);
-                btnSave.startAnimation(shake);
-            }
-        });
         btnMaxReps.setOnCheckedChangeListener((compoundButton, b) -> {
             if(b) {
                 btnMaxReps.setTextColor(getColor(R.color.secondary));
@@ -160,7 +136,6 @@ public class NewEditExerciseActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         progressBar1 = findViewById(R.id.progressBar1);
         scrollView = findViewById(R.id.scrollView);
-        btnDelete = findViewById(R.id.btnDelete);
         btnMaxReps = findViewById(R.id.btnMaxReps);
         slash = findViewById(R.id.slash);
 
@@ -426,7 +401,6 @@ public class NewEditExerciseActivity extends AppCompatActivity {
                         progressBar1.setVisibility(View.GONE);
                         scrollView.setVisibility(View.VISIBLE);
                         btnSave.setVisibility(View.VISIBLE);
-                        btnDelete.setVisibility(View.VISIBLE);
                     }
                 });
             }

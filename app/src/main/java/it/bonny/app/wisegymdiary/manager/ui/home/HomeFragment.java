@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -16,7 +17,6 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -26,18 +26,19 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import it.bonny.app.wisegymdiary.NewEditExerciseActivity;
 import it.bonny.app.wisegymdiary.NewEditWorkoutDay;
@@ -46,11 +47,9 @@ import it.bonny.app.wisegymdiary.bean.Exercise;
 import it.bonny.app.wisegymdiary.bean.WorkoutDay;
 import it.bonny.app.wisegymdiary.component.BottomSheetWorkoutDay;
 import it.bonny.app.wisegymdiary.database.AppDatabase;
-import it.bonny.app.wisegymdiary.database.AppExecutors;
-import it.bonny.app.wisegymdiary.manager.MainActivity;
 import it.bonny.app.wisegymdiary.util.BottomSheetClickListener;
-import it.bonny.app.wisegymdiary.util.RecyclerViewClickBottomSheetInterface;
 import it.bonny.app.wisegymdiary.util.RecyclerViewClickInterface;
+import it.bonny.app.wisegymdiary.manager.SwipeToDeleteCallback;
 import it.bonny.app.wisegymdiary.util.Utility;
 import it.bonny.app.wisegymdiary.component.ExerciseHomePageAdapter;
 import it.bonny.app.wisegymdiary.bean.WorkoutPlan;
@@ -75,7 +74,11 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
 
     private BottomSheetWorkoutDay bottomSheetWorkoutDay;
 
+    private List<Exercise> exerciseListApp;
+
     Animation slide_down, slide_up;
+
+    private final Utility utility = new Utility();
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
@@ -138,6 +141,8 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
             }
         });
 
+        enableSwipeToDeleteAndUndo();
+
         return root;
     }
 
@@ -195,6 +200,8 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
         nameWorkoutDaySelected = binding.nameWorkoutDaySelected;
 
         recyclerViewExercise = binding.recyclerView;
+        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        recyclerViewExercise.setLayoutManager(manager);
         exerciseHomePageAdapter = new ExerciseHomePageAdapter(context, new RecyclerViewClickInterface() {
             @Override
             public void recyclerViewItemClick(long idElement) {
@@ -275,11 +282,56 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
         homeViewModel.getExerciseList(workoutDay.getId()).observe(getViewLifecycleOwner(), exercises -> {
             if(exercises != null && exercises.size() > 0) {
                 customUIExerciseIsEmpty(false);
+                exerciseListApp = exercises;
                 exerciseHomePageAdapter.updateExerciseList(exercises);
             }else {
                 customUIExerciseIsEmpty(true);
             }
         });
+    }
+
+    private void enableSwipeToDeleteAndUndo() {
+        if(getContext() != null) {
+            SwipeToDeleteCallback swipeToDeleteCallback = new SwipeToDeleteCallback(getContext()) {
+                @Override
+                public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+
+
+                    final int position = viewHolder.getAdapterPosition();
+                    final Exercise item = exerciseHomePageAdapter.getData().get(position);
+
+                    AtomicBoolean clickedButtonAction = new AtomicBoolean(false);
+
+                    exerciseHomePageAdapter.removeItem(position);
+
+
+                    Snackbar snackbar = Snackbar.make(containerRecyclerView, getString(R.string.snackbar_text_exercise_removed), Snackbar.LENGTH_LONG);
+                    snackbar.addCallback(new BaseTransientBottomBar.BaseCallback<Snackbar>() {
+                        @Override
+                        public void onDismissed(Snackbar transientBottomBar, int event) {
+                            super.onDismissed(transientBottomBar, event);
+                            if(!clickedButtonAction.get())
+                                homeViewModel.delete(item);
+                        }
+                    });
+                    snackbar.setAction(getString(R.string.snackbar_text_button_undo), view -> {
+                        clickedButtonAction.set(true);
+                        exerciseHomePageAdapter.restoreItem(item, position);
+                        recyclerViewExercise.scrollToPosition(position);
+                    });
+
+                    if(getContext() != null)
+                        snackbar.setActionTextColor(getContext().getColor(R.color.blue_text));
+                    snackbar.setBackgroundTint(getContext().getColor(R.color.blue_background));
+                    snackbar.setTextColor(getContext().getColor(R.color.secondary_text));
+                    snackbar.show();
+
+                }
+            };
+
+            ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeToDeleteCallback);
+            itemTouchhelper.attachToRecyclerView(recyclerViewExercise);
+        }
     }
 
     ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
@@ -300,8 +352,9 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
 
                                 WorkoutDay workoutDay = new WorkoutDay(name, numTimeDone, idWorkoutPlan, workedMuscle, note);
                                 homeViewModel.insert(workoutDay);
-                                if(getActivity() != null)
-                                    Snackbar.make(getActivity().getWindow().getDecorView().findViewById(android.R.id.content), getString(R.string.routine_added), Snackbar.LENGTH_SHORT).show();
+
+                                if(getActivity() != null && getContext() != null)
+                                    utility.createSnackbar(getString(R.string.routine_added), getActivity().getWindow().getDecorView().findViewById(android.R.id.content), getContext());
                             }else if(page == Utility.ADD_EXERCISE) {
                                 long id = data.getLongExtra(Utility.EXTRA_EXERCISE_ID, 0);
                                 String name = data.getStringExtra(Utility.EXTRA_EXERCISE_NAME);
@@ -319,21 +372,8 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
                                     homeViewModel.update(exercise);
                                 }
 
-                                if(getActivity() != null)
-                                    Snackbar.make(getActivity().getWindow().getDecorView().findViewById(android.R.id.content), getString(R.string.title_exercise_saved), Snackbar.LENGTH_SHORT).show();
-                            }else if(page == Utility.DELETE_EXERCISE) {
-                                long id = data.getLongExtra(Utility.EXTRA_EXERCISE_ID, 0);
-                                String name = data.getStringExtra(Utility.EXTRA_EXERCISE_NAME);
-                                long idWorkoutPlan = data.getLongExtra(Utility.EXTRA_EXERCISE_ID_WORK_DAY,0);
-                                String note = data.getStringExtra(Utility.EXTRA_EXERCISE_NOTE);
-                                String restTime = data.getStringExtra(Utility.EXTRA_EXERCISE_REST_TIME);
-                                String numSetsReps = data.getStringExtra(Utility.EXTRA_EXERCISE_NUM_SETS_REPS);
-                                String workedMuscle = data.getStringExtra(Utility.EXTRA_EXERCISE_WORKED_MUSCLE);
-                                Exercise exercise = new Exercise(id, name, idWorkoutPlan, note, restTime, numSetsReps, workedMuscle);
-                                homeViewModel.delete(exercise);
-
-                                if(getActivity() != null)
-                                    Snackbar.make(getActivity().getWindow().getDecorView().findViewById(android.R.id.content), getString(R.string.title_exercise_deleted), Snackbar.LENGTH_SHORT).show();
+                                if(getActivity() != null && getContext() != null)
+                                    utility.createSnackbar(getString(R.string.title_exercise_saved), getActivity().getWindow().getDecorView().findViewById(android.R.id.content), getContext());
                             }
                         }
 

@@ -63,5 +63,7 @@
     <string name="content_description_delete">Elimina</string>
     <string name="text_hint_one">1</string>
     <string name="title_exercise_deleted">Esercizio eliminato</string>
+    <string name="snackbar_text_button_undo">Annulla</string>
+    <string name="snackbar_text_exercise_removed">Esercizio rimosso</string>
 
 </resources>

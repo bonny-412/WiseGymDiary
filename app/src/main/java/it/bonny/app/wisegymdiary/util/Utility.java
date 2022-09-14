@@ -1,7 +1,12 @@
 package it.bonny.app.wisegymdiary.util;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
+import android.view.View;
+
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -70,6 +75,13 @@ public class Utility {
         map.put(12, activity.getString(R.string.muscle_triceps));
 
         return map;
+    }
+
+    public void createSnackbar(String message, View view, Context context) {
+        Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_SHORT);
+        snackbar.setBackgroundTint(context.getColor(R.color.blue_background));
+        snackbar.setTextColor(context.getColor(R.color.primary_text));
+        snackbar.show();
     }
 
 

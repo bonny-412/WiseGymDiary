@@ -125,6 +125,8 @@ public class ExerciseHomePageAdapter extends RecyclerView.Adapter<RecyclerView.V
         notifyDataSetChanged();
     }
 
+
+
     public class RecyclerViewViewHolder extends RecyclerView.ViewHolder {
         AppCompatImageView iconExercise;
         TextView titleWorkoutDay;
@@ -177,5 +179,18 @@ public class ExerciseHomePageAdapter extends RecyclerView.Adapter<RecyclerView.V
         layoutList.removeView(view);
     }
 
+    public void removeItem(int position) {
+        exerciseList.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void restoreItem(Exercise item, int position) {
+        exerciseList.add(position, item);
+        notifyItemInserted(position);
+    }
+
+    public List<Exercise> getData() {
+        return exerciseList;
+    }
 
 }

@@ -4,6 +4,8 @@
     <string name="text_icon_exercise">Icon exercise</string>
     <string name="content_description_delete">Delete</string>
     <string name="text_hint_one">1</string>
+    <string name="snackbar_text_button_undo">Undo</string>
+    <string name="snackbar_text_exercise_removed">Exercise removed</string>
 
     <!-- Menu -->
     <string name="workout_plan">Workout</string>
