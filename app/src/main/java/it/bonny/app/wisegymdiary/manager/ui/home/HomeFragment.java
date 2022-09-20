@@ -6,6 +6,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Spannable;
@@ -127,7 +129,7 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
 
         btnAddExercise.setOnClickListener(v -> callNewExercise(0));
 
-        btnNewExerciseEmpty.setOnClickListener(v -> callNewExercise(0));
+        //btnNewExerciseEmpty.setOnClickListener(v -> callNewExercise(0));
 
         btnWorkoutDaySelected.setOnClickListener(v -> {
             if(homeViewModel.getWorkoutDaySelected() != null && homeViewModel.getWorkoutDaySelected().getValue() != null) {
@@ -247,7 +249,7 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
 
         containerExerciseEmpty = binding.containerExerciseEmpty;
         btnAddExercise = binding.btnAddExercise;
-        btnNewExerciseEmpty = binding.btnNewExerciseEmpty;
+        //btnNewExerciseEmpty = binding.btnNewExerciseEmpty;
 
         btnWorkoutDaySelected = binding.btnWorkoutDaySelected;
         showTransactionListBtn = binding.showTransactionListBtn;
@@ -280,11 +282,15 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
         if(isEmpty) {
             containerExerciseEmpty.setVisibility(View.VISIBLE);
             containerRecyclerView.setVisibility(View.GONE);
-            containerButtonActionExerciseRoutine.setVisibility(View.GONE);
+            btnPlay.setClickable(false);
+            if(getContext() != null)
+                btnPlay.setIconTint(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.secondary_text)));
         }else {
             containerExerciseEmpty.setVisibility(View.GONE);
             containerRecyclerView.setVisibility(View.VISIBLE);
-            containerButtonActionExerciseRoutine.setVisibility(View.VISIBLE);
+            btnPlay.setClickable(true);
+            if(getContext() != null)
+                btnPlay.setIconTint(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.primary)));
         }
     }
 
@@ -331,7 +337,7 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
         }
     }
 
-    private void changedWorkoutDay(WorkoutDay workoutDay) {
+    public void changedWorkoutDay(WorkoutDay workoutDay) {
         nameWorkoutDaySelected.setText(workoutDay.getName());
         homeViewModel.getExerciseList(workoutDay.getId()).observe(getViewLifecycleOwner(), exercises -> {
             if(exercises != null && exercises.size() > 0) {
@@ -408,11 +414,12 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
                                 if(id == 0) {
                                     workoutDay = new WorkoutDay(name, numTimeDone, idWorkoutPlan, workedMuscle, note);
                                     homeViewModel.insert(workoutDay);
+                                    homeViewModel.setWorkoutDaySelected().setValue(workoutDay);
+                                    homeViewModel.getWorkoutDaySelected().observe(getViewLifecycleOwner(), HomeFragment.this::changedWorkoutDay);
                                 }else {
                                     workoutDay = new WorkoutDay(id, name, numTimeDone, idWorkoutPlan, workedMuscle, note);
                                     homeViewModel.update(workoutDay);
                                 }
-
 
                                 if(getActivity() != null && getContext() != null)
                                     utility.createSnackbar(getString(R.string.title_workout_day_saved), getActivity().getWindow().getDecorView().findViewById(android.R.id.content), getContext());
