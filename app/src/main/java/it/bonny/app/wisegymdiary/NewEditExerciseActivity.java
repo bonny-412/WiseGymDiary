@@ -342,68 +342,65 @@ public class NewEditExerciseActivity extends AppCompatActivity {
     }
 
     private void retrieveExercise(long idExercise) {
-        AppDatabase.databaseWriteExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                exercise = AppDatabase.getInstance(getApplicationContext()).exerciseDAO().findExerciseById(idExercise);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(nameExercise.getEditText() != null)
-                            nameExercise.getEditText().setText(exercise.getName());
-                        if(noteExercise.getEditText() != null)
-                            noteExercise.getEditText().setText(exercise.getNote());
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            exercise = AppDatabase.getInstance(getApplicationContext()).exerciseDAO().findExerciseById(idExercise);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if(nameExercise.getEditText() != null)
+                        nameExercise.getEditText().setText(exercise.getName());
+                    if(noteExercise.getEditText() != null)
+                        noteExercise.getEditText().setText(exercise.getNote());
 
-                        String[] splitRestTime = exercise.getRestTime().split(Utility.SYMBOL_SPLIT);
-                        numPickerMin.setValue(Integer.parseInt(splitRestTime[0]));
-                        numPickerSec.setValue(Integer.parseInt(splitRestTime[1]));
+                    String[] splitRestTime = exercise.getRestTime().split(Utility.SYMBOL_SPLIT);
+                    numPickerMin.setValue(Integer.parseInt(splitRestTime[0]));
+                    numPickerSec.setValue(Integer.parseInt(splitRestTime[1]));
 
-                        String[] splitNumSetsReps = exercise.getNumSetsReps().split(Utility.SYMBOL_SPLIT);
-                        for(int i = 0; i < splitNumSetsReps.length; i ++) {
-                            String[] singleNumSetsReps = splitNumSetsReps[i].split(Utility.SYMBOL_SPLIT_BETWEEN_SET_REP);
-                            String numSet = singleNumSetsReps[0];
-                            String numReps = singleNumSetsReps[1];
+                    String[] splitNumSetsReps = exercise.getNumSetsReps().split(Utility.SYMBOL_SPLIT);
+                    for(int i = 0; i < splitNumSetsReps.length; i ++) {
+                        String[] singleNumSetsReps = splitNumSetsReps[i].split(Utility.SYMBOL_SPLIT_BETWEEN_SET_REP);
+                        String numSet = singleNumSetsReps[0];
+                        String numReps = singleNumSetsReps[1];
 
-                            if(numReps.contains(Utility.SYMBOL_MAX)) {
+                        if(numReps.contains(Utility.SYMBOL_MAX)) {
 
 
-                                if(i >= 1) {
-                                    addView(numSet, numReps, null);
-                                }else {
-                                    btnMaxReps.setChecked(true);
-                                    editTextSets.setText(numSet);
-                                    editTextReps.setText("");
-                                }
-                            }else if(numReps.contains(Utility.SYMBOL_SPLIT_BETWEEN_REPS)) {
-                                String[] numRepSplit = numReps.split(Utility.SYMBOL_SPLIT_BETWEEN_REPS);
-                                String numRep = numRepSplit[0];
-                                String numRep1 = numRepSplit[1];
-
-                                if(i >= 1) {
-                                    addView(numSet, numRep, numRep1);
-                                }else {
-                                    editTextSets.setText(numSet);
-                                    editTextReps.setText(numRep);
-                                    editTextReps1.setText(numRep1);
-                                }
+                            if(i >= 1) {
+                                addView(numSet, numReps, null);
                             }else {
-                                if(i >= 1) {
-                                    addView(numSet, numReps, null);
-                                }else {
-                                    editTextSets.setText(numSet);
-                                    editTextReps.setText(numReps);
-                                }
+                                btnMaxReps.setChecked(true);
+                                editTextSets.setText(numSet);
+                                editTextReps.setText("");
                             }
+                        }else if(numReps.contains(Utility.SYMBOL_SPLIT_BETWEEN_REPS)) {
+                            String[] numRepSplit = numReps.split(Utility.SYMBOL_SPLIT_BETWEEN_REPS);
+                            String numRep = numRepSplit[0];
+                            String numRep1 = numRepSplit[1];
 
+                            if(i >= 1) {
+                                addView(numSet, numRep, numRep1);
+                            }else {
+                                editTextSets.setText(numSet);
+                                editTextReps.setText(numRep);
+                                editTextReps1.setText(numRep1);
+                            }
+                        }else {
+                            if(i >= 1) {
+                                addView(numSet, numReps, null);
+                            }else {
+                                editTextSets.setText(numSet);
+                                editTextReps.setText(numReps);
+                            }
                         }
 
-                        populateChipMuscle();
-                        progressBar1.setVisibility(View.GONE);
-                        scrollView.setVisibility(View.VISIBLE);
-                        btnSave.setVisibility(View.VISIBLE);
                     }
-                });
-            }
+
+                    populateChipMuscle();
+                    progressBar1.setVisibility(View.GONE);
+                    scrollView.setVisibility(View.VISIBLE);
+                    btnSave.setVisibility(View.VISIBLE);
+                }
+            });
         });
     }
 

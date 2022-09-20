@@ -12,6 +12,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ import it.bonny.app.wisegymdiary.bean.MuscleBean;
 import it.bonny.app.wisegymdiary.bean.WorkoutDay;
 import it.bonny.app.wisegymdiary.component.ChipMuscleAdapter;
 import it.bonny.app.wisegymdiary.database.AppDatabase;
+import it.bonny.app.wisegymdiary.util.App;
 import it.bonny.app.wisegymdiary.util.Utility;
 
 public class NewEditWorkoutDay extends AppCompatActivity {
@@ -38,25 +40,35 @@ public class NewEditWorkoutDay extends AppCompatActivity {
     private TextInputLayout nameWorkoutDay, noteWorkoutDay;
     private WorkoutDay workoutDay;
     private MaterialButton btnReturn;
-    private ProgressBar progressBar;
-    private List<String> chipsSelectedList = null;
+    private ProgressBar progressBar, progressBar1;
+    private final List<String> chipsSelectedList = new ArrayList<>();
     private ChipGroup chipGroup;
+    private ScrollView scrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_edit_workout_day);
 
-        boolean newFlag = getIntent().getBooleanExtra("newFlag", false);
         long idWorkoutPlan = getIntent().getLongExtra("idWorkoutPlan", 0);
-
-        if(newFlag) {
-            workoutDay = new WorkoutDay();
-        }
+        long idWorkoutDay = getIntent().getLongExtra("idWorkoutDay", 0);
 
         initElements();
 
-        chipsSelectedList = new ArrayList<>();
+        if(idWorkoutDay == 0) {
+            workoutDay = new WorkoutDay();
+            progressBar1.setVisibility(View.GONE);
+            scrollView.setVisibility(View.VISIBLE);
+            btnSave.setVisibility(View.VISIBLE);
+
+            populateChipMuscle();
+        }else {
+            progressBar1.setVisibility(View.VISIBLE);
+            scrollView.setVisibility(View.GONE);
+            btnSave.setVisibility(View.GONE);
+
+            retrieveRoutine(idWorkoutDay);
+        }
 
         btnReturn.setOnClickListener(view -> finish());
 
@@ -90,12 +102,14 @@ public class NewEditWorkoutDay extends AppCompatActivity {
                         app.append(", ");
                 }
                 workoutDay.setWorkedMuscle(app.toString());
-                Toast.makeText(this, workoutDay.getWorkedMuscle(), Toast.LENGTH_SHORT).show();
             }
 
             if(!isError) {
                 Intent intent = new Intent();
                 intent.putExtra("page", Utility.ADD_WORKOUT_DAY);
+                if(workoutDay.getId() > 0) {
+                    intent.putExtra(Utility.EXTRA_WORKOUT_DAY_ID, workoutDay.getId());
+                }
                 intent.putExtra(Utility.EXTRA_WORKOUT_DAY_NAME, workoutDay.getName());
                 intent.putExtra(Utility.EXTRA_WORKOUT_DAY_NUM_TIME_DONE, workoutDay.getNumTimeDone());
                 intent.putExtra(Utility.EXTRA_WORKOUT_DAY_ID_WORK_PLAIN, workoutDay.getIdWorkPlan());
@@ -108,8 +122,6 @@ public class NewEditWorkoutDay extends AppCompatActivity {
                 btnSave.startAnimation(shake);
             }
         });
-
-        populateChipMuscle();
 
     }
 
@@ -124,6 +136,8 @@ public class NewEditWorkoutDay extends AppCompatActivity {
         textInputNameWorkoutDay.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         textInputNoteWorkoutDay.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         progressBar = findViewById(R.id.progressBar);
+        progressBar1 = findViewById(R.id.progressBar1);
+        scrollView = findViewById(R.id.scrollView);
     }
 
     private void populateChipMuscle() {
@@ -144,9 +158,17 @@ public class NewEditWorkoutDay extends AppCompatActivity {
     private void addChip(String nameChip) {
         Chip chip = new Chip(this);
         chip.setText(nameChip);
-        chip.setChipBackgroundColor(getColorStateList(R.color.blue_background));
-        chip.setTextColor(getColor(R.color.blue_text));
-        chip.setChecked(false);
+
+        if(workoutDay.getWorkedMuscle() != null && workoutDay.getWorkedMuscle().contains(nameChip)) {
+            chip.setChipBackgroundColor(getColorStateList(R.color.blue_text));
+            chip.setTextColor(getColor(R.color.blue_background));
+            chip.setChecked(true);
+            chipsSelectedList.add(chip.getText().toString());
+        }else {
+            chip.setChipBackgroundColor(getColorStateList(R.color.blue_background));
+            chip.setTextColor(getColor(R.color.blue_text));
+            chip.setChecked(false);
+        }
 
         chip.setOnClickListener(view -> {
             if(!chipsSelectedList.contains(chip.getText().toString())) {
@@ -163,6 +185,29 @@ public class NewEditWorkoutDay extends AppCompatActivity {
         });
 
         chipGroup.addView(chip);
+    }
+
+    private void retrieveRoutine(long idWorkoutDay) {
+        AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                workoutDay = AppDatabase.getInstance(getApplicationContext()).workoutDayDAO().getWorkoutDayById(idWorkoutDay);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                       if(nameWorkoutDay.getEditText() != null)
+                           nameWorkoutDay.getEditText().setText(workoutDay.getName());
+                       if(noteWorkoutDay.getEditText() != null)
+                           noteWorkoutDay.getEditText().setText(workoutDay.getNote());
+
+                        populateChipMuscle();
+                        progressBar1.setVisibility(View.GONE);
+                        scrollView.setVisibility(View.VISIBLE);
+                        btnSave.setVisibility(View.VISIBLE);
+                    }
+                });
+            }
+        });
     }
 
 }

@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -24,6 +25,8 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -38,7 +41,6 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import it.bonny.app.wisegymdiary.NewEditExerciseActivity;
@@ -49,7 +51,6 @@ import it.bonny.app.wisegymdiary.bean.WorkoutDay;
 import it.bonny.app.wisegymdiary.component.BottomSheetWorkoutDay;
 import it.bonny.app.wisegymdiary.database.AppDatabase;
 import it.bonny.app.wisegymdiary.util.BottomSheetClickListener;
-import it.bonny.app.wisegymdiary.util.RecyclerViewClickInterface;
 import it.bonny.app.wisegymdiary.util.SwipeToDeleteCallback;
 import it.bonny.app.wisegymdiary.util.Utility;
 import it.bonny.app.wisegymdiary.component.ExerciseHomePageAdapter;
@@ -64,7 +65,7 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
             containerRoutineEmpty, containerExerciseEmpty, containerButtonActionExerciseRoutine;
     private TextView nameWorkoutPlan, infoWeekWorkoutPlan;
     private WorkoutPlan workoutPlanApp;
-    private MaterialButton btnNewRoutine, btnOptionsWorkoutPlan, btnNewExerciseEmpty;
+    private MaterialButton btnNewRoutine, btnOptionsWorkoutPlan, btnNewExerciseEmpty, btnOptionsRoutine, btnPlay;
     private ExerciseHomePageAdapter exerciseHomePageAdapter;
     private RecyclerView recyclerViewExercise;
     private MaterialButton btnAddExercise;
@@ -85,8 +86,6 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
 
         final TextView textView = binding.nameWorkoutPlan;
         initElements(root.getContext());
-
-
 
         homeViewModel.getWorkoutPlan().observe(getViewLifecycleOwner(), workoutPlan -> {
             if(workoutPlan != null) {
@@ -112,7 +111,7 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
                         homeViewModel.getWorkoutDaySelected().observe(getViewLifecycleOwner(), this::changedWorkoutDay);
                     }else {
                         customUIRoutineIsEmpty(true);
-                        btnNewRoutine.setOnClickListener(view -> callNewWorkoutDay());
+                        btnNewRoutine.setOnClickListener(view -> callNewWorkoutDay(0));
                     }
                 });
             }else {
@@ -166,6 +165,34 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
                                 }
                             });
                 }
+            }
+        });
+
+        btnOptionsRoutine.setOnClickListener(v -> {
+            if(getContext() != null) {
+                PopupMenu popupMenu = new PopupMenu(getContext(), btnOptionsRoutine);
+                popupMenu.getMenuInflater().inflate(R.menu.popup_menu_routine_options, popupMenu.getMenu());
+                popupMenu.setForceShowIcon(true);
+                popupMenu.setOnMenuItemClickListener(menuItem -> {
+                    if(menuItem.getItemId() == R.id.edit) {
+                        if(homeViewModel.getWorkoutDaySelected() != null && homeViewModel.getWorkoutDaySelected().getValue() != null)
+                            callNewWorkoutDay(homeViewModel.getWorkoutDaySelected().getValue().getId());
+                        else
+                            callNewWorkoutDay(0);
+                    }else if(menuItem.getItemId() == R.id.delete) {
+                        showAlertDeleteWorkoutDay();
+                    }
+                    return true;
+                });
+
+                popupMenu.show();
+            }
+        });
+
+        btnPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 
@@ -227,6 +254,8 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
         containerRecyclerView = binding.containerRecyclerView;
         nameWorkoutDaySelected = binding.nameWorkoutDaySelected;
         containerButtonActionExerciseRoutine = binding.containerButtonActionExerciseRoutine;
+        btnOptionsRoutine = binding.btnOptionsRoutine;
+        btnPlay = binding.btnPlay;
 
         recyclerViewExercise = binding.recyclerView;
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
@@ -266,10 +295,11 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
         recyclerViewExercise.setAdapter(exerciseHomePageAdapter);
     }
 
-    private void callNewWorkoutDay() {
+    private void callNewWorkoutDay(long idWorkoutDay) {
         Intent intent = new Intent(getActivity(), NewEditWorkoutDay.class);
         intent.putExtra("idWorkoutPlan", workoutPlanApp.getId());
-        intent.putExtra("newFlag", true);
+        if(idWorkoutDay > 0)
+            intent.putExtra("idWorkoutDay", idWorkoutDay);
         someActivityResultLauncher.launch(intent);
     }
 
@@ -297,7 +327,7 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
                 }
             });
         }else {
-            callNewWorkoutDay();
+            callNewWorkoutDay(0);
         }
     }
 
@@ -367,17 +397,25 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
                         if(data != null) {
                             int page = data.getIntExtra("page", Utility.ADD_WORKOUT_DAY);
                             if(page == Utility.ADD_WORKOUT_DAY) {
+                                long id = data.getLongExtra(Utility.EXTRA_WORKOUT_DAY_ID, 0);
                                 String name = data.getStringExtra(Utility.EXTRA_WORKOUT_DAY_NAME);
                                 Integer numTimeDone = data.getIntExtra(Utility.EXTRA_WORKOUT_DAY_NUM_TIME_DONE, 0);
                                 long idWorkoutPlan = data.getLongExtra(Utility.EXTRA_WORKOUT_DAY_ID_WORK_PLAIN, 0);
                                 String workedMuscle = data.getStringExtra(Utility.EXTRA_WORKOUT_DAY_WORKED_MUSCLE);
                                 String note = data.getStringExtra(Utility.EXTRA_WORKOUT_DAY_NOTE);
 
-                                WorkoutDay workoutDay = new WorkoutDay(name, numTimeDone, idWorkoutPlan, workedMuscle, note);
-                                homeViewModel.insert(workoutDay);
+                                WorkoutDay workoutDay;
+                                if(id == 0) {
+                                    workoutDay = new WorkoutDay(name, numTimeDone, idWorkoutPlan, workedMuscle, note);
+                                    homeViewModel.insert(workoutDay);
+                                }else {
+                                    workoutDay = new WorkoutDay(id, name, numTimeDone, idWorkoutPlan, workedMuscle, note);
+                                    homeViewModel.update(workoutDay);
+                                }
+
 
                                 if(getActivity() != null && getContext() != null)
-                                    utility.createSnackbar(getString(R.string.routine_added), getActivity().getWindow().getDecorView().findViewById(android.R.id.content), getContext());
+                                    utility.createSnackbar(getString(R.string.title_workout_day_saved), getActivity().getWindow().getDecorView().findViewById(android.R.id.content), getContext());
                             }else if(page == Utility.ADD_EXERCISE) {
                                 long id = data.getLongExtra(Utility.EXTRA_EXERCISE_ID, 0);
                                 String name = data.getStringExtra(Utility.EXTRA_EXERCISE_NAME);
@@ -403,5 +441,37 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
                     }
                 }
         });
+
+    private void showAlertDeleteWorkoutDay() {
+        if(getActivity() != null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            View viewInfoDialog = View.inflate(getActivity(), R.layout.alert_delete, null);
+            builder.setCancelable(false);
+            builder.setView(viewInfoDialog);
+            MaterialButton btnCancel = viewInfoDialog.findViewById(R.id.btnCancel);
+            MaterialButton btnDelete = viewInfoDialog.findViewById(R.id.btnDelete);
+            TextView textAlert = viewInfoDialog.findViewById(R.id.textAlert);
+            String messageAlert = getString(R.string.text_alert_delete);
+            if(homeViewModel.getWorkoutDaySelected().getValue() != null)
+                messageAlert += " \"" + homeViewModel.getWorkoutDaySelected().getValue().getName() + "\" ";
+            messageAlert += "?";
+
+            textAlert.setText(messageAlert);
+            final AlertDialog dialog = builder.create();
+            if(dialog.getWindow() != null && getContext() != null){
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(getContext(), R.color.transparent)));
+                dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+            }
+            btnCancel.setOnClickListener(v -> {
+                dialog.dismiss();
+            });
+            btnDelete.setOnClickListener(v -> {
+                homeViewModel.delete(homeViewModel.getWorkoutDaySelected().getValue());
+                dialog.dismiss();
+                utility.createSnackbar(getString(R.string.title_deleted_workout_day), getActivity().getWindow().getDecorView().findViewById(android.R.id.content), getContext());
+            });
+            dialog.show();
+        }
+    }
 
 }

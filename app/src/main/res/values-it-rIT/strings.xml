@@ -65,5 +65,9 @@
     <string name="title_exercise_deleted">Esercizio eliminato</string>
     <string name="snackbar_text_button_undo">Annulla</string>
     <string name="snackbar_text_exercise_removed">Esercizio rimosso</string>
+    <string name="title_delete_workout_day">Elimina sessione</string>
+    <string name="text_alert_delete">Sei sicuro di voler eliminare</string>
+    <string name="alert_btn_ok">Ok</string>
+    <string name="title_deleted_workout_day">Sessione eliminata</string>
 
 </resources>

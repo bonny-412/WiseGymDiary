@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/edit"
+        android:title="@string/title_page_edit_workout_day"
+        android:icon="@drawable/ic_edit_clipboard"/>
+
+    <item
+        android:id="@+id/delete"
+        android:title="@string/title_delete_workout_day"
+        android:icon="@drawable/ic_delete_outline"/>
+
+</menu>

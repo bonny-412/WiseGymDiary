@@ -196,7 +196,7 @@
 
                 <View
                     android:id="@+id/lineSheet"
-                    android:layout_width="2dp"
+                    android:layout_width="1dp"
                     android:layout_height="0dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
@@ -232,7 +232,7 @@
 
                 <View
                     android:id="@+id/lineSheet1"
-                    android:layout_width="2dp"
+                    android:layout_width="1dp"
                     android:layout_height="0dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
