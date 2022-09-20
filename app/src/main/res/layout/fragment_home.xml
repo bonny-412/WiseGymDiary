@@ -141,32 +141,11 @@
                 android:textStyle="italic"
                 android:text="@string/title_sessions" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnAddExercise"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                app:layout_constraintTop_toBottomOf="@+id/btnWorkoutDaySelected"
-                app:layout_constraintEnd_toEndOf="@+id/showTransactionListBtn"
-                app:layout_constraintStart_toStartOf="@+id/btnWorkoutDaySelected"
-                app:layout_constraintBottom_toTopOf="@+id/containerRecyclerView"
-                android:textColor="@color/secondary"
-                app:icon="@drawable/ic_add"
-                app:iconTint="@color/secondary"
-                app:iconGravity="start"
-                android:layout_marginTop="4dp"
-                android:padding="0dp"
-                app:iconPadding="2dp"
-                android:textSize="12sp"
-                android:textStyle="italic"
-                android:text="@string/add_exercise"
-                android:visibility="gone"/>
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/containerRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:layout_constraintTop_toBottomOf="@+id/btnAddExercise"
+                app:layout_constraintTop_toBottomOf="@+id/btnWorkoutDaySelected"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -177,6 +156,115 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:overScrollMode="ifContentScrolls"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/containerButtonActionExerciseRoutine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp"
+                android:padding="8dp"
+                android:elevation="8dp"
+                android:background="@drawable/background_border_bottom_round1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAddExercise"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="48dp"
+                    app:cornerRadius="10dp"
+                    android:layout_height="48dp"
+                    android:insetLeft="0dp"
+                    android:insetTop="0dp"
+                    app:iconTint="@color/primary_text"
+                    android:insetRight="0dp"
+                    android:insetBottom="0dp"
+                    app:icon="@drawable/ic_add_1"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/lineSheet"
+                    android:contentDescription="@string/content_descr_button_return"
+                    />
+
+                <View
+                    android:id="@+id/lineSheet"
+                    android:layout_width="2dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@color/primary_text"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    app:layout_constraintTop_toTopOf="@+id/btnAddExercise"
+                    app:layout_constraintBottom_toBottomOf="@+id/btnAddExercise"
+                    app:layout_constraintStart_toEndOf="@+id/btnAddExercise"
+                    app:layout_constraintEnd_toStartOf="@+id/btnPlay"
+                    />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnPlay"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="48dp"
+                    app:cornerRadius="10dp"
+                    android:layout_height="48dp"
+                    android:insetLeft="0dp"
+                    android:insetTop="0dp"
+                    app:iconTint="@color/primary_text"
+                    android:insetRight="0dp"
+                    android:insetBottom="0dp"
+                    app:icon="@drawable/ic_play"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    app:layout_constraintTop_toTopOf="@+id/btnAddExercise"
+                    app:layout_constraintBottom_toBottomOf="@+id/btnAddExercise"
+                    app:layout_constraintStart_toEndOf="@+id/lineSheet"
+                    app:layout_constraintEnd_toStartOf="@+id/lineSheet1"
+                    android:contentDescription="@string/content_descr_button_return"
+                    />
+
+                <View
+                    android:id="@+id/lineSheet1"
+                    android:layout_width="2dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@color/primary_text"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    app:layout_constraintTop_toTopOf="@+id/btnAddExercise"
+                    app:layout_constraintBottom_toBottomOf="@+id/btnAddExercise"
+                    app:layout_constraintStart_toEndOf="@+id/btnPlay"
+                    app:layout_constraintEnd_toStartOf="@+id/btnOptionsRoutine"
+                    />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnOptionsRoutine"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="48dp"
+                    app:cornerRadius="10dp"
+                    android:layout_height="48dp"
+                    android:insetLeft="0dp"
+                    android:insetTop="0dp"
+                    app:iconTint="@color/primary_text"
+                    android:insetRight="0dp"
+                    android:insetBottom="0dp"
+                    app:icon="@drawable/ic_more_vert"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    app:layout_constraintTop_toTopOf="@+id/btnPlay"
+                    app:layout_constraintBottom_toBottomOf="@+id/btnPlay"
+                    app:layout_constraintStart_toEndOf="@+id/lineSheet1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:contentDescription="@string/content_descr_button_return"
+                    />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout

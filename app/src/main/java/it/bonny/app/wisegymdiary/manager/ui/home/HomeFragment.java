@@ -1,5 +1,7 @@
 package it.bonny.app.wisegymdiary.manager.ui.home;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -58,25 +60,20 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
     private FragmentHomeBinding binding;
     private HomeViewModel homeViewModel;
 
-    private ConstraintLayout containerSettings, containerWorkoutPlanEmpty, containerWorkoutPlan, containerRoutineEmpty, containerExerciseEmpty;
+    private ConstraintLayout containerSettings, containerWorkoutPlanEmpty, containerWorkoutPlan,
+            containerRoutineEmpty, containerExerciseEmpty, containerButtonActionExerciseRoutine;
     private TextView nameWorkoutPlan, infoWeekWorkoutPlan;
     private WorkoutPlan workoutPlanApp;
     private MaterialButton btnNewRoutine, btnOptionsWorkoutPlan, btnNewExerciseEmpty;
     private ExerciseHomePageAdapter exerciseHomePageAdapter;
     private RecyclerView recyclerViewExercise;
     private MaterialButton btnAddExercise;
-
     private MaterialCardView btnWorkoutDaySelected;
     private MaterialButton showTransactionListBtn;
     private ConstraintLayout containerRecyclerView;
     private TextView nameWorkoutDaySelected;
-
     private BottomSheetWorkoutDay bottomSheetWorkoutDay;
-
-    private List<Exercise> exerciseListApp;
-
     Animation slide_down, slide_up;
-
     private final Utility utility = new Utility();
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -140,6 +137,38 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
             }
         });
 
+        recyclerViewExercise.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0 && containerButtonActionExerciseRoutine.getVisibility() == View.VISIBLE) {
+                    containerButtonActionExerciseRoutine.animate()
+                            .translationY(containerButtonActionExerciseRoutine.getHeight())
+                            .alpha(0.0f)
+                            .setDuration(300)
+                            .setListener(new AnimatorListenerAdapter() {
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
+                                    super.onAnimationEnd(animation);
+                                    containerButtonActionExerciseRoutine.setVisibility(View.GONE);
+                                }
+                            });
+                } else if (dy < 0 && containerButtonActionExerciseRoutine.getVisibility() != View.VISIBLE) {
+                    containerButtonActionExerciseRoutine.animate()
+                            .translationY(0)
+                            .alpha(1.0f)
+                            .setDuration(300)
+                            .setListener(new AnimatorListenerAdapter() {
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
+                                    super.onAnimationEnd(animation);
+                                    containerButtonActionExerciseRoutine.setVisibility(View.VISIBLE);
+                                }
+                            });
+                }
+            }
+        });
+
         enableSwipeToDeleteAndUndo();
 
         return root;
@@ -197,16 +226,12 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
         showTransactionListBtn = binding.showTransactionListBtn;
         containerRecyclerView = binding.containerRecyclerView;
         nameWorkoutDaySelected = binding.nameWorkoutDaySelected;
+        containerButtonActionExerciseRoutine = binding.containerButtonActionExerciseRoutine;
 
         recyclerViewExercise = binding.recyclerView;
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         recyclerViewExercise.setLayoutManager(manager);
-        exerciseHomePageAdapter = new ExerciseHomePageAdapter(context, new RecyclerViewClickInterface() {
-            @Override
-            public void recyclerViewItemClick(long idElement) {
-                callNewExercise(idElement);
-            }
-        });
+        exerciseHomePageAdapter = new ExerciseHomePageAdapter(context, this::callNewExercise);
         setAdapter();
     }
 
@@ -226,11 +251,11 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
         if(isEmpty) {
             containerExerciseEmpty.setVisibility(View.VISIBLE);
             containerRecyclerView.setVisibility(View.GONE);
-            btnAddExercise.setVisibility(View.GONE);
+            containerButtonActionExerciseRoutine.setVisibility(View.GONE);
         }else {
             containerExerciseEmpty.setVisibility(View.GONE);
             containerRecyclerView.setVisibility(View.VISIBLE);
-            btnAddExercise.setVisibility(View.VISIBLE);
+            containerButtonActionExerciseRoutine.setVisibility(View.VISIBLE);
         }
     }
 
@@ -281,7 +306,6 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
         homeViewModel.getExerciseList(workoutDay.getId()).observe(getViewLifecycleOwner(), exercises -> {
             if(exercises != null && exercises.size() > 0) {
                 customUIExerciseIsEmpty(false);
-                exerciseListApp = exercises;
                 exerciseHomePageAdapter.updateExerciseList(exercises);
             }else {
                 customUIExerciseIsEmpty(true);
