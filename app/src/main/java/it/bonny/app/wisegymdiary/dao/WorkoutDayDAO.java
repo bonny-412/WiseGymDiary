@@ -36,5 +36,11 @@ public interface WorkoutDayDAO {
     @Query("SELECT * FROM  workout_day WHERE id = :id")
     WorkoutDay getWorkoutDayById(long id);
 
+    @Query("SELECT COUNT(id) FROM workout_day")
+    int getCount();
+
+    @Query("SELECT * FROM  workout_day ORDER BY id ASC LIMIT 1")
+    WorkoutDay getWorkoutDayByIdMin();
+
 }
 

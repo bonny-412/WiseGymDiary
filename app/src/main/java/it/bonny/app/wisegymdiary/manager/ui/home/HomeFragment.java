@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResult;
@@ -52,6 +53,7 @@ import it.bonny.app.wisegymdiary.bean.Exercise;
 import it.bonny.app.wisegymdiary.bean.WorkoutDay;
 import it.bonny.app.wisegymdiary.component.BottomSheetWorkoutDay;
 import it.bonny.app.wisegymdiary.database.AppDatabase;
+import it.bonny.app.wisegymdiary.util.App;
 import it.bonny.app.wisegymdiary.util.BottomSheetClickListener;
 import it.bonny.app.wisegymdiary.util.SwipeToDeleteCallback;
 import it.bonny.app.wisegymdiary.util.Utility;
@@ -63,8 +65,8 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
     private FragmentHomeBinding binding;
     private HomeViewModel homeViewModel;
 
-    private ConstraintLayout containerSettings, containerWorkoutPlanEmpty, containerWorkoutPlan,
-            containerRoutineEmpty, containerExerciseEmpty, containerButtonActionExerciseRoutine;
+    private ConstraintLayout containerSettings, containerRoutine, containerRoutineEmpty,
+            containerExerciseEmpty, containerButtonActionExerciseRoutine;
     private TextView nameWorkoutPlan, infoWeekWorkoutPlan;
     private WorkoutPlan workoutPlanApp;
     private MaterialButton btnNewRoutine, btnOptionsWorkoutPlan, btnNewExerciseEmpty, btnOptionsRoutine, btnPlay;
@@ -78,6 +80,7 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
     private BottomSheetWorkoutDay bottomSheetWorkoutDay;
     Animation slide_down, slide_up;
     private final Utility utility = new Utility();
+    private ProgressBar progressBar1;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
@@ -90,37 +93,28 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
         initElements(root.getContext());
 
         homeViewModel.getWorkoutPlan().observe(getViewLifecycleOwner(), workoutPlan -> {
-            if(workoutPlan != null) {
-                textView.setText(workoutPlan.getName());
-                containerSettings.setVisibility(View.VISIBLE);
-                containerWorkoutPlanEmpty.setVisibility(View.GONE);
-                containerWorkoutPlan.setVisibility(View.VISIBLE);
-                nameWorkoutPlan.setText(workoutPlan.getName());
-                String numWeek = "2";
-                String weekStrFinal = getString(R.string.week) + " " + numWeek + " " + getString(R.string.of) + " " + workoutPlan.getNumWeek();
-                Spannable spannableString = new SpannableString(weekStrFinal);
-                spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(binding.getRoot().getContext(), R.color.secondary)),
-                        getString(R.string.week).length() + 1, getString(R.string.week).length() + 1 + numWeek.length() + 1,
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                infoWeekWorkoutPlan.setText(spannableString);
+            textView.setText(workoutPlan.getName());
+            containerSettings.setVisibility(View.VISIBLE);
+            nameWorkoutPlan.setText(workoutPlan.getName());
+            String numWeek = "2";
+            String weekStrFinal = getString(R.string.week) + " " + numWeek + " " + getString(R.string.of) + " " + workoutPlan.getNumWeek();
+            Spannable spannableString = new SpannableString(weekStrFinal);
+            spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(binding.getRoot().getContext(), R.color.secondary)),
+                    getString(R.string.week).length() + 1, getString(R.string.week).length() + 1 + numWeek.length() + 1,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            infoWeekWorkoutPlan.setText(spannableString);
 
-                workoutPlanApp.copy(workoutPlan);
+            workoutPlanApp.copy(workoutPlan);
 
-                homeViewModel.getWorkoutDayList(workoutPlan.getId()).observe(getViewLifecycleOwner(), workoutDays -> {
-                    if(workoutDays != null && workoutDays.size() > 0) {
-                        customUIRoutineIsEmpty(false);
-                        homeViewModel.setWorkoutDaySelected().setValue(workoutDays.get(0));
-                        homeViewModel.getWorkoutDaySelected().observe(getViewLifecycleOwner(), this::changedWorkoutDay);
-                    }else {
-                        customUIRoutineIsEmpty(true);
-                        btnNewRoutine.setOnClickListener(view -> callNewWorkoutDay(0));
-                    }
-                });
-            }else {
-                containerSettings.setVisibility(View.INVISIBLE);
-                containerWorkoutPlanEmpty.setVisibility(View.VISIBLE);
-                containerWorkoutPlan.setVisibility(View.GONE);
-            }
+            homeViewModel.getWorkoutDayList(workoutPlan.getId()).observe(getViewLifecycleOwner(), workoutDays -> {
+                if(workoutDays != null && workoutDays.size() > 0) {
+                    customUIRoutineIsEmpty(false);
+                    getIdWorkoutDaySelected();
+                }else {
+                    customUIRoutineIsEmpty(true);
+                    btnNewRoutine.setOnClickListener(view -> callNewWorkoutDay(0));
+                }
+            });
         });
 
         btnOptionsWorkoutPlan.setOnClickListener(view -> {
@@ -228,6 +222,60 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
         }
     }
 
+    private void getIdWorkoutDaySelected() {
+        SharedPreferences prefs;
+        try {
+            progressBar1.setVisibility(View.VISIBLE);
+            containerRoutine.setVisibility(View.GONE);
+            containerRoutineEmpty.setVisibility(View.GONE);
+            prefs = binding.getRoot().getContext().getSharedPreferences(Utility.PREFS_NAME_FILE, Context.MODE_PRIVATE);
+            long finalIdWorkoutDay = prefs.getLong("idWorkoutDaySelected", -1);
+            AppDatabase.databaseWriteExecutor.execute(() -> {
+                WorkoutDay workoutDay;
+
+                if(finalIdWorkoutDay > 0) {
+                    workoutDay = AppDatabase.getInstance(getContext()).workoutDayDAO().getWorkoutDayById(finalIdWorkoutDay);
+                }else {
+                    int numWorkoutDay = AppDatabase.getInstance(getContext()).workoutDayDAO().getCount();
+                    if(numWorkoutDay > 0)
+                        workoutDay = AppDatabase.getInstance(getContext()).workoutDayDAO().getWorkoutDayByIdMin();
+                    else
+                        workoutDay = null;
+                }
+
+                if(getActivity() != null) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(workoutDay != null) {
+                                homeViewModel.setWorkoutDaySelected().setValue(workoutDay);
+                                homeViewModel.getWorkoutDaySelected().observe(getViewLifecycleOwner(), HomeFragment.this::changedWorkoutDay);
+
+                                progressBar1.setVisibility(View.GONE);
+                                containerRoutine.setVisibility(View.VISIBLE);
+                                containerRoutineEmpty.setVisibility(View.GONE);
+                            }else {
+                                homeViewModel.setWorkoutDaySelected().setValue(null);
+                                progressBar1.setVisibility(View.GONE);
+                                containerRoutine.setVisibility(View.GONE);
+                                containerRoutineEmpty.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    });
+                }
+            });
+        }catch (Exception e) {
+            //TODO: Firebase
+            Log.e("HOME_FRAGMENT", e.toString());
+        }
+    }
+
+    private void setIdWorkoutDaySelected(long idWorkoutDaySelected) {
+        SharedPreferences.Editor editor = binding.getRoot().getContext().getSharedPreferences(Utility.PREFS_NAME_FILE, Context.MODE_PRIVATE).edit();
+        editor.putLong("idWorkoutDaySelected", idWorkoutDaySelected);
+        editor.apply();
+    }
+
     private void initElements(Context context) {
         workoutPlanApp = new WorkoutPlan();
 
@@ -237,9 +285,9 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
         slide_up = AnimationUtils.loadAnimation(context,
                 R.anim.slide_up);
 
+        progressBar1 = binding.progressBar1;
         containerSettings = binding.containerSettings;
-        containerWorkoutPlanEmpty = binding.containerWorkoutPlanEmpty;
-        containerWorkoutPlan = binding.containerWorkoutPlan;
+        containerRoutine = binding.containerRoutine;
         nameWorkoutPlan = binding.nameWorkoutPlan;
         infoWeekWorkoutPlan = binding.infoWeekWorkoutPlan;
         containerRoutineEmpty = binding.containerRoutineEmpty;
@@ -267,14 +315,19 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
     }
 
     private void customUIRoutineIsEmpty(boolean isEmpty) {
+        progressBar1.setVisibility(View.GONE);
         if(isEmpty) {
             containerRoutineEmpty.setVisibility(View.VISIBLE);
+            containerRoutine.setVisibility(View.GONE);
             btnWorkoutDaySelected.setVisibility(View.GONE);
             showTransactionListBtn.setVisibility(View.GONE);
+            containerButtonActionExerciseRoutine.setVisibility(View.GONE);
         }else {
             containerRoutineEmpty.setVisibility(View.GONE);
+            containerRoutine.setVisibility(View.VISIBLE);
             btnWorkoutDaySelected.setVisibility(View.VISIBLE);
             showTransactionListBtn.setVisibility(View.VISIBLE);
+            containerButtonActionExerciseRoutine.setVisibility(View.VISIBLE);
         }
     }
 
@@ -327,6 +380,7 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
                 WorkoutDay workoutDay = AppDatabase.getInstance(getContext()).workoutDayDAO().getWorkoutDayById(idElement);
                 if(getActivity() != null) {
                     getActivity().runOnUiThread(() -> {
+                        setIdWorkoutDaySelected(idElement);
                         homeViewModel.setWorkoutDaySelected().setValue(workoutDay);
                         homeViewModel.getWorkoutDaySelected().observe(getViewLifecycleOwner(), this::changedWorkoutDay);
                     });
@@ -338,15 +392,26 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
     }
 
     public void changedWorkoutDay(WorkoutDay workoutDay) {
-        nameWorkoutDaySelected.setText(workoutDay.getName());
-        homeViewModel.getExerciseList(workoutDay.getId()).observe(getViewLifecycleOwner(), exercises -> {
-            if(exercises != null && exercises.size() > 0) {
-                customUIExerciseIsEmpty(false);
-                exerciseHomePageAdapter.updateExerciseList(exercises);
-            }else {
-                customUIExerciseIsEmpty(true);
-            }
-        });
+        progressBar1.setVisibility(View.VISIBLE);
+        containerRoutine.setVisibility(View.GONE);
+        if(workoutDay != null) {
+            nameWorkoutDaySelected.setText(workoutDay.getName());
+            homeViewModel.getExerciseList(workoutDay.getId()).observe(getViewLifecycleOwner(), exercises -> {
+                if(exercises != null && exercises.size() > 0) {
+                    customUIExerciseIsEmpty(false);
+                    exerciseHomePageAdapter.updateExerciseList(exercises);
+                }else {
+                    customUIExerciseIsEmpty(true);
+                }
+            });
+            progressBar1.setVisibility(View.GONE);
+            containerRoutine.setVisibility(View.VISIBLE);
+        }else {
+            progressBar1.setVisibility(View.GONE);
+            containerRoutine.setVisibility(View.GONE);
+            containerRoutineEmpty.setVisibility(View.VISIBLE);
+        }
+
     }
 
     private void enableSwipeToDeleteAndUndo() {
@@ -414,8 +479,9 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
                                 if(id == 0) {
                                     workoutDay = new WorkoutDay(name, numTimeDone, idWorkoutPlan, workedMuscle, note);
                                     homeViewModel.insert(workoutDay);
-                                    homeViewModel.setWorkoutDaySelected().setValue(workoutDay);
-                                    homeViewModel.getWorkoutDaySelected().observe(getViewLifecycleOwner(), HomeFragment.this::changedWorkoutDay);
+
+                                    /*setIdWorkoutDaySelected(idInsert);
+                                    getIdWorkoutDaySelected();*/
                                 }else {
                                     workoutDay = new WorkoutDay(id, name, numTimeDone, idWorkoutPlan, workedMuscle, note);
                                     homeViewModel.update(workoutDay);
@@ -469,13 +535,13 @@ public class HomeFragment extends Fragment implements BottomSheetClickListener {
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(getContext(), R.color.transparent)));
                 dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
             }
-            btnCancel.setOnClickListener(v -> {
-                dialog.dismiss();
-            });
+            btnCancel.setOnClickListener(v -> dialog.dismiss());
             btnDelete.setOnClickListener(v -> {
                 homeViewModel.delete(homeViewModel.getWorkoutDaySelected().getValue());
+                setIdWorkoutDaySelected(-1);
                 dialog.dismiss();
-                utility.createSnackbar(getString(R.string.title_deleted_workout_day), getActivity().getWindow().getDecorView().findViewById(android.R.id.content), getContext());
+                if(getContext() != null)
+                    utility.createSnackbar(getString(R.string.title_deleted_workout_day), getActivity().getWindow().getDecorView().findViewById(android.R.id.content), getContext());
             });
             dialog.show();
         }

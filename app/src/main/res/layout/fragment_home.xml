@@ -74,8 +74,24 @@
                 android:layout_marginTop="8dp"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <ProgressBar
+            android:id="@+id/progressBar1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:indeterminate="true"
+            android:indeterminateDrawable="@drawable/progress_bg"
+            android:progress="0"
+            android:elevation="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- containerRoutine -->
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/containerWorkoutPlan"
+            android:id="@+id/containerRoutine"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintTop_toBottomOf="@+id/containerSettings"
@@ -172,7 +188,8 @@
                 android:background="@drawable/background_border_bottom_round1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent">
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:visibility="gone">
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnAddExercise"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
@@ -267,65 +284,7 @@
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/containerRoutineEmpty"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:baselineAligned="false"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:visibility="gone"
-                android:padding="8dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp">
-
-                <TextView
-                    android:id="@+id/imageRoutineEmpty"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/add_workout_plan"
-                    android:textSize="20sp"
-                    android:textColor="@color/primary_text"
-                    android:textStyle="bold"
-                    app:drawableTopCompat="@drawable/ic_empty_list"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toTopOf="@+id/btnNewRoutine" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnNewRoutine"
-                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-                    android:layout_width="wrap_content"
-                    android:minWidth="48dp"
-                    android:minHeight="48dp"
-                    app:cornerRadius="10dp"
-                    android:layout_height="wrap_content"
-                    android:insetLeft="0dp"
-                    android:insetTop="0dp"
-                    android:backgroundTint="@color/blue_background"
-                    android:textColor="@color/blue_text"
-                    app:iconTint="@color/blue_text"
-                    android:layout_marginEnd="16dp"
-                    android:text="@string/add_routine"
-                    android:insetRight="0dp"
-                    android:insetBottom="0dp"
-                    app:icon="@drawable/ic_add"
-                    android:layout_marginBottom="16dp"
-                    app:iconGravity="textStart"
-                    app:iconPadding="2dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageRoutineEmpty"
-                    />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
+            <!-- containerExerciseEmpty -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/containerExerciseEmpty"
                 android:layout_width="0dp"
@@ -354,72 +313,68 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent" />
-                <!--<com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnNewExerciseEmpty"
-                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-                    android:layout_width="wrap_content"
-                    android:minWidth="48dp"
-                    android:minHeight="48dp"
-                    app:cornerRadius="10dp"
-                    android:layout_height="wrap_content"
-                    android:insetLeft="0dp"
-                    android:insetTop="0dp"
-                    android:backgroundTint="@color/blue_background"
-                    android:textColor="@color/blue_text"
-                    app:iconTint="@color/blue_text"
-                    android:layout_marginEnd="16dp"
-                    android:text="@string/add_exercise"
-                    android:insetRight="0dp"
-                    android:insetBottom="0dp"
-                    app:icon="@drawable/ic_add"
-                    android:layout_marginBottom="16dp"
-                    app:iconGravity="textStart"
-                    app:iconPadding="0dp"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageExerciseEmpty"
-                    />-->
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <!-- containerRoutineEmpty -->
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/containerWorkoutPlanEmpty"
-            android:layout_width="match_parent"
+            android:id="@+id/containerRoutineEmpty"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintTop_toBottomOf="@+id/containerSettings"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:padding="10dp"
-            android:visibility="gone">
+            android:baselineAligned="false"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:visibility="gone"
+            android:padding="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imageWorkoutPlanEmpty"
-                android:layout_width="256dp"
-                android:layout_height="256dp"
-                android:contentDescription="@string/add_workout_plan"
-                android:src="@drawable/ic_empty_list"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/textWorkoutPlanEmpty"
-                app:layout_constraintStart_toStartOf="@+id/textWorkoutPlanEmpty"
-                app:layout_constraintTop_toTopOf="parent" />
             <TextView
-                android:id="@+id/textWorkoutPlanEmpty"
-                android:layout_width="wrap_content"
+                android:id="@+id/imageRoutineEmpty"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/add_workout_plan"
-                android:textColor="@color/secondary_text"
-                android:textSize="16sp"
+                android:textSize="20sp"
+                android:textColor="@color/primary_text"
                 android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@+id/imageWorkoutPlanEmpty"
+                app:drawableTopCompat="@drawable/ic_empty_list"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                />
+                app:layout_constraintBottom_toTopOf="@+id/btnNewRoutine" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnNewRoutine"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                android:layout_width="wrap_content"
+                android:minWidth="48dp"
+                android:minHeight="48dp"
+                app:cornerRadius="10dp"
+                android:layout_height="wrap_content"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:backgroundTint="@color/blue_background"
+                android:textColor="@color/blue_text"
+                app:iconTint="@color/blue_text"
+                android:layout_marginEnd="16dp"
+                android:text="@string/add_routine"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                app:icon="@drawable/ic_add"
+                android:layout_marginBottom="16dp"
+                app:iconGravity="textStart"
+                app:iconPadding="2dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageRoutineEmpty"
+                />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
