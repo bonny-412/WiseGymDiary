@@ -74,6 +74,7 @@
                 android:layout_marginTop="8dp"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+
         <ProgressBar
             android:id="@+id/progressBar1"
             android:layout_width="wrap_content"
