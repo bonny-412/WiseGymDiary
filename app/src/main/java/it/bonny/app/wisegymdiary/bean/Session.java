@@ -2,14 +2,13 @@ package it.bonny.app.wisegymdiary.bean;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(
-        tableName = "workout_day"
+        tableName = "session"
 )
-public class WorkoutDay {
+public class Session {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
@@ -30,30 +29,40 @@ public class WorkoutDay {
     @ColumnInfo(name = "note")
     private String note;
 
-    public WorkoutDay() {}
+    @ColumnInfo(name = "label")
+    private String label;
+
+    @ColumnInfo(name = "color")
+    private int color;
+
+    public Session() {}
 
     @Ignore
-    public WorkoutDay(String name, long idWorkPlan) {
+    public Session(String name, long idWorkPlan) {
         this.name = name;
         this.idWorkPlan = idWorkPlan;
     }
 
     @Ignore
-    public WorkoutDay(String name, Integer numTimeDone,long idWorkPlan, String workedMuscle, String note) {
+    public Session(String name, Integer numTimeDone, long idWorkPlan, String workedMuscle, String note, String label, int color) {
         this.name = name;
         this.numTimeDone = numTimeDone;
         this.idWorkPlan = idWorkPlan;
         this.workedMuscle = workedMuscle;
         this.note = note;
+        this.label = label;
+        this.color = color;
     }
 
-    public WorkoutDay(long id, String name, Integer numTimeDone,long idWorkPlan, String workedMuscle, String note) {
+    public Session(long id, String name, Integer numTimeDone, long idWorkPlan, String workedMuscle, String note, String label, int color) {
         this.id = id;
         this.name = name;
         this.numTimeDone = numTimeDone;
         this.idWorkPlan = idWorkPlan;
         this.workedMuscle = workedMuscle;
         this.note = note;
+        this.label = label;
+        this.color = color;
     }
 
     public long getId() {
@@ -98,14 +107,30 @@ public class WorkoutDay {
         this.workedMuscle = workedMuscle;
     }
 
+    public String getLabel() {
+        return label;
+    }
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    public int getColor() {
+        return color;
+    }
+    public void setColor(int color) {
+        this.color = color;
+    }
+
     @Ignore
-    public void copy(WorkoutDay obj) {
+    public void copy(Session obj) {
         setId(obj.getId());
         setName(obj.getName());
         setIdWorkPlan(obj.getIdWorkPlan());
         setNumTimeDone(obj.getNumTimeDone());
         setNote(obj.getNote());
         setWorkedMuscle(obj.getWorkedMuscle());
+        setLabel(obj.getLabel());
+        setColor(obj.getColor());
     }
 
 }

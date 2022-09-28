@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NewEditWorkoutDay"
-    android:background="@color/background">
+    tools:context=".NewEditWorkoutDay">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearToolbar"
@@ -13,22 +12,20 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/background_title_page"
+        android:padding="8dp">
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnReturn"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="48dp"
             app:cornerRadius="10dp"
             android:layout_height="48dp"
             android:insetLeft="0dp"
             android:insetTop="0dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            app:iconTint="@color/primary_text"
+            app:iconTint="@color/md_theme_light_onPrimary"
             android:insetRight="0dp"
             android:insetBottom="0dp"
-            app:icon="@drawable/ic_close"
-            app:iconGravity="textStart"
+            app:icon="@drawable/ic_return_back"
             app:iconPadding="0dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -37,15 +34,15 @@
             />
         <TextView
             android:id="@+id/titlePage"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/primary_text"
+            android:textColor="@color/md_theme_light_onPrimary"
             android:textStyle="bold"
             android:textSize="20sp"
             android:text="@string/title_page_new_workout_day"
             app:layout_constraintTop_toTopOf="@+id/btnReturn"
             app:layout_constraintBottom_toBottomOf="@id/btnReturn"
-            app:layout_constraintStart_toEndOf="@+id/btnReturn"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginStart="6dp"
             android:ellipsize="marquee"
@@ -60,13 +57,13 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:padding="10dp"
-            android:elevation="8dp"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
+            android:paddingTop="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearToolbar"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:background="@drawable/background_page_new_edit">
+            app:layout_constraintBottom_toBottomOf="parent">
             <ProgressBar
                 android:id="@+id/progressBar1"
                 android:layout_width="wrap_content"
@@ -87,14 +84,66 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/btnSave"
-                android:layout_marginBottom="8dp"
-                android:paddingTop="10dp"
-                android:layout_marginTop="20dp">
+                app:layout_constraintBottom_toTopOf="@+id/btnSave">
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/containerLabelColor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toTopOf="@+id/nameWorkoutDay"
+                        android:foregroundGravity="center"
+                        android:layout_marginBottom="4dp">
+                        <LinearLayout
+                            android:id="@+id/color"
+                            android:layout_width="72dp"
+                            android:layout_height="72dp"
+                            android:background="@drawable/circle_color_picker"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:orientation="horizontal"
+                            android:gravity="center"
+                            android:foregroundGravity="center"
+                            android:padding="2dp">
+                            <TextView
+                                android:id="@+id/titleLabel"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:textSize="16sp"
+                                android:gravity="center"
+                                android:textAlignment="center"
+                                android:textStyle="normal"
+                                android:textColor="@color/md_theme_light_onPrimary"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:background="@drawable/circle_color_picker"
+                            android:backgroundTint="@color/transparent1"
+                            app:layout_constraintStart_toStartOf="@+id/color"
+                            app:layout_constraintEnd_toEndOf="@+id/color"
+                            app:layout_constraintBottom_toBottomOf="@+id/color"
+                            android:layout_marginTop="6dp"
+                            android:layout_marginStart="64dp"
+                            android:gravity="center"
+                            android:padding="8dp">
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_edit"
+                                app:tint="@color/md_theme_light_onPrimary"
+                                android:contentDescription="@string/content_description_editable" />
+                        </LinearLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/nameWorkoutDay"
                         android:layout_width="match_parent"
@@ -102,21 +151,17 @@
                         android:hint="@string/name_routine_text"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/containerLabelColor"
                         app:boxCornerRadiusTopEnd="10dp"
                         app:boxCornerRadiusTopStart="10dp"
                         app:boxCornerRadiusBottomStart="10dp"
                         app:boxCornerRadiusBottomEnd="10dp"
                         app:errorEnabled="true"
-                        app:layout_constraintBottom_toTopOf="@+id/noteWorkoutDay"
-                        android:textColorHint="@color/foreground_input_edit_text"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                        app:layout_constraintBottom_toTopOf="@+id/noteWorkoutDay">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/textInputNameWorkoutDay"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColorHint="@color/foreground_input_edit_text"
-                            android:textColor="@color/primary_text"
                             />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -134,14 +179,11 @@
                         app:boxCornerRadiusBottomEnd="10dp"
                         app:errorEnabled="true"
                         app:endIconMode="clear_text"
-                        android:textColorHint="@color/foreground_input_edit_text"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         app:layout_constraintBottom_toTopOf="@+id/containerChip">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/textInputNoteWorkoutDay"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColorHint="@color/foreground_input_edit_text"
                             />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -160,7 +202,6 @@
                             android:id="@+id/titleChooseIconNewAccount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/primary_text"
                             android:text="@string/text_affected_muscle"
                             android:layout_marginBottom="10dp"
                             android:textStyle="bold"
@@ -198,14 +239,13 @@
             </ScrollView>
 
 
-            <com.google.android.material.button.MaterialButton
+            <Button
                 android:id="@+id/btnSave"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="0dp"
                 app:cornerRadius="10dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/blue_background"
-                android:textColor="@color/blue_text"
+                android:backgroundTint="@color/md_theme_light_primary"
+                android:textColor="@color/md_theme_light_onPrimary"
                 android:text="@string/save"
                 app:iconTint="@color/background_card"
                 android:layout_marginTop="8dp"

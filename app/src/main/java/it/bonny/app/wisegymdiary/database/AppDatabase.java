@@ -1,7 +1,6 @@
 package it.bonny.app.wisegymdiary.database;
 
 import android.content.Context;
-import android.content.res.Resources;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -18,7 +17,7 @@ import java.util.concurrent.Executors;
 import it.bonny.app.wisegymdiary.R;
 import it.bonny.app.wisegymdiary.bean.Exercise;
 import it.bonny.app.wisegymdiary.bean.MuscleBean;
-import it.bonny.app.wisegymdiary.bean.WorkoutDay;
+import it.bonny.app.wisegymdiary.bean.Session;
 import it.bonny.app.wisegymdiary.bean.WorkoutPlan;
 import it.bonny.app.wisegymdiary.dao.ExerciseDAO;
 import it.bonny.app.wisegymdiary.dao.MuscleDAO;
@@ -26,7 +25,7 @@ import it.bonny.app.wisegymdiary.dao.WorkoutDayDAO;
 import it.bonny.app.wisegymdiary.dao.WorkoutPlanDAO;
 import it.bonny.app.wisegymdiary.util.App;
 
-@Database(entities = {WorkoutPlan.class, WorkoutDay.class, Exercise.class, MuscleBean.class}, exportSchema = false, version = 1)
+@Database(entities = {WorkoutPlan.class, Session.class, Exercise.class, MuscleBean.class}, exportSchema = false, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
     private static final String DB_NAME = "gymdiary_db";
     private static AppDatabase instance;

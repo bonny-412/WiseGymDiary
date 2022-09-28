@@ -63,7 +63,7 @@
                             android:id="@+id/iconExercise"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            android:src="@drawable/icon_pectorals"
+                            android:src="@drawable/ic_add"
                             android:contentDescription="@string/text_icon_exercise"/>
                     </com.google.android.material.card.MaterialCardView>
 

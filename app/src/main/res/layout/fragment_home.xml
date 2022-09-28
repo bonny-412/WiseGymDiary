@@ -4,46 +4,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".manager.MainActivity"
-    android:background="@color/background">
+    tools:context=".manager.MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnOptionsWorkoutPlan"
-            style="@style/Widget.MaterialComponents.Button"
-            android:layout_width="48dp"
-            app:cornerRadius="10dp"
-            android:layout_height="48dp"
-            android:backgroundTint="@color/background_card"
-            android:insetLeft="0dp"
-            android:insetTop="0dp"
-            android:layout_margin="16dp"
-            app:iconTint="@color/primary_text"
-            android:insetRight="0dp"
-            android:insetBottom="0dp"
-            app:icon="@drawable/ic_more_vert"
-            app:iconGravity="textStart"
-            app:iconPadding="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/containerSettings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/btnOptionsWorkoutPlan"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp">
+            android:padding="10dp"
+            android:background="@drawable/background_title_page"
+            android:elevation="8dp">
             <TextView
                 android:id="@+id/nameWorkoutPlan"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/primary_text"
+                android:textColor="@color/white"
                 android:textStyle="bold"
                 android:textSize="22sp"
                 android:ellipsize="marquee"
@@ -51,9 +31,28 @@
                 android:fadingEdge="horizontal"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:scrollHorizontally="true"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/btnOptionsWorkoutPlan"
+                app:layout_constraintBottom_toBottomOf="@+id/btnOptionsWorkoutPlan"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnOptionsWorkoutPlan"
+                android:layout_width="48dp"
+                app:cornerRadius="10dp"
+                android:layout_height="48dp"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                app:iconTint="@color/md_theme_light_onPrimary"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                app:icon="@drawable/ic_more_vert"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:contentDescription="@string/content_description_options_workout"
+                />
 
             <TextView
                 android:id="@+id/infoWeekWorkoutPlan"
@@ -70,8 +69,9 @@
                 app:layout_constraintTop_toBottomOf="@+id/nameWorkoutPlan"
                 app:layout_constraintStart_toStartOf="@+id/nameWorkoutPlan"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="8dp"/>
+                app:layout_constraintEnd_toEndOf="@+id/btnOptionsWorkoutPlan"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -90,9 +90,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- containerRoutine -->
+        <!-- containerSession -->
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/containerRoutine"
+            android:id="@+id/containerSession"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintTop_toBottomOf="@+id/containerSettings"
@@ -100,228 +100,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:visibility="visible"
-            android:layout_marginTop="16dp">
+            android:padding="8dp">
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/btnWorkoutDaySelected"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:cardElevation="1dp"
-                app:cardCornerRadius="6dp"
-                android:minHeight="48dp"
-                android:minWidth="48dp"
-                android:clickable="true"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                app:cardBackgroundColor="@color/background_card"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/showTransactionListBtn"
-                android:focusable="true">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:padding="8dp">
-                    <TextView
-                        android:id="@+id/nameWorkoutDaySelected"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/primary_text"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:ellipsize="marquee"
-                        app:drawableEndCompat="@drawable/ic_arrow_down"
-                        app:drawableTint="@color/primary_text"
-                        android:lines="1"
-                        android:fadingEdge="horizontal"
-                        android:marqueeRepeatLimit="marquee_forever"
-                        android:scrollHorizontally="true"/>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/showTransactionListBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                app:layout_constraintBottom_toBottomOf="@+id/btnWorkoutDaySelected"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/btnWorkoutDaySelected"
-                android:textColor="@color/secondary"
-                app:icon="@drawable/ic_arrow_right"
-                app:iconTint="@color/secondary"
-                app:iconGravity="end"
-                android:padding="0dp"
-                app:iconPadding="0dp"
-                android:textSize="12sp"
-                android:textStyle="italic"
-                android:text="@string/title_sessions" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/containerRecyclerView"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:layout_constraintTop_toBottomOf="@+id/btnWorkoutDaySelected"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:padding="8dp"
-                android:visibility="gone">
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:overScrollMode="ifContentScrolls"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/containerButtonActionExerciseRoutine"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="16dp"
-                android:padding="8dp"
-                android:elevation="8dp"
-                android:background="@drawable/background_border_bottom_round1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:visibility="gone">
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnAddExercise"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:layout_width="48dp"
-                    app:cornerRadius="10dp"
-                    android:layout_height="48dp"
-                    android:insetLeft="0dp"
-                    android:insetTop="0dp"
-                    app:iconTint="@color/primary_text"
-                    android:insetRight="0dp"
-                    android:insetBottom="0dp"
-                    app:icon="@drawable/ic_add_1"
-                    app:iconGravity="textStart"
-                    app:iconPadding="0dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/lineSheet"
-                    android:contentDescription="@string/content_descr_button_return"
-                    />
-
-                <View
-                    android:id="@+id/lineSheet"
-                    android:layout_width="1dp"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:background="@color/primary_text"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginEnd="4dp"
-                    app:layout_constraintTop_toTopOf="@+id/btnAddExercise"
-                    app:layout_constraintBottom_toBottomOf="@+id/btnAddExercise"
-                    app:layout_constraintStart_toEndOf="@+id/btnAddExercise"
-                    app:layout_constraintEnd_toStartOf="@+id/btnPlay"
-                    />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnPlay"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:layout_width="48dp"
-                    app:cornerRadius="10dp"
-                    android:layout_height="48dp"
-                    android:insetLeft="0dp"
-                    android:insetTop="0dp"
-                    app:iconTint="@color/primary_text"
-                    android:insetRight="0dp"
-                    android:insetBottom="0dp"
-                    app:icon="@drawable/ic_play"
-                    app:iconGravity="textStart"
-                    app:iconPadding="0dp"
-                    app:layout_constraintTop_toTopOf="@+id/btnAddExercise"
-                    app:layout_constraintBottom_toBottomOf="@+id/btnAddExercise"
-                    app:layout_constraintStart_toEndOf="@+id/lineSheet"
-                    app:layout_constraintEnd_toStartOf="@+id/lineSheet1"
-                    android:contentDescription="@string/content_descr_button_return"
-                    />
-
-                <View
-                    android:id="@+id/lineSheet1"
-                    android:layout_width="1dp"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:background="@color/primary_text"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginEnd="4dp"
-                    app:layout_constraintTop_toTopOf="@+id/btnAddExercise"
-                    app:layout_constraintBottom_toBottomOf="@+id/btnAddExercise"
-                    app:layout_constraintStart_toEndOf="@+id/btnPlay"
-                    app:layout_constraintEnd_toStartOf="@+id/btnOptionsRoutine"
-                    />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnOptionsRoutine"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:layout_width="48dp"
-                    app:cornerRadius="10dp"
-                    android:layout_height="48dp"
-                    android:insetLeft="0dp"
-                    android:insetTop="0dp"
-                    app:iconTint="@color/primary_text"
-                    android:insetRight="0dp"
-                    android:insetBottom="0dp"
-                    app:icon="@drawable/ic_more_vert"
-                    app:iconGravity="textStart"
-                    app:iconPadding="0dp"
-                    app:layout_constraintTop_toTopOf="@+id/btnPlay"
-                    app:layout_constraintBottom_toBottomOf="@+id/btnPlay"
-                    app:layout_constraintStart_toEndOf="@+id/lineSheet1"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:contentDescription="@string/content_descr_button_return"
-                    />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <!-- containerExerciseEmpty -->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/containerExerciseEmpty"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:baselineAligned="false"
-                android:orientation="vertical"
-                android:gravity="start"
-                android:padding="8dp"
-                android:visibility="gone"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp">
-                <TextView
-                    android:id="@+id/imageExerciseEmpty"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/text_exercise_empty"
-                    android:textSize="20sp"
-                    android:textColor="@color/primary_text"
-                    android:textStyle="bold"
-                    app:drawableTopCompat="@drawable/ic_empty_list"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_height="match_parent"
+                android:overScrollMode="ifContentScrolls"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- containerRoutineEmpty -->
+        <!-- containerSessionEmpty -->
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/containerRoutineEmpty"
+            android:id="@+id/containerSessionEmpty"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintTop_toBottomOf="@+id/containerSettings"
@@ -337,47 +128,30 @@
             android:layout_marginEnd="16dp">
 
             <TextView
-                android:id="@+id/imageRoutineEmpty"
+                android:id="@+id/imageSessionEmpty"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/add_workout_plan"
                 android:textSize="20sp"
-                android:textColor="@color/primary_text"
                 android:textStyle="bold"
                 app:drawableTopCompat="@drawable/ic_empty_list"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/btnNewRoutine" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnNewRoutine"
-                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-                android:layout_width="wrap_content"
-                android:minWidth="48dp"
-                android:minHeight="48dp"
-                app:cornerRadius="10dp"
-                android:layout_height="wrap_content"
-                android:insetLeft="0dp"
-                android:insetTop="0dp"
-                android:backgroundTint="@color/blue_background"
-                android:textColor="@color/blue_text"
-                app:iconTint="@color/blue_text"
-                android:layout_marginEnd="16dp"
-                android:text="@string/add_routine"
-                android:insetRight="0dp"
-                android:insetBottom="0dp"
-                app:icon="@drawable/ic_add"
-                android:layout_marginBottom="16dp"
-                app:iconGravity="textStart"
-                app:iconPadding="2dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageRoutineEmpty"
-                />
+                app:layout_constraintBottom_toBottomOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnNewSession"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            app:srcCompat="@drawable/ic_add_1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:contentDescription="@string/content_description_fab_new_routine"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

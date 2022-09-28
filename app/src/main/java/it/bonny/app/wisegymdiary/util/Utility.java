@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.view.View;
 
+import androidx.core.content.ContextCompat;
+
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -24,14 +26,16 @@ public class Utility {
     public static final String SYMBOL_SPLIT_BETWEEN_REPS = "_";
     public static final String SYMBOL_MAX = "Max";
 
-    public static final int ADD_WORKOUT_DAY = 1;
-    public static final int EDIT_WORKOUT_DAY = 2;
-    public static final String EXTRA_WORKOUT_DAY_ID = "id";
-    public static final String EXTRA_WORKOUT_DAY_NAME = "name";
-    public static final String EXTRA_WORKOUT_DAY_NUM_TIME_DONE = "numTimeDone";
-    public static final String EXTRA_WORKOUT_DAY_ID_WORK_PLAIN = "idWorkPlain";
-    public static final String EXTRA_WORKOUT_DAY_WORKED_MUSCLE = "workedMuscle";
-    public static final String EXTRA_WORKOUT_DAY_NOTE = "note";
+    public static final int ADD_SESSION = 1;
+    public static final int EDIT_SESSION = 2;
+    public static final String EXTRA_SESSION_ID = "id";
+    public static final String EXTRA_SESSION_NAME = "name";
+    public static final String EXTRA_SESSION_NUM_TIME_DONE = "numTimeDone";
+    public static final String EXTRA_SESSION_ID_WORK_PLAIN = "idWorkPlain";
+    public static final String EXTRA_SESSION_WORKED_MUSCLE = "workedMuscle";
+    public static final String EXTRA_SESSION_NOTE = "note";
+    public static final String EXTRA_SESSION_LABEL = "label";
+    public static final String EXTRA_SESSION_COLOR = "color";
 
     public static final int ADD_EXERCISE = 3;
     public static final int DELETE_EXERCISE = 4;
@@ -79,9 +83,34 @@ public class Utility {
 
     public void createSnackbar(String message, View view, Context context) {
         Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_SHORT);
-        snackbar.setBackgroundTint(context.getColor(R.color.blue_background));
+        snackbar.setBackgroundTint(context.getColor(R.color.secondary));
         snackbar.setTextColor(context.getColor(R.color.primary_text));
         snackbar.show();
+    }
+
+    public int getColorByPosition(int i) {
+        if(i == 1)
+            return R.color.color2;
+        else if(i == 2)
+            return R.color.color3;
+        else if(i == 3)
+           return R.color.color4;
+        else if(i == 4)
+            return R.color.color5;
+        else if(i == 5)
+            return R.color.color6;
+        else if(i == 6)
+            return R.color.color7;
+        else if(i == 7)
+            return R.color.color8;
+        else if(i == 8)
+            return R.color.color9;
+        else if(i == 9)
+            return R.color.color10;
+        else if(i == 10)
+            return R.color.color11;
+        else
+            return R.color.md_theme_light_primary;
     }
 
 

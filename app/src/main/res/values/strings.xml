@@ -74,6 +74,14 @@
     <string name="title_bottom_sheet_workout_day">Sessions</string>
     <string name="title_exercise_deleted">Deleted exercise</string>
 
+    <string name="title_label">Label</string>
+    <string name="title_choose_color">Choose color</string>
+
     <string name="content_description_radio_button">Selected</string>
+    <string name="content_description_options_workout">Options</string>
+    <string name="content_description_fab_new_routine">New session</string>
+    <string name="content_description_color_chosen">Chosen</string>
+    <string name="content_description_editable">Editable</string>
+
 
 </resources>

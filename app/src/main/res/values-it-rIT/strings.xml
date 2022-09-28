@@ -69,5 +69,11 @@
     <string name="text_alert_delete">Sei sicuro di voler eliminare</string>
     <string name="alert_btn_ok">Ok</string>
     <string name="title_deleted_workout_day">Sessione eliminata</string>
+    <string name="content_description_options_workout">Opzioni</string>
+    <string name="content_description_fab_new_routine">Nuova sessione</string>
+    <string name="title_label">Etichetta</string>
+    <string name="title_choose_color">Scegli colore</string>
+    <string name="content_description_color_chosen">Scelto</string>
+    <string name="content_description_editable">Modificabile</string>
 
 </resources>
