@@ -3,7 +3,10 @@ package it.bonny.app.wisegymdiary.manager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.transition.Fade;
+import android.transition.TransitionInflater;
 import android.util.Log;
+import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -13,6 +16,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.transition.Slide;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

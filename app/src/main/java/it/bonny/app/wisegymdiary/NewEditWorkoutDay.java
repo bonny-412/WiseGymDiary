@@ -4,6 +4,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
+import androidx.core.widget.NestedScrollView;
+import androidx.transition.TransitionInflater;
 
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -11,12 +13,14 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.transition.Fade;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
@@ -45,14 +49,14 @@ public class NewEditWorkoutDay extends AppCompatActivity {
     private Button btnSave;
     private TextInputEditText nameWorkoutDay, noteWorkoutDay;
     private Session session;
-    private MaterialButton btnReturn;
+    private Button btnReturn;
     private ProgressBar progressBar, progressBar1;
     private final List<String> chipsSelectedList = new ArrayList<>();
     private ChipGroup chipGroup;
-    private ScrollView scrollView;
+    private NestedScrollView scrollView;
     private ConstraintLayout containerLabelColor;
     private LinearLayout colorSession;
-    private TextView labelSession;
+    private TextView labelSession, titlePage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,13 +69,17 @@ public class NewEditWorkoutDay extends AppCompatActivity {
         initElements();
 
         if(idWorkoutDay == 0) {
+            titlePage.setText(R.string.title_page_new_workout_day);
             session = new Session();
+            session.setNumTimeDone(0);
+            session.setIdWorkPlan(idWorkoutPlan);
             progressBar1.setVisibility(View.GONE);
             scrollView.setVisibility(View.VISIBLE);
             btnSave.setVisibility(View.VISIBLE);
 
             populateChipMuscle();
         }else {
+            titlePage.setText(R.string.title_page_edit_workout_day);
             progressBar1.setVisibility(View.VISIBLE);
             scrollView.setVisibility(View.GONE);
             btnSave.setVisibility(View.GONE);
@@ -94,11 +102,15 @@ public class NewEditWorkoutDay extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                String l = "";
-                if (nameWorkoutDay.getText() != null && nameWorkoutDay.getText().toString().length() > 0)
-                    l = editable.toString().substring(0, 1).toUpperCase();
-                labelSession.setText(l);
-                session.setLabel(l);
+                String lab = "";
+                if(session != null && session.getLabel() != null) {
+                    lab = session.getLabel();
+                }else {
+                    if (nameWorkoutDay.getText() != null && nameWorkoutDay.getText().toString().length() > 0)
+                        lab = editable.toString().substring(0, 1).toUpperCase();
+                    session.setLabel(lab);
+                }
+                labelSession.setText(lab);
             }
         });
 
@@ -112,16 +124,14 @@ public class NewEditWorkoutDay extends AppCompatActivity {
                 session.setName(nameWorkoutDay.getText().toString());
             }
 
-            session.setNumTimeDone(0);
-            session.setIdWorkPlan(idWorkoutPlan);
             session.setNote(noteWorkoutDay.getText() != null ? noteWorkoutDay.getText().toString(): "");
 
             TextView titleChooseIconNewAccount = findViewById(R.id.titleChooseIconNewAccount);
             if(chipsSelectedList == null || chipsSelectedList.size() == 0) {
                 isError = true;
-                titleChooseIconNewAccount.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.md_theme_light_error));
+                titleChooseIconNewAccount.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.error));
             }else {
-                titleChooseIconNewAccount.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.md_theme_light_onSurface));
+                titleChooseIconNewAccount.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.onSurface));
                 StringBuilder app = new StringBuilder();
                 String[] strings = new String[chipsSelectedList.size()];
                 chipsSelectedList.toArray(strings);
@@ -145,8 +155,8 @@ public class NewEditWorkoutDay extends AppCompatActivity {
                 intent.putExtra(Utility.EXTRA_SESSION_ID_WORK_PLAIN, session.getIdWorkPlan());
                 intent.putExtra(Utility.EXTRA_SESSION_WORKED_MUSCLE, session.getWorkedMuscle());
                 intent.putExtra(Utility.EXTRA_SESSION_NOTE, session.getNote());
-                intent.putExtra(Utility.EXTRA_SESSION_LABEL, "");
-                intent.putExtra(Utility.EXTRA_SESSION_COLOR, "");
+                intent.putExtra(Utility.EXTRA_SESSION_LABEL, session.getLabel());
+                intent.putExtra(Utility.EXTRA_SESSION_COLOR, session.getColor());
                 setResult(RESULT_OK, intent);
                 finish();
             }else {
@@ -165,6 +175,7 @@ public class NewEditWorkoutDay extends AppCompatActivity {
         nameWorkoutDay = findViewById(R.id.textInputNameWorkoutDay);
         noteWorkoutDay = findViewById(R.id.textInputNoteWorkoutDay);
         chipGroup = findViewById(R.id.chipGroup);
+        titlePage = findViewById(R.id.titlePage);
 
         nameWorkoutDay.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         noteWorkoutDay.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
@@ -196,26 +207,27 @@ public class NewEditWorkoutDay extends AppCompatActivity {
         chip.setText(nameChip);
 
         if(session.getWorkedMuscle() != null && session.getWorkedMuscle().contains(nameChip)) {
-            chip.setChipBackgroundColor(getColorStateList(R.color.blue_text));
-            chip.setTextColor(getColor(R.color.blue_background));
+            chip.setChipBackgroundColor(getColorStateList(R.color.secondary));
+            chip.setTextColor(getColor(R.color.onSecondary));
             chip.setChecked(true);
             chipsSelectedList.add(chip.getText().toString());
         }else {
-            chip.setChipBackgroundColor(getColorStateList(R.color.blue_background));
-            chip.setTextColor(getColor(R.color.blue_text));
+            chip.setChipBackgroundColor(getColorStateList(R.color.secondaryContainer));
+            chip.setTextColor(getColor(R.color.onSecondaryContainer));
             chip.setChecked(false);
+
         }
 
         chip.setOnClickListener(view -> {
             if(!chipsSelectedList.contains(chip.getText().toString())) {
                 chip.setChecked(true);
-                chip.setChipBackgroundColor(getColorStateList(R.color.blue_text));
-                chip.setTextColor(getColor(R.color.blue_background));
+                chip.setChipBackgroundColor(getColorStateList(R.color.secondary));
+                chip.setTextColor(getColor(R.color.onSecondary));
                 chipsSelectedList.add(chip.getText().toString());
             }else {
                 chip.setChecked(false);
-                chip.setChipBackgroundColor(getColorStateList(R.color.blue_background));
-                chip.setTextColor(getColor(R.color.blue_text));
+                chip.setChipBackgroundColor(getColorStateList(R.color.secondaryContainer));
+                chip.setTextColor(getColor(R.color.onSecondaryContainer));
                 chipsSelectedList.remove(chip.getText().toString());
             }
         });
@@ -227,12 +239,14 @@ public class NewEditWorkoutDay extends AppCompatActivity {
         AppDatabase.databaseWriteExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                session = AppDatabase.getInstance(getApplicationContext()).workoutDayDAO().getWorkoutDayById(idWorkoutDay);
+                session = AppDatabase.getInstance(getApplicationContext()).workoutDayDAO().findWorkoutDayByPrimaryKey(idWorkoutDay);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                        nameWorkoutDay.setText(session.getName());
                        noteWorkoutDay.setText(session.getNote());
+                       colorSession.setBackgroundTintList(ContextCompat.getColorStateList(getApplicationContext(), utility.getColorByPosition(session.getColor())));
+                       labelSession.setText(session.getLabel());
 
                         populateChipMuscle();
                         progressBar1.setVisibility(View.GONE);

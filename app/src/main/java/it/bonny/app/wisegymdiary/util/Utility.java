@@ -3,12 +3,17 @@ package it.bonny.app.wisegymdiary.util;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.drawable.ColorDrawable;
 import android.view.View;
+import android.widget.GridView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -18,6 +23,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import it.bonny.app.wisegymdiary.R;
+import it.bonny.app.wisegymdiary.component.GridViewChooseColorAdapter;
 
 public class Utility {
     public static  final String PREFS_NAME_FILE = "GymDiaryFileConf";
@@ -110,9 +116,8 @@ public class Utility {
         else if(i == 10)
             return R.color.color11;
         else
-            return R.color.md_theme_light_primary;
+            return R.color.primary;
     }
-
 
 }
 

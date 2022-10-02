@@ -33,7 +33,7 @@ public interface WorkoutDayDAO {
     Session findWorkoutDayByPrimaryKey(long id);
 
     @Query("SELECT * FROM  Session WHERE id = :id")
-    Session getWorkoutDayById(long id);
+    LiveData<Session> findWorkoutDayByPrimaryKeyLiveData(long id);
 
     @Query("SELECT COUNT(id) FROM Session")
     int getCount();

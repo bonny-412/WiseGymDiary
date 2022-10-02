@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:cardCornerRadius="8dp"
+    android:layout_margin="8dp"
+    style="?attr/materialCardViewFilledStyle"
+    app:cardBackgroundColor="@color/tint_color_background">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintClicked"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp">
+
+            <LinearLayout
+                android:id="@+id/colorSession"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/circle_color_picker"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginStart="8dp"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:foregroundGravity="center"
+                android:padding="2dp"
+                android:transitionName="colorLabelSession">
+                <TextView
+                    android:id="@+id/labelSession"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="16sp"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:textStyle="normal"
+                    android:textColor="@color/onPrimary"/>
+            </LinearLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/containerInfoExercise"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginEnd="6dp"
+                    app:layout_constraintStart_toEndOf="@+id/colorSession"
+                    app:layout_constraintBottom_toBottomOf="@+id/colorSession"
+                    app:layout_constraintEnd_toStartOf="@+id/iconArrowRight"
+                    app:layout_constraintTop_toTopOf="@+id/colorSession">
+                    <TextView
+                        android:id="@+id/titleWorkoutDay"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/primary_text"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toTopOf="@+id/nameWorkedMuscle"
+
+                        android:ellipsize="marquee"
+                        android:lines="1"
+                        android:fadingEdge="horizontal"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:scrollHorizontally="true"
+                        />
+
+                    <TextView
+                        android:id="@+id/nameWorkedMuscle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/secondary_text"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        app:layout_constraintTop_toBottomOf="@+id/titleWorkoutDay"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginTop="4dp"
+                        android:ellipsize="marquee"
+                        android:lines="1"
+                        android:fadingEdge="horizontal"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:scrollHorizontally="true"
+                        />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <ImageView
+                android:id="@+id/iconArrowRight"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_arrow_right"
+                app:tint="@color/secondary_text"
+                app:layout_constraintTop_toTopOf="@+id/colorSession"
+                app:layout_constraintBottom_toBottomOf="@+id/colorSession"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="4dp"
+                tools:ignore="ContentDescription" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

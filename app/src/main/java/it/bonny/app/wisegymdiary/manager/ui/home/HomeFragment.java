@@ -13,18 +13,22 @@ import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -33,8 +37,11 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.transition.Slide;
+import androidx.transition.TransitionInflater;
 
-import com.google.android.material.button.MaterialButton;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -44,6 +51,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import it.bonny.app.wisegymdiary.NewEditWorkoutDay;
 import it.bonny.app.wisegymdiary.R;
 import it.bonny.app.wisegymdiary.bean.Session;
+import it.bonny.app.wisegymdiary.util.RecyclerViewClickInterface;
 import it.bonny.app.wisegymdiary.util.SwipeToDeleteCallback;
 import it.bonny.app.wisegymdiary.util.Utility;
 import it.bonny.app.wisegymdiary.component.RecyclerViewHomePageAdapter;
@@ -54,15 +62,16 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private HomeViewModel homeViewModel;
 
-    private ConstraintLayout containerSettings, containerSession, containerSessionEmpty;
-    private TextView nameWorkoutPlan, infoWeekWorkoutPlan;
+    private AppBarLayout appBarLayout;
+    private MaterialToolbar topAppBar;
+    private ConstraintLayout containerSession, containerSessionEmpty;
+    private TextView infoWeekWorkoutPlan;
     private WorkoutPlan workoutPlanApp;
     private FloatingActionButton btnNewSession;
-    private MaterialButton btnOptionsWorkoutPlan;
     private RecyclerViewHomePageAdapter recyclerViewHomePageAdapter;
     private RecyclerView recyclerView;
-    Animation slide_down, slide_up;
     private final Utility utility = new Utility();
+    Animation slide_down, slide_up;
     private ProgressBar progressBar1;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -74,26 +83,41 @@ public class HomeFragment extends Fragment {
 
         initElements(root.getContext());
 
+
+
         homeViewModel.getWorkoutPlan().observe(getViewLifecycleOwner(), workoutPlan -> {
-            containerSettings.setVisibility(View.VISIBLE);
-            nameWorkoutPlan.setText(workoutPlan.getName());
-            String numWeek = "2";
+            appBarLayout.setVisibility(View.VISIBLE);
+            topAppBar.setTitle(workoutPlan.getName());
+
+            String numWeek = "1";
             String weekStrFinal = getString(R.string.week) + " " + numWeek + " " + getString(R.string.of) + " " + workoutPlan.getNumWeek();
             Spannable spannableString = new SpannableString(weekStrFinal);
-            spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(binding.getRoot().getContext(), R.color.secondary)),
+            spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(binding.getRoot().getContext(), R.color.primary)),
                     getString(R.string.week).length() + 1, getString(R.string.week).length() + 1 + numWeek.length() + 1,
                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            infoWeekWorkoutPlan.setText(spannableString);
+            topAppBar.setSubtitle(spannableString);
 
             workoutPlanApp.copy(workoutPlan);
 
             homeViewModel.getWorkoutDayList(workoutPlan.getId()).observe(getViewLifecycleOwner(), workoutDays -> {
                 customUISessionIsEmpty(workoutDays == null || workoutDays.size() <= 0);
+                recyclerViewHomePageAdapter.updateSessionList(workoutDays);
             });
         });
 
-        btnOptionsWorkoutPlan.setOnClickListener(view -> {
+        topAppBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+            }
+        });
+
+        topAppBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Toast.makeText(getContext(), "Da gestire", Toast.LENGTH_SHORT).show();
+                return false;
+            }
         });
 
         btnNewSession.setOnClickListener(view -> callNewEditWorkoutDay());
@@ -191,19 +215,29 @@ public class HomeFragment extends Fragment {
                 R.anim.slide_up);
 
         progressBar1 = binding.progressBar1;
-        containerSettings = binding.containerSettings;
+        appBarLayout = binding.appBarLayout;
         containerSession = binding.containerSession;
-        nameWorkoutPlan = binding.nameWorkoutPlan;
-        infoWeekWorkoutPlan = binding.infoWeekWorkoutPlan;
+        topAppBar = binding.topAppBar;
+        //infoWeekWorkoutPlan = binding.infoWeekWorkoutPlan;
         containerSessionEmpty = binding.containerSessionEmpty;
 
         btnNewSession = binding.btnNewSession;
-        btnOptionsWorkoutPlan = binding.btnOptionsWorkoutPlan;
 
         recyclerView = binding.recyclerView;
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(manager);
-        recyclerViewHomePageAdapter = new RecyclerViewHomePageAdapter(context, this::callNewEditWorkoutDay);
+        recyclerViewHomePageAdapter = new RecyclerViewHomePageAdapter(context, new RecyclerViewClickInterface() {
+            @Override
+            public void recyclerViewItemClick(long idElement, int typeButton) {
+                if(typeButton == 0) {
+                    //Edit
+                    callNewEditWorkoutDay(idElement);
+                }else {
+                    //Delete
+
+                }
+            }
+        });
         setAdapter();
     }
 
@@ -228,6 +262,7 @@ public class HomeFragment extends Fragment {
     private void callNewEditWorkoutDay() {
         callNewEditWorkoutDay(0);
     }
+
     private void callNewEditWorkoutDay(long idWorkoutDay) {
         Intent intent = new Intent(getActivity(), NewEditWorkoutDay.class);
         intent.putExtra("idWorkoutPlan", workoutPlanApp.getId());
@@ -235,16 +270,6 @@ public class HomeFragment extends Fragment {
             intent.putExtra("idWorkoutDay", idWorkoutDay);
         someActivityResultLauncher.launch(intent);
     }
-
-    /*private void callNewExercise(long idExercise) {
-        if(homeViewModel.getWorkoutDaySelected() != null && homeViewModel.getWorkoutDaySelected().getValue() != null) {
-            Intent intent = new Intent(getActivity(), NewEditExerciseActivity.class);
-            intent.putExtra("idWorkoutDay", homeViewModel.getWorkoutDaySelected().getValue().getId());
-            if(idExercise > 0)
-                intent.putExtra("idExercise", idExercise);
-            someActivityResultLauncher.launch(intent);
-        }
-    }*/
 
     //Bottom sheet
    /* @Override
@@ -278,6 +303,20 @@ public class HomeFragment extends Fragment {
                     AtomicBoolean clickedButtonAction = new AtomicBoolean(false);
 
                     recyclerViewHomePageAdapter.removeItem(position);
+
+                    if(btnNewSession.getVisibility() != View.VISIBLE) {
+                        btnNewSession.animate()
+                                .translationY(0)
+                                .alpha(1.0f)
+                                .setDuration(300)
+                                .setListener(new AnimatorListenerAdapter() {
+                                    @Override
+                                    public void onAnimationEnd(Animator animation) {
+                                        super.onAnimationEnd(animation);
+                                        btnNewSession.setVisibility(View.VISIBLE);
+                                    }
+                                });
+                    }
 
 
                     Snackbar snackbar = Snackbar.make(containerSession, getString(R.string.snackbar_text_exercise_removed), Snackbar.LENGTH_LONG);
@@ -333,8 +372,8 @@ public class HomeFragment extends Fragment {
                                     session = new Session(name, numTimeDone, idWorkoutPlan, workedMuscle, note, label, color);
                                     homeViewModel.insert(session);
 
-                                    /*setIdWorkoutDaySelected(idInsert);
-                                    getIdWorkoutDaySelected();*/
+                                    //setIdWorkoutDaySelected(idInsert);
+                                    //getIdWorkoutDaySelected();
                                 }else {
                                     session = new Session(id, name, numTimeDone, idWorkoutPlan, workedMuscle, note, label, color);
                                     homeViewModel.update(session);

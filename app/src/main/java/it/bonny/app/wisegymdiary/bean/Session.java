@@ -29,10 +29,10 @@ public class Session {
     @ColumnInfo(name = "note")
     private String note;
 
-    @ColumnInfo(name = "label")
+    @ColumnInfo(name = "label_session")
     private String label;
 
-    @ColumnInfo(name = "color")
+    @ColumnInfo(name = "color_session")
     private int color;
 
     public Session() {}

@@ -14,24 +14,31 @@
         android:theme="@style/Theme.GymDiary"
         tools:targetApi="31">
         <activity
+            android:name=".manager.SessionDetailActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".NewEditExerciseActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.GymDiary"
             android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".NewEditWorkoutDay"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.GymDiary"
             android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".manager.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.App.Starting"
             android:screenOrientation="portrait"
+            android:theme="@style/Theme.App.Starting"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

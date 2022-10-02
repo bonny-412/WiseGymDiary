@@ -1,7 +1,10 @@
 package it.bonny.app.wisegymdiary.component;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.transition.Fade;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,24 +12,35 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import it.bonny.app.wisegymdiary.NewEditWorkoutDay;
 import it.bonny.app.wisegymdiary.R;
 import it.bonny.app.wisegymdiary.bean.Session;
+import it.bonny.app.wisegymdiary.manager.SessionDetailActivity;
 import it.bonny.app.wisegymdiary.util.RecyclerViewClickInterface;
+import it.bonny.app.wisegymdiary.util.Utility;
 
 public class RecyclerViewHomePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Session> sessionList;
     private final Context mContext;
     private final RecyclerViewClickInterface listener;
+    private final Utility utility = new Utility();
 
     public RecyclerViewHomePageAdapter(Context context, RecyclerViewClickInterface listener) {
         this.mContext = context;
@@ -37,7 +51,7 @@ public class RecyclerViewHomePageAdapter extends RecyclerView.Adapter<RecyclerVi
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View rootView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_exercise_recyclerview, parent, false);
+        View rootView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_session_recyclerview, parent, false);
         return new RecyclerViewViewHolder(rootView);
     }
 
@@ -51,10 +65,12 @@ public class RecyclerViewHomePageAdapter extends RecyclerView.Adapter<RecyclerVi
             String numTimeDoneTxt = "" + workoutDay.getNumTimeDone();
             viewHolder.textWorkedMuscle.setText(numTimeDoneTxt);
         }*/
-        viewHolder.titleWorkoutDay.setText(session.getName());
+
+        viewHolder.colorSession.setBackgroundTintList(ContextCompat.getColorStateList(mContext, utility.getColorByPosition(session.getColor())));
+        viewHolder.labelSession.setText(session.getLabel());
+        viewHolder.titleSession.setText(session.getName());
         viewHolder.nameWorkedMuscle.setText(session.getWorkedMuscle());
 
-        viewHolder.layoutList.removeAllViews();
         /*String[] splitNumSetsReps = exercise.getNumSetsReps().split(Utility.SYMBOL_SPLIT);
         if(splitNumSetsReps.length > 0) {
             for(String s: splitNumSetsReps) {
@@ -73,7 +89,29 @@ public class RecyclerViewHomePageAdapter extends RecyclerView.Adapter<RecyclerVi
             }
         }*/
 
-        viewHolder.constraintClicked.setOnClickListener(view -> listener.recyclerViewItemClick(session.getId()));
+        viewHolder.constraintClicked.setOnClickListener(view -> {
+            Intent intent = new Intent(mContext, SessionDetailActivity.class);
+            intent.putExtra("idWorkoutDay", session.getId());
+            mContext.startActivity(intent);
+        });
+
+        viewHolder.constraintClicked.setOnLongClickListener(view -> {
+            PopupMenu popupMenu = new PopupMenu(mContext, viewHolder.colorSession);
+            popupMenu.getMenuInflater().inflate(R.menu.popup_menu_routine_options, popupMenu.getMenu());
+            popupMenu.setForceShowIcon(true);
+            popupMenu.setOnMenuItemClickListener(menuItem -> {
+                if(menuItem.getItemId() == R.id.edit) {
+                    listener.recyclerViewItemClick(session.getId(), 0);
+                }else if(menuItem.getItemId() == R.id.delete) {
+                    listener.recyclerViewItemClick(session.getId(), 1);
+                }
+                popupMenu.dismiss();
+                return true;
+            });
+
+            popupMenu.show();
+            return true;
+        });
 
     }
 
@@ -92,20 +130,21 @@ public class RecyclerViewHomePageAdapter extends RecyclerView.Adapter<RecyclerVi
 
 
     public class RecyclerViewViewHolder extends RecyclerView.ViewHolder {
-        AppCompatImageView iconExercise;
-        TextView titleWorkoutDay;
+        LinearLayout colorSession;
+        TextView labelSession;
+        TextView titleSession;
         TextView nameWorkedMuscle;
-        ConstraintLayout mainLayout, constraintClicked;
-        LinearLayout layoutList;
+        ConstraintLayout constraintClicked;
+        MaterialCardView mainLayout;
 
         public RecyclerViewViewHolder(@NonNull View itemView) {
             super(itemView);
-            iconExercise = itemView.findViewById(R.id.iconExercise);
-            titleWorkoutDay = itemView.findViewById(R.id.titleWorkoutDay);
+            colorSession = itemView.findViewById(R.id.colorSession);
+            labelSession = itemView.findViewById(R.id.labelSession);
+            titleSession = itemView.findViewById(R.id.titleWorkoutDay);
             nameWorkedMuscle = itemView.findViewById(R.id.nameWorkedMuscle);
             mainLayout = itemView.findViewById(R.id.mainLayout);
             constraintClicked = itemView.findViewById(R.id.constraintClicked);
-            layoutList = itemView.findViewById(R.id.layout_list);
 
             Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.translate_anim);
             mainLayout.setAnimation(animation);

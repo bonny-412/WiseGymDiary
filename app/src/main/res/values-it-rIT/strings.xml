@@ -75,5 +75,6 @@
     <string name="title_choose_color">Scegli colore</string>
     <string name="content_description_color_chosen">Scelto</string>
     <string name="content_description_editable">Modificabile</string>
+    <string name="text_loading">Attendere…</string>
 
 </resources>
