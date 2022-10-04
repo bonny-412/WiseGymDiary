@@ -13,66 +13,63 @@ import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.transition.Slide;
-import androidx.transition.TransitionInflater;
 
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import it.bonny.app.wisegymdiary.NewEditWorkoutDay;
 import it.bonny.app.wisegymdiary.R;
-import it.bonny.app.wisegymdiary.bean.Session;
+import it.bonny.app.wisegymdiary.bean.SessionBean;
 import it.bonny.app.wisegymdiary.util.RecyclerViewClickInterface;
 import it.bonny.app.wisegymdiary.util.SwipeToDeleteCallback;
 import it.bonny.app.wisegymdiary.util.Utility;
 import it.bonny.app.wisegymdiary.component.RecyclerViewHomePageAdapter;
-import it.bonny.app.wisegymdiary.bean.WorkoutPlan;
+import it.bonny.app.wisegymdiary.bean.WorkoutPlanBean;
 import it.bonny.app.wisegymdiary.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private HomeViewModel homeViewModel;
 
-    private AppBarLayout appBarLayout;
-    private MaterialToolbar topAppBar;
-    private ConstraintLayout containerSession, containerSessionEmpty;
-    private TextView infoWeekWorkoutPlan;
-    private WorkoutPlan workoutPlanApp;
+    private ConstraintLayout containerSessionEmpty, containerSession;
+    private TextView titleMyWorkoutPlan, infoWeekWorkoutPlan;
+    private WorkoutPlanBean workoutPlanBeanApp;
     private FloatingActionButton btnNewSession;
     private RecyclerViewHomePageAdapter recyclerViewHomePageAdapter;
     private RecyclerView recyclerView;
     private final Utility utility = new Utility();
     Animation slide_down, slide_up;
     private ProgressBar progressBar1;
+
+    LinearLayout containerCurrentWeek;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
@@ -83,46 +80,28 @@ public class HomeFragment extends Fragment {
 
         initElements(root.getContext());
 
+        //createCurrentWeek();
 
-
-        homeViewModel.getWorkoutPlan().observe(getViewLifecycleOwner(), workoutPlan -> {
-            appBarLayout.setVisibility(View.VISIBLE);
-            topAppBar.setTitle(workoutPlan.getName());
-
+       /* homeViewModel.getWorkoutPlan().observe(getViewLifecycleOwner(), workoutPlan -> {
+            titleMyWorkoutPlan.setText(workoutPlan.getName());
             String numWeek = "1";
             String weekStrFinal = getString(R.string.week) + " " + numWeek + " " + getString(R.string.of) + " " + workoutPlan.getNumWeek();
             Spannable spannableString = new SpannableString(weekStrFinal);
             spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(binding.getRoot().getContext(), R.color.primary)),
                     getString(R.string.week).length() + 1, getString(R.string.week).length() + 1 + numWeek.length() + 1,
                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            topAppBar.setSubtitle(spannableString);
 
-            workoutPlanApp.copy(workoutPlan);
+            workoutPlanBeanApp.copy(workoutPlan);
 
             homeViewModel.getWorkoutDayList(workoutPlan.getId()).observe(getViewLifecycleOwner(), workoutDays -> {
                 customUISessionIsEmpty(workoutDays == null || workoutDays.size() <= 0);
                 recyclerViewHomePageAdapter.updateSessionList(workoutDays);
             });
-        });
+        });*/
 
-        topAppBar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        //btnNewSession.setOnClickListener(view -> callNewEditWorkoutDay());
 
-            }
-        });
-
-        topAppBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Toast.makeText(getContext(), "Da gestire", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });
-
-        btnNewSession.setOnClickListener(view -> callNewEditWorkoutDay());
-
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        /*recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -152,7 +131,7 @@ public class HomeFragment extends Fragment {
                             });
                 }
             }
-        });
+        });*/
 
         /*btnOptionsSession.setOnClickListener(v -> {
             if(getContext() != null) {
@@ -175,7 +154,7 @@ public class HomeFragment extends Fragment {
             }
         });*/
 
-        enableSwipeToDeleteAndUndo();
+        //enableSwipeToDeleteAndUndo();
 
         return root;
     }
@@ -206,7 +185,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void initElements(Context context) {
-        workoutPlanApp = new WorkoutPlan();
+        workoutPlanBeanApp = new WorkoutPlanBean();
+
+        containerCurrentWeek = binding.containerCurrentWeek;
 
         slide_down = AnimationUtils.loadAnimation(context,
                 R.anim.slide_down);
@@ -215,18 +196,18 @@ public class HomeFragment extends Fragment {
                 R.anim.slide_up);
 
         progressBar1 = binding.progressBar1;
-        appBarLayout = binding.appBarLayout;
         containerSession = binding.containerSession;
-        topAppBar = binding.topAppBar;
-        //infoWeekWorkoutPlan = binding.infoWeekWorkoutPlan;
-        containerSessionEmpty = binding.containerSessionEmpty;
 
-        btnNewSession = binding.btnNewSession;
+        titleMyWorkoutPlan = binding.titleMyWorkoutPlan;
+        //infoWeekWorkoutPlan = binding.infoWeekWorkoutPlan;
+        //containerSessionEmpty = binding.containerSessionEmpty;
+
+        //btnNewSession = binding.btnNewSession;
 
         recyclerView = binding.recyclerView;
-        LinearLayoutManager manager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(manager);
-        recyclerViewHomePageAdapter = new RecyclerViewHomePageAdapter(context, new RecyclerViewClickInterface() {
+        //LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        //recyclerView.setLayoutManager(manager);
+        /*recyclerViewHomePageAdapter = new RecyclerViewHomePageAdapter(context, new RecyclerViewClickInterface() {
             @Override
             public void recyclerViewItemClick(long idElement, int typeButton) {
                 if(typeButton == 0) {
@@ -237,19 +218,19 @@ public class HomeFragment extends Fragment {
 
                 }
             }
-        });
-        setAdapter();
+        });*/
+        //setAdapter();
     }
 
     private void customUISessionIsEmpty(boolean isEmpty) {
         progressBar1.setVisibility(View.GONE);
-        if(isEmpty) {
+        /*if(isEmpty) {
             containerSessionEmpty.setVisibility(View.VISIBLE);
             containerSession.setVisibility(View.GONE);
-        }else {
-            containerSessionEmpty.setVisibility(View.GONE);
-            containerSession.setVisibility(View.VISIBLE);
-        }
+        }else {*/
+        containerSessionEmpty.setVisibility(View.GONE);
+        containerSession.setVisibility(View.VISIBLE);
+        //}
     }
 
     void setAdapter() {
@@ -265,10 +246,10 @@ public class HomeFragment extends Fragment {
 
     private void callNewEditWorkoutDay(long idWorkoutDay) {
         Intent intent = new Intent(getActivity(), NewEditWorkoutDay.class);
-        intent.putExtra("idWorkoutPlan", workoutPlanApp.getId());
+        intent.putExtra("idWorkoutPlan", workoutPlanBeanApp.getId());
         if(idWorkoutDay > 0)
             intent.putExtra("idWorkoutDay", idWorkoutDay);
-        someActivityResultLauncher.launch(intent);
+        //someActivityResultLauncher.launch(intent);
     }
 
     //Bottom sheet
@@ -276,7 +257,7 @@ public class HomeFragment extends Fragment {
     public void onItemClick(long idElement) {
         if(idElement > 0) {
             AppDatabase.databaseWriteExecutor.execute(() -> {
-                Session workoutDay = AppDatabase.getInstance(getContext()).workoutDayDAO().getWorkoutDayById(idElement);
+                SessionBean workoutDay = AppDatabase.getInstance(getContext()).workoutDayDAO().getWorkoutDayById(idElement);
                 if(getActivity() != null) {
                     getActivity().runOnUiThread(() -> {
                         setIdWorkoutDaySelected(idElement);
@@ -298,7 +279,7 @@ public class HomeFragment extends Fragment {
 
 
                     final int position = viewHolder.getAdapterPosition();
-                    final Session item = recyclerViewHomePageAdapter.getData().get(position);
+                    final SessionBean item = recyclerViewHomePageAdapter.getData().get(position);
 
                     AtomicBoolean clickedButtonAction = new AtomicBoolean(false);
 
@@ -348,7 +329,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
+    /*ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
                 @Override
@@ -367,16 +348,16 @@ public class HomeFragment extends Fragment {
                                 String label = data.getStringExtra(Utility.EXTRA_SESSION_LABEL);
                                 int color = data.getIntExtra(Utility.EXTRA_SESSION_COLOR, 0);
 
-                                Session session;
+                                SessionBean sessionBean;
                                 if(id == 0) {
-                                    session = new Session(name, numTimeDone, idWorkoutPlan, workedMuscle, note, label, color);
-                                    homeViewModel.insert(session);
+                                    sessionBean = new SessionBean(name, numTimeDone, idWorkoutPlan, workedMuscle, note, label, color);
+                                    homeViewModel.insert(sessionBean);
 
                                     //setIdWorkoutDaySelected(idInsert);
                                     //getIdWorkoutDaySelected();
                                 }else {
-                                    session = new Session(id, name, numTimeDone, idWorkoutPlan, workedMuscle, note, label, color);
-                                    homeViewModel.update(session);
+                                    sessionBean = new SessionBean(id, name, numTimeDone, idWorkoutPlan, workedMuscle, note, label, color);
+                                    homeViewModel.update(sessionBean);
                                 }
 
                                 if(getActivity() != null && getContext() != null)
@@ -385,7 +366,7 @@ public class HomeFragment extends Fragment {
                         }
                     }
                 }
-        });
+            });*/
 
    /* private void showAlertDeleteWorkoutDay() {
         if(getActivity() != null) {
@@ -417,5 +398,50 @@ public class HomeFragment extends Fragment {
             dialog.show();
         }
     }*/
+
+    private void createCurrentWeek() {
+        Calendar myCal = Calendar.getInstance();
+        SimpleDateFormat formatNameDay = new SimpleDateFormat("EEE", Locale.getDefault());
+        SimpleDateFormat formatNumDay = new SimpleDateFormat("dd", Locale.getDefault());
+
+        int[] days = new int[] {Calendar.MONDAY, Calendar.TUESDAY, Calendar.WEDNESDAY, Calendar.THURSDAY, Calendar.FRIDAY, Calendar.SATURDAY, Calendar.SUNDAY};
+
+        for (int day : days) {
+            boolean isToday = false;
+            myCal.set(Calendar.DAY_OF_WEEK, day);
+
+            if (myCal.get(Calendar.DAY_OF_WEEK) == Calendar.getInstance().get(Calendar.DAY_OF_WEEK))
+                isToday = true;
+
+            String nameDay = Utility.capitalizeFirstLetterString(formatNameDay.format(myCal.getTime()));
+
+            String numDay = formatNumDay.format(myCal.getTime());
+            addCurrentWeekView(numDay, nameDay, isToday);
+        }
+    }
+
+    private void addCurrentWeekView(String numDay, String nameDay, boolean isToday) {
+        final View currentWeekView = getLayoutInflater().inflate(R.layout.view_item_current_week, null, false);
+
+        View containerCurrentWeekDay = currentWeekView.findViewById(R.id.containerCurrentWeekDay);
+        //MaterialCardView containerNumDay = containerCurrentWeekDay.findViewById(R.id.containerNumDay);
+        TextView numDayView = currentWeekView.findViewById(R.id.numDay);
+        TextView nameDayView = currentWeekView.findViewById(R.id.nameDay);
+
+        numDayView.setText(numDay);
+        nameDayView.setText(nameDay);
+
+        if(isToday) {
+            //containerNumDay.setCardBackgroundColor(ContextCompat.getColorStateList(getContext(), R.color.primary));
+            nameDayView.setTextColor(ContextCompat.getColorStateList(getContext(), R.color.primary_text));
+            numDayView.setTextColor(ContextCompat.getColorStateList(getContext(), R.color.primary_text));
+        }
+
+
+        //btnDelete.setOnClickListener(v -> removeView(setsRepsView));
+
+
+        containerCurrentWeek.addView(containerCurrentWeekDay);
+    }
 
 }

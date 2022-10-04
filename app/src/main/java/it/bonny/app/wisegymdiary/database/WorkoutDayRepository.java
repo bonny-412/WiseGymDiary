@@ -6,40 +6,40 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
-import it.bonny.app.wisegymdiary.bean.Session;
+import it.bonny.app.wisegymdiary.bean.SessionBean;
 import it.bonny.app.wisegymdiary.dao.WorkoutDayDAO;
 
 public class WorkoutDayRepository {
     private final WorkoutDayDAO workoutDayDAO;
-    private LiveData<List<Session>> workoutDayList;
-    private LiveData<Session> sessionLiveData;
+    private LiveData<List<SessionBean>> workoutDayList;
+    private LiveData<SessionBean> sessionLiveData;
 
     public WorkoutDayRepository(Application application) {
         AppDatabase db = AppDatabase.getInstance(application);
         workoutDayDAO = db.workoutDayDAO();
     }
 
-    public LiveData<List<Session>> getWorkoutDayList(long idWorkoutPlan) {
+    public LiveData<List<SessionBean>> getWorkoutDayList(long idWorkoutPlan) {
         return workoutDayDAO.getAllRoutineByIdWorkPlan(idWorkoutPlan);
     }
 
-    public LiveData<Session> getSessionLiveData(long idSession) {
+    public LiveData<SessionBean> getSessionLiveData(long idSession) {
         return workoutDayDAO.findWorkoutDayByPrimaryKeyLiveData(idSession);
     }
 
-    public void insert(Session session) {
+    public void insert(SessionBean sessionBean) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
-            workoutDayDAO.insert(session);
+            workoutDayDAO.insert(sessionBean);
         });
     }
-    public void update(Session session) {
+    public void update(SessionBean sessionBean) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
-            workoutDayDAO.update(session);
+            workoutDayDAO.update(sessionBean);
         });
     }
-    public void delete(Session session) {
+    public void delete(SessionBean sessionBean) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
-            workoutDayDAO.delete(session);
+            workoutDayDAO.delete(sessionBean);
         });
     }
 

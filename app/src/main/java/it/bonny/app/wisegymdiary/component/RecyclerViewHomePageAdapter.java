@@ -1,10 +1,8 @@
 package it.bonny.app.wisegymdiary.component;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.transition.Fade;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,32 +10,27 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import it.bonny.app.wisegymdiary.NewEditWorkoutDay;
 import it.bonny.app.wisegymdiary.R;
-import it.bonny.app.wisegymdiary.bean.Session;
+import it.bonny.app.wisegymdiary.bean.SessionBean;
 import it.bonny.app.wisegymdiary.manager.SessionDetailActivity;
 import it.bonny.app.wisegymdiary.util.RecyclerViewClickInterface;
 import it.bonny.app.wisegymdiary.util.Utility;
 
 public class RecyclerViewHomePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<Session> sessionList;
+    private List<SessionBean> sessionBeanList;
     private final Context mContext;
     private final RecyclerViewClickInterface listener;
     private final Utility utility = new Utility();
@@ -45,7 +38,7 @@ public class RecyclerViewHomePageAdapter extends RecyclerView.Adapter<RecyclerVi
     public RecyclerViewHomePageAdapter(Context context, RecyclerViewClickInterface listener) {
         this.mContext = context;
         this.listener = listener;
-        this.sessionList = new ArrayList<>();
+        this.sessionBeanList = new ArrayList<>();
     }
 
     @NonNull
@@ -58,7 +51,7 @@ public class RecyclerViewHomePageAdapter extends RecyclerView.Adapter<RecyclerVi
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
-        Session session = sessionList.get(position);
+        SessionBean sessionBean = sessionBeanList.get(position);
         RecyclerViewViewHolder viewHolder = (RecyclerViewViewHolder) holder;
 
         /*if(viewHolder.textWorkedMuscle != null) {
@@ -66,10 +59,10 @@ public class RecyclerViewHomePageAdapter extends RecyclerView.Adapter<RecyclerVi
             viewHolder.textWorkedMuscle.setText(numTimeDoneTxt);
         }*/
 
-        viewHolder.colorSession.setBackgroundTintList(ContextCompat.getColorStateList(mContext, utility.getColorByPosition(session.getColor())));
-        viewHolder.labelSession.setText(session.getLabel());
-        viewHolder.titleSession.setText(session.getName());
-        viewHolder.nameWorkedMuscle.setText(session.getWorkedMuscle());
+        viewHolder.colorSession.setBackgroundTintList(ContextCompat.getColorStateList(mContext, utility.getColorByPosition(sessionBean.getColor())));
+        viewHolder.labelSession.setText(sessionBean.getLabel());
+        viewHolder.titleSession.setText(sessionBean.getName());
+        viewHolder.nameWorkedMuscle.setText(sessionBean.getWorkedMuscle());
 
         /*String[] splitNumSetsReps = exercise.getNumSetsReps().split(Utility.SYMBOL_SPLIT);
         if(splitNumSetsReps.length > 0) {
@@ -91,7 +84,7 @@ public class RecyclerViewHomePageAdapter extends RecyclerView.Adapter<RecyclerVi
 
         viewHolder.constraintClicked.setOnClickListener(view -> {
             Intent intent = new Intent(mContext, SessionDetailActivity.class);
-            intent.putExtra("idWorkoutDay", session.getId());
+            intent.putExtra("idWorkoutDay", sessionBean.getId());
             mContext.startActivity(intent);
         });
 
@@ -101,9 +94,9 @@ public class RecyclerViewHomePageAdapter extends RecyclerView.Adapter<RecyclerVi
             popupMenu.setForceShowIcon(true);
             popupMenu.setOnMenuItemClickListener(menuItem -> {
                 if(menuItem.getItemId() == R.id.edit) {
-                    listener.recyclerViewItemClick(session.getId(), 0);
+                    listener.recyclerViewItemClick(sessionBean.getId(), 0);
                 }else if(menuItem.getItemId() == R.id.delete) {
-                    listener.recyclerViewItemClick(session.getId(), 1);
+                    listener.recyclerViewItemClick(sessionBean.getId(), 1);
                 }
                 popupMenu.dismiss();
                 return true;
@@ -117,13 +110,13 @@ public class RecyclerViewHomePageAdapter extends RecyclerView.Adapter<RecyclerVi
 
     @Override
     public int getItemCount() {
-        return sessionList.size();
+        return sessionBeanList.size();
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void updateSessionList(final List<Session> sessionList) {
-        this.sessionList.clear();
-        this.sessionList = sessionList;
+    public void updateSessionList(final List<SessionBean> sessionBeanList) {
+        this.sessionBeanList.clear();
+        this.sessionBeanList = sessionBeanList;
         notifyDataSetChanged();
     }
 
@@ -174,17 +167,17 @@ public class RecyclerViewHomePageAdapter extends RecyclerView.Adapter<RecyclerVi
     }
 
     public void removeItem(int position) {
-        sessionList.remove(position);
+        sessionBeanList.remove(position);
         notifyItemRemoved(position);
     }
 
-    public void restoreItem(Session item, int position) {
-        sessionList.add(position, item);
+    public void restoreItem(SessionBean item, int position) {
+        sessionBeanList.add(position, item);
         notifyItemInserted(position);
     }
 
-    public List<Session> getData() {
-        return sessionList;
+    public List<SessionBean> getData() {
+        return sessionBeanList;
     }
 
 }

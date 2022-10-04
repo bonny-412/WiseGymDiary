@@ -23,8 +23,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_check"
-            app:tint="@color/onPrimary"
-            android:tintMode="@color/onPrimary"
+            app:tint="@color/primary_text"
+            android:tintMode="@color/primary_text"
             android:contentDescription="@string/content_description_color_chosen"
             android:visibility="invisible"/>
     </LinearLayout>

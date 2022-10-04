@@ -9,14 +9,14 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import java.util.List;
 
-import it.bonny.app.wisegymdiary.bean.Session;
+import it.bonny.app.wisegymdiary.bean.SessionBean;
 
 public class HomeFragmentRoutineAdapter extends FragmentStateAdapter {
-    private final List<Session> sessionList;
+    private final List<SessionBean> sessionBeanList;
 
-    public HomeFragmentRoutineAdapter(AppCompatActivity appCompatActivity, List<Session> sessionList) {
+    public HomeFragmentRoutineAdapter(AppCompatActivity appCompatActivity, List<SessionBean> sessionBeanList) {
         super(appCompatActivity);
-        this.sessionList = sessionList;
+        this.sessionBeanList = sessionBeanList;
     }
 
     @NonNull
@@ -26,13 +26,13 @@ public class HomeFragmentRoutineAdapter extends FragmentStateAdapter {
         Fragment fragment = new HomeFragmentRoutineObject();
         Bundle args = new Bundle();
         // Our object is just an integer :-P
-        args.putLong(HomeFragmentRoutineObject.ARG_OBJECT, sessionList.get(position).getId());
+        args.putLong(HomeFragmentRoutineObject.ARG_OBJECT, sessionBeanList.get(position).getId());
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public int getItemCount() {
-        return (sessionList != null) ? sessionList.size() : 0;
+        return (sessionBeanList != null) ? sessionBeanList.size() : 0;
     }
 }

@@ -1,12 +1,10 @@
 package it.bonny.app.wisegymdiary.component;
 
 import android.content.Context;
-import android.content.pm.LabeledIntent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -14,33 +12,33 @@ import java.util.HashMap;
 import java.util.List;
 
 import it.bonny.app.wisegymdiary.R;
-import it.bonny.app.wisegymdiary.bean.MuscleBean;
+import it.bonny.app.wisegymdiary.bean.CategoryMuscleBean;
 
 public class ChipMuscleAdapter extends BaseAdapter {
 
     private final Context context;
-    private List<MuscleBean> muscleBeanList;
+    private List<CategoryMuscleBean> categoryMuscleBeanList;
     public HashMap<Integer, Integer> hashMapSelected;
 
-    public ChipMuscleAdapter(List<MuscleBean> muscleBeanList, Context context) {
+    public ChipMuscleAdapter(List<CategoryMuscleBean> categoryMuscleBeanList, Context context) {
         this.context = context;
-        this.muscleBeanList = muscleBeanList;
+        this.categoryMuscleBeanList = categoryMuscleBeanList;
         hashMapSelected = new HashMap<>();
     }
 
     @Override
     public int getCount() {
-        return muscleBeanList.size();
+        return categoryMuscleBeanList.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return muscleBeanList.get(i);
+        return categoryMuscleBeanList.get(i);
     }
 
     @Override
     public long getItemId(int i) {
-        return muscleBeanList.get(i).getId();
+        return categoryMuscleBeanList.get(i).getId();
     }
 
     @Override
@@ -53,8 +51,8 @@ public class ChipMuscleAdapter extends BaseAdapter {
         }else
             viewHolder = (ViewHolder) view.getTag();
 
-        MuscleBean muscleBean = muscleBeanList.get(i);
-        viewHolder.textView.setText(muscleBean.getName());
+        CategoryMuscleBean categoryMuscleBean = categoryMuscleBeanList.get(i);
+        viewHolder.textView.setText(categoryMuscleBean.getName());
 
         if(hashMapSelected != null && hashMapSelected.size() > 0 && hashMapSelected.containsKey(i)) {
             viewHolder.textView.setTextColor(context.getColor(R.color.blue_text));
@@ -65,8 +63,8 @@ public class ChipMuscleAdapter extends BaseAdapter {
         return view;
     }
 
-    public void setMuscleBeanList(List<MuscleBean> muscleBeanList1) {
-        this.muscleBeanList = muscleBeanList1;
+    public void setMuscleBeanList(List<CategoryMuscleBean> categoryMuscleBeanList1) {
+        this.categoryMuscleBeanList = categoryMuscleBeanList1;
     }
 
     private static class ViewHolder {

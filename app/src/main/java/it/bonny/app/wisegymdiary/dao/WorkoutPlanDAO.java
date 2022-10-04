@@ -7,22 +7,22 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import it.bonny.app.wisegymdiary.bean.WorkoutPlan;
+import it.bonny.app.wisegymdiary.bean.WorkoutPlanBean;
 
 @Dao
 public interface WorkoutPlanDAO {
 
     @Insert
-    long insert(WorkoutPlan workoutPlanBean);
+    long insert(WorkoutPlanBean workoutPlanBean);
 
     @Update
-    void update(WorkoutPlan workoutPlanBean);
+    void update(WorkoutPlanBean workoutPlanBean);
 
     @Delete
-    void delete(WorkoutPlan workoutPlanBean);
+    void delete(WorkoutPlanBean workoutPlanBean);
 
     @Query("SELECT * FROM workout_plan WHERE isEnd = 0")
-    LiveData<WorkoutPlan> loadWorkoutPlanOpen();
+    LiveData<WorkoutPlanBean> loadWorkoutPlanOpen();
 
 }
 

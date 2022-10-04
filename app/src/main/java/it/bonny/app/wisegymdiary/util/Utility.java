@@ -71,7 +71,7 @@ public class Utility {
 
     public static Map<Integer, String> getAffectedMuscles(Activity activity) {
         Map<Integer, String> map = new HashMap<>();
-        map.put(1, activity.getString(R.string.muscle_abductor));
+        /*map.put(1, activity.getString(R.string.muscle_abductor));
         map.put(2, activity.getString(R.string.muscle_abs));
         map.put(3, activity.getString(R.string.muscle_adductors));
         map.put(4, activity.getString(R.string.muscle_backs));
@@ -82,7 +82,7 @@ public class Utility {
         map.put(9, activity.getString(R.string.muscle_glute));
         map.put(10, activity.getString(R.string.muscle_quadricep));
         map.put(11, activity.getString(R.string.muscle_shoulders));
-        map.put(12, activity.getString(R.string.muscle_triceps));
+        map.put(12, activity.getString(R.string.muscle_triceps));*/
 
         return map;
     }
@@ -117,6 +117,10 @@ public class Utility {
             return R.color.color11;
         else
             return R.color.primary;
+    }
+
+    public static String capitalizeFirstLetterString(String str) {
+        return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
 
 }

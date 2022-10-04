@@ -9,24 +9,21 @@ import androidx.room.Update;
 
 import java.util.List;
 
-import it.bonny.app.wisegymdiary.bean.Exercise;
+import it.bonny.app.wisegymdiary.bean.ExerciseBean;
 
 @Dao
 public interface ExerciseDAO {
 
     @Insert
-    Long insert(Exercise exercise);
+    Long insert(ExerciseBean exerciseBean);
 
     @Update
-    void update(Exercise exercise);
+    void update(ExerciseBean exerciseBean);
 
     @Delete
-    void delete(Exercise exercise);
-
-    @Query("SELECT * FROM exercise WHERE id_work_day = :idWorkoutDay")
-    LiveData<List<Exercise>> getAllExercisesByIdWorkoutDay(long idWorkoutDay);
+    void delete(ExerciseBean exerciseBean);
 
     @Query("SELECT * FROM exercise WHERE id = :id")
-    Exercise findExerciseById(long id);
+    ExerciseBean findExerciseById(long id);
 
 }

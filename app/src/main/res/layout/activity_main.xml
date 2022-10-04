@@ -13,9 +13,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:itemIconTint="@drawable/bottom_navigation_color_selector"
         app:menu="@menu/bottom_nav_menu"
         android:elevation="8dp"
-        app:backgroundTint="@color/tint_color_background"
+        app:itemIconSize="36dp"
+        app:backgroundTint="@color/background_card"
         />
 
     <fragment

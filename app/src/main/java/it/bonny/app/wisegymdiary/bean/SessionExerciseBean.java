@@ -5,18 +5,18 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "exercise")
-public class Exercise {
+@Entity(tableName = "session_exercise")
+public class SessionExerciseBean {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     private long id;
 
-    @ColumnInfo(name = "name")
-    private String name;
+    @ColumnInfo(name = "id_session")
+    private long idSession;
 
-    @ColumnInfo(name = "id_work_day")
-    private long idWorkDay;
+    @ColumnInfo(name = "id_exercise")
+    private long idExercise;
 
     @ColumnInfo(name = "note")
     private String note;
@@ -27,30 +27,25 @@ public class Exercise {
     @ColumnInfo(name = "num_sets_reps")
     private String numSetsReps;
 
-    @ColumnInfo(name = "worked_muscle")
-    private String workedMuscle;
-
-    public Exercise(long id, String name, long idWorkDay, String note, String restTime, String numSetsReps, String workedMuscle) {
+    public SessionExerciseBean(long id, long idSession, long idExercise, String note, String restTime, String numSetsReps) {
         this.id = id;
-        this.name = name;
-        this.idWorkDay = idWorkDay;
+        this.idSession = idSession;
+        this.idExercise = idExercise;
         this.note = note;
         this.restTime = restTime;
         this.numSetsReps = numSetsReps;
-        this.workedMuscle = workedMuscle;
     }
 
     @Ignore
-    public Exercise() {}
+    public SessionExerciseBean() {}
 
     @Ignore
-    public Exercise(String name, long idWorkDay, String note, String restTime, String numSetsReps, String workedMuscle) {
-        this.name = name;
-        this.idWorkDay = idWorkDay;
+    public SessionExerciseBean(long idSession, long idExercise, String note, String restTime, String numSetsReps) {
+        this.idSession = idSession;
+        this.idExercise = idExercise;
         this.note = note;
         this.restTime = restTime;
         this.numSetsReps = numSetsReps;
-        this.workedMuscle = workedMuscle;
     }
 
     public long getId() {
@@ -60,18 +55,18 @@ public class Exercise {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public long getIdSession() {
+        return idSession;
     }
-    public void setName(String name) {
-        this.name = name;
+    public void setIdSession(long idSession) {
+        this.idSession = idSession;
     }
 
-    public long getIdWorkDay() {
-        return idWorkDay;
+    public long getIdExercise() {
+        return idExercise;
     }
-    public void setIdWorkDay(long idWorkDay) {
-        this.idWorkDay = idWorkDay;
+    public void setIdExercise(long idExercise) {
+        this.idExercise = idExercise;
     }
 
     public String getNote() {
@@ -94,13 +89,5 @@ public class Exercise {
     public void setNumSetsReps(String numSetsReps) {
         this.numSetsReps = numSetsReps;
     }
-
-    public String getWorkedMuscle() {
-        return workedMuscle;
-    }
-    public void setWorkedMuscle(String workedMuscle) {
-        this.workedMuscle = workedMuscle;
-    }
-
 
 }

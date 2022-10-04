@@ -7,6 +7,6 @@
         android:icon="@drawable/ic_more_vert"
         android:title="@string/content_description_options_workout"
         app:showAsAction="ifRoom"
-        android:tint="?attr/colorControlNormal"/>
+        android:tint="@color/primary_text"/>
 
 </menu>

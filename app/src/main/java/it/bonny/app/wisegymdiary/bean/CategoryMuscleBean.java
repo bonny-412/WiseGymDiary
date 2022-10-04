@@ -4,8 +4,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "muscle")
-public class MuscleBean {
+@Entity(tableName = "category_muscle")
+public class CategoryMuscleBean {
 
     @PrimaryKey()
     @ColumnInfo(name = "id")
@@ -14,9 +14,13 @@ public class MuscleBean {
     @ColumnInfo(name = "name_muscle")
     private String name;
 
-    public MuscleBean(long id, String name) {
+    @ColumnInfo(name = "order_muscle")
+    private int order;
+
+    public CategoryMuscleBean(long id, String name, int order) {
         this.id = id;
         this.name = name;
+        this.order = order;
     }
 
     public long getId() {
@@ -31,6 +35,13 @@ public class MuscleBean {
     }
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+    public void setOrder(int order) {
+        this.order = order;
     }
 
 }

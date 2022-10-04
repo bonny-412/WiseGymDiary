@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">GymDiary</string>
     <string name="required_field">Required field</string>
-    <string name="text_icon_exercise">Icon exercise</string>
+    <string name="text_icon_exercise">Icon exerciseBean</string>
     <string name="content_description_delete">Delete</string>
     <string name="text_hint_one">1</string>
     <string name="snackbar_text_button_undo">Undo</string>
@@ -17,22 +17,21 @@
     <string name="slash">/</string>
 
     <!-- Affected Muscle -->
-    <string name="muscle_abductor">Abductors</string>
-    <string name="muscle_abs">Abs</string>
-    <string name="muscle_adductors">Adductors</string>
-    <string name="muscle_backs">Back</string>
-    <string name="muscle_bicep">Biceps</string>
-    <string name="muscle_calf">Calves</string>
-    <string name="muscle_chest">Chest</string>
-    <string name="muscle_femoral">Femorals</string>
-    <string name="muscle_forearm">Forearms</string>
-    <string name="muscle_glute">Glutes</string>
-    <string name="muscle_quadricep">Quadriceps</string>
-    <string name="muscle_shoulders">Shoulders</string>
-    <string name="muscle_triceps">Triceps</string>
-    <string name="muscle_full_body">Full body</string>
-    <string name="muscle_upper">Upper body</string>
-    <string name="muscle_lower">Lower body</string>
+    <string name="category_muscle_abs">Abs</string>
+    <string name="category_muscle_back">Back</string>
+    <string name="category_muscle_biceps">Biceps</string>
+    <string name="category_muscle_cardio">Cardio</string>
+    <string name="category_muscle_chest">Chest</string>
+    <string name="category_muscle_leg">Leg</string>
+    <string name="category_muscle_others">Others</string>
+    <string name="category_muscle_shoulder">Shoulder</string>
+    <string name="category_muscle_triceps">Triceps</string>
+
+    <!-- Category exerciseBean -->
+    <string name="category_exercise_weight_reps">Weight &amp; Reps</string>
+    <string name="category_exercise_reps">Reps</string>
+    <string name="category_exercise_distance">Distance</string>
+    <string name="category_exercise_time">Time</string>
 
     <string name="add_workout_plan">Let\'s add a workout plan</string>
     <string name="add_exercises">Let\'s add some exercises</string>
@@ -40,30 +39,30 @@
     <string name="today">Today</string>
     <string name="week">Week</string>
     <string name="of">of</string>
-    <string name="add_routine">Add your session</string>
-    <string name="title_add_session">Add session</string>
-    <string name="title_new_routine">New session</string>
-    <string name="name_routine_text">Name session</string>
+    <string name="add_routine">Add your sessionBean</string>
+    <string name="title_add_session">Add sessionBean</string>
+    <string name="title_new_routine">New sessionBean</string>
+    <string name="name_routine_text">Name sessionBean</string>
     <string name="alert_btn_cancel">Cancel</string>
     <string name="alert_btn_save">Save</string>
     <string name="alert_btn_ok">OK</string>
-    <string name="routine_added">Saved session</string>
-    <string name="title_page_new_workout_day">New session</string>
-    <string name="title_page_edit_workout_day">Edit session</string>
-    <string name="title_delete_workout_day">Delete session</string>
-    <string name="title_deleted_workout_day">Deleted session</string>
+    <string name="routine_added">Saved sessionBean</string>
+    <string name="title_page_new_workout_day">New sessionBean</string>
+    <string name="title_page_edit_workout_day">Edit sessionBean</string>
+    <string name="title_delete_workout_day">Delete sessionBean</string>
+    <string name="title_deleted_workout_day">Deleted sessionBean</string>
     <string name="save">Save</string>
     <string name="notes">Notes</string>
     <string name="text_affected_muscle">Affected muscles:</string>
     <string name="content_descr_button_return">Come back</string>
     <string name="new_session">New</string>
-    <string name="title_workout_day_saved">Saved session</string>
+    <string name="title_workout_day_saved">Saved sessionBean</string>
     <string name="title_sessions">Sessions</string>
-    <string name="add_exercise">Add exercise</string>
+    <string name="add_exercise">Add exerciseBean</string>
     <string name="text_exercise_empty">There are no exercises</string>
 
-    <string name="title_new_exercise">New exercise</string>
-    <string name="name_exercise_text">Name exercise</string>
+    <string name="title_new_exercise">New exerciseBean</string>
+    <string name="name_exercise_text">Name exerciseBean</string>
     <string name="title_sets_reps">Sets/Reps:</string>
     <string name="title_series">Sets</string>
     <string name="title_reps">Reps</string>
@@ -71,16 +70,16 @@
     <string name="title_time_rest">Rest time:</string>
     <string name="title_min">Min.</string>
     <string name="title_sec">Sec.</string>
-    <string name="title_exercise_saved">Saved exercise</string>
+    <string name="title_exercise_saved">Saved exerciseBean</string>
     <string name="title_bottom_sheet_workout_day">Sessions</string>
-    <string name="title_exercise_deleted">Deleted exercise</string>
+    <string name="title_exercise_deleted">Deleted exerciseBean</string>
 
     <string name="title_label">Label</string>
     <string name="title_choose_color">Choose color</string>
 
     <string name="content_description_radio_button">Selected</string>
     <string name="content_description_options_workout">Options</string>
-    <string name="content_description_fab_new_routine">New session</string>
+    <string name="content_description_fab_new_routine">New sessionBean</string>
     <string name="content_description_color_chosen">Chosen</string>
     <string name="content_description_editable">Editable</string>
 

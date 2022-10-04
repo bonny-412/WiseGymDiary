@@ -22,7 +22,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import it.bonny.app.wisegymdiary.R;
-import it.bonny.app.wisegymdiary.bean.Session;
+import it.bonny.app.wisegymdiary.bean.SessionBean;
 import it.bonny.app.wisegymdiary.database.AppDatabase;
 import it.bonny.app.wisegymdiary.util.BottomSheetClickListener;
 import it.bonny.app.wisegymdiary.util.RecyclerViewClickBottomSheetInterface;
@@ -68,10 +68,10 @@ public class BottomSheetWorkoutDay extends BottomSheetDialogFragment implements 
         listViewWorkoutDay.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
         service.execute(() -> {
-            List<Session> sessions = AppDatabase.getInstance(context).workoutDayDAO().getAllRoutineByIdWorkPlanNoLiveData(idWorkoutPlan);
+            List<SessionBean> sessionBeans = AppDatabase.getInstance(context).workoutDayDAO().getAllRoutineByIdWorkPlanNoLiveData(idWorkoutPlan);
             if(getActivity() != null) {
                 getActivity().runOnUiThread(() -> {
-                    ListWorkoutDayBottomSheetAdapter listWorkoutDayBottomSheetAdapter = new ListWorkoutDayBottomSheetAdapter(idElementSelected, sessions, BottomSheetWorkoutDay.this);
+                    ListWorkoutDayBottomSheetAdapter listWorkoutDayBottomSheetAdapter = new ListWorkoutDayBottomSheetAdapter(idElementSelected, sessionBeans, BottomSheetWorkoutDay.this);
                     listViewWorkoutDay.setHasFixedSize(true);
                     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
                     listViewWorkoutDay.setLayoutManager(linearLayoutManager);

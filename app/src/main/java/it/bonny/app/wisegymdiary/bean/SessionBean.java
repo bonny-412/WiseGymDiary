@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey;
 @Entity(
         tableName = "session"
 )
-public class Session {
+public class SessionBean {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
@@ -35,16 +35,16 @@ public class Session {
     @ColumnInfo(name = "color_session")
     private int color;
 
-    public Session() {}
+    public SessionBean() {}
 
     @Ignore
-    public Session(String name, long idWorkPlan) {
+    public SessionBean(String name, long idWorkPlan) {
         this.name = name;
         this.idWorkPlan = idWorkPlan;
     }
 
     @Ignore
-    public Session(String name, Integer numTimeDone, long idWorkPlan, String workedMuscle, String note, String label, int color) {
+    public SessionBean(String name, Integer numTimeDone, long idWorkPlan, String workedMuscle, String note, String label, int color) {
         this.name = name;
         this.numTimeDone = numTimeDone;
         this.idWorkPlan = idWorkPlan;
@@ -54,7 +54,7 @@ public class Session {
         this.color = color;
     }
 
-    public Session(long id, String name, Integer numTimeDone, long idWorkPlan, String workedMuscle, String note, String label, int color) {
+    public SessionBean(long id, String name, Integer numTimeDone, long idWorkPlan, String workedMuscle, String note, String label, int color) {
         this.id = id;
         this.name = name;
         this.numTimeDone = numTimeDone;
@@ -122,7 +122,7 @@ public class Session {
     }
 
     @Ignore
-    public void copy(Session obj) {
+    public void copy(SessionBean obj) {
         setId(obj.getId());
         setName(obj.getName());
         setIdWorkPlan(obj.getIdWorkPlan());

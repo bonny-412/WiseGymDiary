@@ -8,9 +8,10 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     app:cardCornerRadius="8dp"
-    android:layout_margin="8dp"
+    android:layout_marginBottom="8dp"
     style="?attr/materialCardViewFilledStyle"
-    app:cardBackgroundColor="@color/tint_color_background">
+    app:cardBackgroundColor="@color/background_card"
+    app:cardElevation="0dp">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintClicked"
             android:layout_width="match_parent"
@@ -43,7 +44,7 @@
                     android:gravity="center"
                     android:textAlignment="center"
                     android:textStyle="normal"
-                    android:textColor="@color/onPrimary"/>
+                    android:textColor="@color/primary_text"/>
             </LinearLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout

@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
-import it.bonny.app.wisegymdiary.bean.Exercise;
+import it.bonny.app.wisegymdiary.bean.ExerciseBean;
 import it.bonny.app.wisegymdiary.dao.ExerciseDAO;
 
 public class ExerciseRepository {
@@ -18,25 +18,25 @@ public class ExerciseRepository {
         exerciseDAO = appDatabase.exerciseDAO();
     }
 
-    public LiveData<List<Exercise>> getExerciseList(long idWorkoutDay) {
+    /*public LiveData<List<ExerciseBean>> getExerciseList(long idWorkoutDay) {
         return exerciseDAO.getAllExercisesByIdWorkoutDay(idWorkoutDay);
-    }
+    }*/
 
-    public void insert(Exercise exercise) {
+    public void insert(ExerciseBean exerciseBean) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
-            exerciseDAO.insert(exercise);
+            exerciseDAO.insert(exerciseBean);
         });
     }
 
-    public void update(Exercise exercise) {
+    public void update(ExerciseBean exerciseBean) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
-            exerciseDAO.update(exercise);
+            exerciseDAO.update(exerciseBean);
         });
     }
 
-    public void delete(Exercise exercise) {
+    public void delete(ExerciseBean exerciseBean) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
-            exerciseDAO.delete(exercise);
+            exerciseDAO.delete(exerciseBean);
         });
     }
 

@@ -6,36 +6,44 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".manager.MainActivity"
     style="@style/Theme.GymDiary"
-    android:background="@color/tint_color_background"
-    >
+    android:background="@color/background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBarLayout"
+
+        <LinearLayout
+            android:id="@+id/containerToolBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:background="@color/tint_color_background"
-            >
-
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/topAppBar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:menu="@menu/top_menu_icon_option"
-                app:titleCentered="true"
-                app:subtitleCentered="true"/>
-
-        </com.google.android.material.appbar.AppBarLayout>
-
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@color/background_card">
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="48dp"
+                app:cornerRadius="10dp"
+                android:layout_height="48dp"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                app:iconTint="@color/primary_text"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                app:icon="@drawable/ic_more_vert"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:elevation="0dp"
+                android:contentDescription="@string/content_descr_button_return"/>
+        </LinearLayout>
 
         <ProgressBar
             android:id="@+id/progressBar1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
@@ -43,80 +51,235 @@
             android:indeterminateDrawable="@drawable/progress_bg"
             android:progress="0"
             android:elevation="4dp"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"/>
 
         <!-- containerSession -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/containerSession"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/containerToolBar"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:visibility="visible"
-            android:elevation="8dp"
-            android:padding="8dp"
-            android:background="@drawable/background_rounded_bottom_sheet">
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
+            android:overScrollMode="never">
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:overScrollMode="never"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                />
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/btnNewSession"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_margin="16dp"
-                app:tint="@color/onPrimary"
-                app:backgroundTint="@color/primary"
-                app:srcCompat="@drawable/ic_add_1"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:contentDescription="@string/content_description_fab_new_routine"
-                android:transitionName="shared_element_container"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_height="wrap_content">
 
-        <!-- containerSessionEmpty -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/containerSessionEmpty"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+                <!-- containerTitleToolBar -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/containerTitleToolBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:background="@color/background_card"
+                    android:padding="8dp">
+                    <TextView
+                        android:id="@+id/titleToolbar"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Ciao Secco"
+                        android:textColor="@color/primary_text"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toTopOf="@+id/subTitleToolbar"
+                        android:layout_marginStart="8dp"
+                        android:textSize="20sp"
+                        />
+                    <TextView
+                        android:id="@+id/subTitleToolbar"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Iniziamo"
+                        android:textColor="@color/secondary_text"
+                        app:layout_constraintTop_toBottomOf="@+id/titleToolbar"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toTopOf="@+id/lineToolbar"
+                        android:layout_marginStart="8dp"
+                        android:textSize="16sp"
+                        android:layout_marginTop="2dp"
+                        />
+                    <View
+                        android:id="@+id/lineToolbar"
+                        android:layout_width="24dp"
+                        android:layout_height="2dp"
+                        android:background="@drawable/bottom_sheet_line"
+                        app:layout_constraintTop_toBottomOf="@+id/subTitleToolbar"
+                        app:layout_constraintStart_toStartOf="@+id/subTitleToolbar"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginTop="4dp"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <!-- calendarHorizontal -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/calendarHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/containerTitleToolBar"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:padding="4dp"
+                    android:layout_marginTop="4dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="end">
+                        <HorizontalScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:overScrollMode="ifContentScrolls">
+                            <LinearLayout
+                                android:id="@+id/containerCurrentWeek"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center" />
+                        </HorizontalScrollView>
+                        <TextView
+                            android:id="@+id/titleInfoWeekWorkoutPlan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Settimana 1 di 8"
+                            android:textSize="14sp"
+                            android:textColor="@color/secondary_text"
+                            android:layout_margin="8dp"
+                            />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+                <!-- containerSession -->
+                <LinearLayout
+                    android:id="@+id/containerSessionEmpty"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_item_corners_rounded"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toBottomOf="@+id/calendarHorizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:padding="8dp"
+                    android:layout_margin="16dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackgroundBorderless">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:layout_margin="8dp"
+                        android:textColor="@color/primary_text"
+                        android:text="Schede" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:textColor="@color/secondary_text"
+                        android:text="Create unlimited workout plans as per your need." />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:textColor="@color/secondary_text"
+                        android:text="Tap to create one now." />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginTop="16dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="8dp"
+                            android:textColor="@color/white"
+                            android:text="Create Workout Plan"
+                            android:background="@drawable/background_item_corners_rounded"
+                            android:backgroundTint="@color/primary"
+                            android:padding="8dp"
+                            android:textAlignment="center" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/containerSession"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/calendarHorizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:padding="16dp"
+                    android:visibility="gone">
+                    <TextView
+                        android:id="@+id/titleWorkoutPlan"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Scheda di allenamento"
+                        android:textColor="@color/primary_text"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginTop="16dp"
+                        />
+                    <TextView
+                        android:id="@+id/titleMyWorkoutPlan"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/secondary_text"
+                        app:layout_constraintTop_toBottomOf="@+id/titleWorkoutPlan"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginTop="4dp"
+                        />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:overScrollMode="never"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintTop_toBottomOf="@+id/titleMyWorkoutPlan"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <!--<com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnNewSession"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            app:tint="@color/primary_text"
+            app:backgroundTint="@color/primary"
+            app:srcCompat="@drawable/ic_add_1"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:baselineAligned="false"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:visibility="visible"
-            android:padding="8dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp">
-
-            <TextView
-                android:id="@+id/imageSessionEmpty"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/add_workout_plan"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:drawableTopCompat="@drawable/ic_empty_list"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintEnd_toEndOf="parent"
+            android:contentDescription="@string/content_description_fab_new_routine"
+            android:transitionName="shared_element_container"/>-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

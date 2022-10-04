@@ -21,20 +21,7 @@
     <string name="save">Salva</string>
     <string name="notes">Note</string>
     <string name="text_affected_muscle">Muscoli colpiti:</string>
-    <string name="muscle_abs">Abs</string>
-    <string name="muscle_backs">Dorso</string>
-    <string name="muscle_calf">Polpacci</string>
-    <string name="muscle_chest">Petto</string>
-    <string name="muscle_femoral">Femorali</string>
-    <string name="muscle_abductor">Abduttori</string>
-    <string name="muscle_bicep">Bicipiti</string>
-    <string name="muscle_forearm">Avambracci</string>
-    <string name="muscle_glute">Glutei</string>
-    <string name="muscle_quadricep">Quadricipiti</string>
-    <string name="muscle_shoulders">Spalle</string>
-    <string name="muscle_triceps">Tricipiti</string>
     <string name="content_descr_button_return">Torna indietro</string>
-    <string name="muscle_full_body">Full body</string>
     <string name="title_workout_day_saved">Sessione salvata</string>
     <string name="new_session">nuova</string>
     <string name="title_sessions">Sessioni</string>
@@ -54,12 +41,9 @@
     <string name="content_description_radio_button">Selezionato</string>
     <string name="required_field">Campo obbligatorio</string>
     <string name="text_icon_exercise">Icona esercizio</string>
-    <string name="muscle_adductors">Adduttori</string>
     <string name="text_max">Max</string>
     <string name="slash">/</string>
     <string name="title_add_session">Aggiungi sessione</string>
-    <string name="muscle_upper">Upper body</string>
-    <string name="muscle_lower">Lower body</string>
     <string name="content_description_delete">Elimina</string>
     <string name="text_hint_one">1</string>
     <string name="title_exercise_deleted">Esercizio eliminato</string>
@@ -76,5 +60,18 @@
     <string name="content_description_color_chosen">Scelto</string>
     <string name="content_description_editable">Modificabile</string>
     <string name="text_loading">Attendere…</string>
+    <string name="category_muscle_abs">Addominali</string>
+    <string name="category_exercise_weight_reps">Peso &amp; Ripetizioni</string>
+    <string name="category_exercise_reps">Ripetizioni</string>
+    <string name="category_exercise_distance">Distanza</string>
+    <string name="category_exercise_time">Tempo</string>
+    <string name="category_muscle_back">Dorso</string>
+    <string name="category_muscle_biceps">Bicipiti</string>
+    <string name="category_muscle_cardio">Cardio</string>
+    <string name="category_muscle_chest">Petto</string>
+    <string name="category_muscle_leg">Gambe</string>
+    <string name="category_muscle_others">Altro</string>
+    <string name="category_muscle_shoulder">Spalle</string>
+    <string name="category_muscle_triceps">Tricipiti</string>
 
 </resources>

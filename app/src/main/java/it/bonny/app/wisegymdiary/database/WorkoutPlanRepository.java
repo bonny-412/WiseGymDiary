@@ -4,12 +4,12 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
-import it.bonny.app.wisegymdiary.bean.WorkoutPlan;
+import it.bonny.app.wisegymdiary.bean.WorkoutPlanBean;
 import it.bonny.app.wisegymdiary.dao.WorkoutPlanDAO;
 
 public class WorkoutPlanRepository {
     private final WorkoutPlanDAO workoutPlanDAO;
-    private final LiveData<WorkoutPlan> workoutPlan;
+    private final LiveData<WorkoutPlanBean> workoutPlan;
 
     public WorkoutPlanRepository(Application application) {
         AppDatabase db = AppDatabase.getInstance(application);
@@ -17,20 +17,20 @@ public class WorkoutPlanRepository {
         workoutPlan = workoutPlanDAO.loadWorkoutPlanOpen();
     }
 
-    public LiveData<WorkoutPlan> getWorkoutPlan() {
+    public LiveData<WorkoutPlanBean> getWorkoutPlan() {
         return workoutPlan;
     }
 
-    public void insert(WorkoutPlan workoutPlan) {
-        AppDatabase.databaseWriteExecutor.execute(() -> workoutPlanDAO.insert(workoutPlan));
+    public void insert(WorkoutPlanBean workoutPlanBean) {
+        AppDatabase.databaseWriteExecutor.execute(() -> workoutPlanDAO.insert(workoutPlanBean));
     }
 
-    public void update(WorkoutPlan workoutPlan) {
-        AppDatabase.databaseWriteExecutor.execute(() -> workoutPlanDAO.update(workoutPlan));
+    public void update(WorkoutPlanBean workoutPlanBean) {
+        AppDatabase.databaseWriteExecutor.execute(() -> workoutPlanDAO.update(workoutPlanBean));
     }
 
-    public void delete(WorkoutPlan workoutPlan) {
-        AppDatabase.databaseWriteExecutor.execute(() -> workoutPlanDAO.delete(workoutPlan));
+    public void delete(WorkoutPlanBean workoutPlanBean) {
+        AppDatabase.databaseWriteExecutor.execute(() -> workoutPlanDAO.delete(workoutPlanBean));
     }
 
 }

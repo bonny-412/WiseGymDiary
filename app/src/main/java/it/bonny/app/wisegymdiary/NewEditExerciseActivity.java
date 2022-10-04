@@ -2,7 +2,6 @@ package it.bonny.app.wisegymdiary;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -11,14 +10,12 @@ import android.text.InputType;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.google.android.material.button.MaterialButton;
@@ -29,8 +26,8 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.List;
 
-import it.bonny.app.wisegymdiary.bean.Exercise;
-import it.bonny.app.wisegymdiary.bean.MuscleBean;
+import it.bonny.app.wisegymdiary.bean.ExerciseBean;
+import it.bonny.app.wisegymdiary.bean.CategoryMuscleBean;
 import it.bonny.app.wisegymdiary.database.AppDatabase;
 import it.bonny.app.wisegymdiary.util.Utility;
 
@@ -39,7 +36,7 @@ public class NewEditExerciseActivity extends AppCompatActivity {
     private MaterialButton btnReturn, btnSave, btnAddNewSetsReps;
     private ToggleButton btnMaxReps;
     private TextInputLayout nameExercise, noteExercise;
-    private Exercise exercise;
+    private ExerciseBean exerciseBean;
     private ChipGroup chipGroup;
     private LinearLayout linearLayout;
     private EditText editTextSets, editTextReps, editTextReps1;
@@ -61,7 +58,7 @@ public class NewEditExerciseActivity extends AppCompatActivity {
         initElements();
 
         if(idExercise == 0) {
-            exercise = new Exercise();
+            exerciseBean = new ExerciseBean();
             progressBar1.setVisibility(View.GONE);
             scrollView.setVisibility(View.VISIBLE);
             btnSave.setVisibility(View.VISIBLE);
@@ -83,15 +80,15 @@ public class NewEditExerciseActivity extends AppCompatActivity {
             if(!isError) {
                 Intent intent = new Intent();
                 intent.putExtra("page", Utility.ADD_EXERCISE);
-                if(exercise.getId() > 0) {
-                    intent.putExtra(Utility.EXTRA_EXERCISE_ID, exercise.getId());
+                if(exerciseBean.getId() > 0) {
+                    intent.putExtra(Utility.EXTRA_EXERCISE_ID, exerciseBean.getId());
                 }
-                intent.putExtra(Utility.EXTRA_EXERCISE_NAME, exercise.getName());
-                intent.putExtra(Utility.EXTRA_EXERCISE_ID_WORK_DAY, exercise.getIdWorkDay());
-                intent.putExtra(Utility.EXTRA_EXERCISE_NOTE, exercise.getNote());
-                intent.putExtra(Utility.EXTRA_EXERCISE_REST_TIME, exercise.getRestTime());
-                intent.putExtra(Utility.EXTRA_EXERCISE_NUM_SETS_REPS, exercise.getNumSetsReps());
-                intent.putExtra(Utility.EXTRA_EXERCISE_WORKED_MUSCLE, exercise.getWorkedMuscle());
+                intent.putExtra(Utility.EXTRA_EXERCISE_NAME, exerciseBean.getName());
+                //intent.putExtra(Utility.EXTRA_EXERCISE_ID_WORK_DAY, exerciseBean.getIdWorkDay());
+                intent.putExtra(Utility.EXTRA_EXERCISE_NOTE, exerciseBean.getNote());
+                //intent.putExtra(Utility.EXTRA_EXERCISE_REST_TIME, exerciseBean.getRestTime());
+                //intent.putExtra(Utility.EXTRA_EXERCISE_NUM_SETS_REPS, exerciseBean.getNumSetsReps());
+                //intent.putExtra(Utility.EXTRA_EXERCISE_WORKED_MUSCLE, exerciseBean.getWorkedMuscle());
                 setResult(RESULT_OK, intent);
                 finish();
             }else {
@@ -258,7 +255,7 @@ public class NewEditExerciseActivity extends AppCompatActivity {
             isError = true;
             nameExercise.setError(getText(R.string.required_field));
         }else {
-            exercise.setName(nameExercise.getEditText().getText().toString());
+            exerciseBean.setName(nameExercise.getEditText().getText().toString());
             nameExercise.setError(null);
         }
 
@@ -268,7 +265,7 @@ public class NewEditExerciseActivity extends AppCompatActivity {
             titleChooseIconMuscle.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.error));
         }else {
             titleChooseIconMuscle.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.primary_text));
-            exercise.setWorkedMuscle(chipSelected.getText().toString());
+            //exerciseBean.setWorkedMuscle(chipSelected.getText().toString());
         }
 
         TextView titleSetsReps = findViewById(R.id.titleSetsReps);
@@ -278,24 +275,24 @@ public class NewEditExerciseActivity extends AppCompatActivity {
             titleSetsReps.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.error));
         }else {
             titleSetsReps.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.primary_text));
-            exercise.setNumSetsReps(totSetsReps);
+            //exerciseBean.setNumSetsReps(totSetsReps);
         }
 
-        exercise.setIdWorkDay(idWorkoutDay);
-        exercise.setNote(noteExercise.getEditText() != null ? noteExercise.getEditText().getText().toString(): "");
+        //exerciseBean.setIdWorkDay(idWorkoutDay);
+        exerciseBean.setNote(noteExercise.getEditText() != null ? noteExercise.getEditText().getText().toString(): "");
         String timeRest = numPickerMin.getValue() + Utility.SYMBOL_SPLIT + numPickerSec.getValue();
-        exercise.setRestTime(timeRest);
+        //exerciseBean.setRestTime(timeRest);
 
         return isError;
     }
 
     private void populateChipMuscle() {
         AppDatabase.databaseWriteExecutor.execute(() -> {
-            List<MuscleBean> muscleBeanList = AppDatabase.getInstance(getApplicationContext()).muscleDAO().findAllMusclesToExercise();
+            List<CategoryMuscleBean> categoryMuscleBeanList = AppDatabase.getInstance(getApplicationContext()).categoryMuscleDAO().findAllMuscles();
 
             runOnUiThread(() -> {
-                for(MuscleBean muscleBean: muscleBeanList) {
-                    addChip(muscleBean.getName());
+                for(CategoryMuscleBean categoryMuscleBean : categoryMuscleBeanList) {
+                    addChip(categoryMuscleBean.getName());
                 }
                 progressBar.setVisibility(View.GONE);
                 chipGroup.setVisibility(View.VISIBLE);
@@ -308,16 +305,16 @@ public class NewEditExerciseActivity extends AppCompatActivity {
         Chip chip = new Chip(this);
         chip.setText(nameChip);
 
-        if(exercise.getWorkedMuscle() != null && nameChip.equals(exercise.getWorkedMuscle())) {
+       /* if(exerciseBean.getWorkedMuscle() != null && nameChip.equals(exerciseBean.getWorkedMuscle())) {
             chip.setChipBackgroundColor(getColorStateList(R.color.blue_text));
             chip.setTextColor(getColor(R.color.blue_background));
             chip.setChecked(true);
             chipSelected = chip;
-        }else {
+        }else {*/
             chip.setChipBackgroundColor(getColorStateList(R.color.blue_background));
             chip.setTextColor(getColor(R.color.blue_text));
             chip.setChecked(false);
-        }
+        //}
 
         chip.setOnClickListener(view -> {
             if(chipSelected == null) {
@@ -343,20 +340,20 @@ public class NewEditExerciseActivity extends AppCompatActivity {
 
     private void retrieveExercise(long idExercise) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
-            exercise = AppDatabase.getInstance(getApplicationContext()).exerciseDAO().findExerciseById(idExercise);
+            exerciseBean = AppDatabase.getInstance(getApplicationContext()).exerciseDAO().findExerciseById(idExercise);
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     if(nameExercise.getEditText() != null)
-                        nameExercise.getEditText().setText(exercise.getName());
+                        nameExercise.getEditText().setText(exerciseBean.getName());
                     if(noteExercise.getEditText() != null)
-                        noteExercise.getEditText().setText(exercise.getNote());
+                        noteExercise.getEditText().setText(exerciseBean.getNote());
 
-                    String[] splitRestTime = exercise.getRestTime().split(Utility.SYMBOL_SPLIT);
+                    /*String[] splitRestTime = exerciseBean.getRestTime().split(Utility.SYMBOL_SPLIT);
                     numPickerMin.setValue(Integer.parseInt(splitRestTime[0]));
-                    numPickerSec.setValue(Integer.parseInt(splitRestTime[1]));
+                    numPickerSec.setValue(Integer.parseInt(splitRestTime[1]));*/
 
-                    String[] splitNumSetsReps = exercise.getNumSetsReps().split(Utility.SYMBOL_SPLIT);
+                    /*String[] splitNumSetsReps = exerciseBean.getNumSetsReps().split(Utility.SYMBOL_SPLIT);
                     for(int i = 0; i < splitNumSetsReps.length; i ++) {
                         String[] singleNumSetsReps = splitNumSetsReps[i].split(Utility.SYMBOL_SPLIT_BETWEEN_SET_REP);
                         String numSet = singleNumSetsReps[0];
@@ -393,7 +390,7 @@ public class NewEditExerciseActivity extends AppCompatActivity {
                             }
                         }
 
-                    }
+                    }*/
 
                     populateChipMuscle();
                     progressBar1.setVisibility(View.GONE);

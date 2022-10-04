@@ -6,7 +6,7 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "workout_plan")
-public class WorkoutPlan {
+public class WorkoutPlanBean {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
@@ -23,8 +23,10 @@ public class WorkoutPlan {
     private String note;
     @ColumnInfo(name = "isEnd", defaultValue = "0")
     private int isEnd;
+    @ColumnInfo(name = "isSelected", defaultValue = "0")
+    private int isSelected;
 
-    public WorkoutPlan() {}
+    public WorkoutPlanBean() {}
 
     public long getId() {
         return id;
@@ -75,8 +77,11 @@ public class WorkoutPlan {
         this.isEnd = isEnd;
     }
 
+    public int getIsSelected() { return isSelected; }
+    public void setIsSelected(int isSelected) { this.isSelected = isSelected; }
+
     @Ignore
-    public void copy(WorkoutPlan obj) {
+    public void copy(WorkoutPlanBean obj) {
         setId(obj.getId());
         setName(obj.getName());
         setNumWeek(obj.numWeek);
