@@ -14,8 +14,8 @@
     <color name="icon_bottom_bar_unselected">#A2A2A2</color>
 
     <color name="primary_text">#000000</color>
-    <color name="secondary_text">#6f6f6f</color>
-    <color name="tertiary_text">@android:color/tertiary_text_light</color>
+    <color name="secondary_text">#545454</color>
+    <color name="tertiary_text">#717171</color>
 
     <color name="icon_color">#000000</color>
 

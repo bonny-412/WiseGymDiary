@@ -54,8 +54,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:visibility="gone"/>
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <!-- containerSession -->
         <androidx.core.widget.NestedScrollView
@@ -79,25 +78,24 @@
                     android:background="@color/background_card"
                     android:padding="8dp">
                     <TextView
-                        android:id="@+id/titleToolbar"
+                        android:id="@+id/titlePage"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Ciao Secco"
                         android:textColor="@color/primary_text"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toTopOf="@+id/subTitleToolbar"
+                        app:layout_constraintBottom_toTopOf="@+id/subTitlePage"
                         android:layout_marginStart="8dp"
-                        android:textSize="20sp"
+                        android:textSize="24sp"
                         />
                     <TextView
-                        android:id="@+id/subTitleToolbar"
+                        android:id="@+id/subTitlePage"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Iniziamo"
+                        android:text="@string/sub_title_page_home_fragment"
                         android:textColor="@color/secondary_text"
-                        app:layout_constraintTop_toBottomOf="@+id/titleToolbar"
+                        app:layout_constraintTop_toBottomOf="@+id/titlePage"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintBottom_toTopOf="@+id/lineToolbar"
@@ -107,11 +105,11 @@
                         />
                     <View
                         android:id="@+id/lineToolbar"
-                        android:layout_width="24dp"
+                        android:layout_width="48dp"
                         android:layout_height="2dp"
                         android:background="@drawable/bottom_sheet_line"
-                        app:layout_constraintTop_toBottomOf="@+id/subTitleToolbar"
-                        app:layout_constraintStart_toStartOf="@+id/subTitleToolbar"
+                        app:layout_constraintTop_toBottomOf="@+id/subTitlePage"
+                        app:layout_constraintStart_toStartOf="@+id/subTitlePage"
                         app:layout_constraintBottom_toBottomOf="parent"
                         android:layout_marginTop="4dp"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -139,13 +137,13 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"
-                                android:gravity="center" />
+                                android:gravity="center"
+                                android:layout_gravity="center"/>
                         </HorizontalScrollView>
                         <TextView
                             android:id="@+id/titleInfoWeekWorkoutPlan"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Settimana 1 di 8"
                             android:textSize="14sp"
                             android:textColor="@color/secondary_text"
                             android:layout_margin="8dp"
@@ -167,14 +165,15 @@
                     android:layout_margin="16dp"
                     android:clickable="true"
                     android:focusable="true"
-                    android:foreground="?android:attr/selectableItemBackgroundBorderless">
+                    android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                    android:visibility="invisible">
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"
+                        android:textSize="18sp"
                         android:layout_margin="8dp"
                         android:textColor="@color/primary_text"
-                        android:text="Schede" />
+                        android:text="@string/title_home_frag_container_session_empty" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -183,7 +182,7 @@
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"
                         android:textColor="@color/secondary_text"
-                        android:text="Create unlimited workout plans as per your need." />
+                        android:text="@string/sub_title_home_frag_container_session_empty" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -191,8 +190,7 @@
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"
                         android:textColor="@color/secondary_text"
-                        android:text="Tap to create one now." />
-
+                        android:text="@string/sub_title_home_frag_container_session_empty_one" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -209,7 +207,7 @@
                             android:layout_marginEnd="8dp"
                             android:layout_marginStart="8dp"
                             android:textColor="@color/white"
-                            android:text="Create Workout Plan"
+                            android:text="@string/text_button_home_frag_container_session_empty"
                             android:background="@drawable/background_item_corners_rounded"
                             android:backgroundTint="@color/primary"
                             android:padding="8dp"
@@ -218,21 +216,23 @@
 
                 </LinearLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <LinearLayout
                     android:id="@+id/containerSession"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     app:layout_constraintTop_toBottomOf="@+id/calendarHorizontal"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:padding="16dp"
-                    android:visibility="gone">
+                    android:orientation="vertical"
+
+                    android:visibility="visible">
                     <TextView
                         android:id="@+id/titleWorkoutPlan"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Scheda di allenamento"
+                        android:text="@string/title_home_frag_container_session"
                         android:textColor="@color/primary_text"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -241,7 +241,7 @@
                         />
                     <TextView
                         android:id="@+id/titleMyWorkoutPlan"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/secondary_text"
                         app:layout_constraintTop_toBottomOf="@+id/titleWorkoutPlan"
@@ -253,7 +253,7 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerView"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:overScrollMode="never"
                         android:layout_marginTop="8dp"
                         app:layout_constraintTop_toBottomOf="@+id/titleMyWorkoutPlan"
@@ -262,7 +262,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>

@@ -21,7 +21,7 @@ public interface WorkoutPlanDAO {
     @Delete
     void delete(WorkoutPlanBean workoutPlanBean);
 
-    @Query("SELECT * FROM workout_plan WHERE isEnd = 0")
+    @Query("SELECT * FROM workout_plan WHERE isEnd = 0 AND isSelected = 1")
     LiveData<WorkoutPlanBean> loadWorkoutPlanOpen();
 
 }
