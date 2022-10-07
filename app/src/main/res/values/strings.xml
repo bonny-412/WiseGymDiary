@@ -10,12 +10,18 @@
     <string name="text_loading">Loading…</string>
     <string name="of">of</string>
     <string name="week">Week</string>
+    <string name="date_format">yyyy-MM-dd</string>
+    <string name="date_format_view">dd MMM</string>
+    <string name="from">From</string>
+    <string name="to">to</string>
 
     <!-- Content description button toolbar pages -->
     <string name="content_description_button_return_back">Return back</string>
     <string name="content_description_button_save">Save form</string>
+    <string name="content_description_button_add_workout">Add workout</string>
 
     <!-- Menu -->
+    <string name="home">Home</string>
     <string name="workout_plan">Workout</string>
     <string name="profile">Profile</string>
     <string name="setting">Settings</string>
@@ -39,41 +45,41 @@
     <string name="category_exercise_distance">Distance</string>
     <string name="category_exercise_time">Time</string>
 
-    <!-- Title pages -->
+    <!-- Home Fragment -->
     <string name="title_page_home_fragment_one">Hi</string>
     <string name="title_page_home_fragment_two">Secco</string>
     <string name="sub_title_page_home_fragment">Let\'s start workout</string>
-
-    <string name="title_page_new_edit_workout_plan">Create workout plan</string>
-    <string name="title_page_new_edit_workout_plan_edit">Edit workout plan</string>
-    <string name="sub_title_page_new_edit_workout_plan">You can create your own workout plan</string>
-    <string name="sub_title_page_new_edit_workout_plan_edit">You can edit your own workout plan</string>
-
-    <!-- Home Fragment -->
     <string name="title_home_frag_container_session_empty">Workout plans</string>
     <string name="sub_title_home_frag_container_session_empty">Create unlimited workout plans as per your need.</string>
     <string name="sub_title_home_frag_container_session_empty_one">Tap to create one now.</string>
     <string name="text_button_home_frag_container_session_empty">Create workout plan</string>
     <string name="title_home_frag_container_session">Workout plan</string>
-    
+
     <!-- New Edit Workout Plan -->
+    <string name="title_page_new_edit_workout_plan">Create workout plan</string>
+    <string name="title_page_new_edit_workout_plan_edit">Edit workout plan</string>
+    <string name="sub_title_page_new_edit_workout_plan">You can create your own workout plan</string>
+    <string name="sub_title_page_new_edit_workout_plan_edit">You can edit your own workout plan</string>
     <string name="edit_text_name_workout_plan">Name workout plan</string>
-    <string name="edit_text_date_start_workout_plan">Start date</string>
-    <string name="edit_text_date_end_workout_plan">End date</string>
+    <string name="edit_text_date_start_workout_plan">Start/End date</string>
     <string name="edit_text_note_workout_plan">Note workout plan</string>
     <string name="label_edit_text_name_workout_plan">Give your workout plan a name</string>
     <string name="label_edit_text_start_date_workout_plan">Choose start date for your workout plan</string>
-    <string name="label_edit_text_end_date_workout_plan">Choose end date for your workout plan</string>
     <string name="label_edit_text_note_workout_plan">Add your workout plan a notes</string>
-    
+    <string name="choose_start_end_date">Choose start/end date</string>
+
+    <!-- Detail Workout Plan -->
+    <string name="title_page_details_workout_plan">Workout plan</string>
+    <string name="text_sessions_is_empty_details_workout_plan">Press + to add a workout to your workout plan</string>
+
     <!-- OLD -->
 
     <string name="add_workout_plan">Let\'s add a workout plan</string>
     <string name="add_exercises">Let\'s add some exercises</string>
     <string name="name_first_workout_plan">My Workout plan 1</string>
     <string name="today">Today</string>
-    
-    
+
+
     <string name="add_routine">Add your sessionBean</string>
     <string name="title_add_session">Add sessionBean</string>
     <string name="title_new_routine">New sessionBean</string>

@@ -40,13 +40,11 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSave"
             style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="48dp"
+            android:layout_width="wrap_content"
             app:cornerRadius="10dp"
-            android:layout_height="48dp"
-            android:insetLeft="0dp"
-            android:insetTop="0dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:minWidth="48dp"
             app:iconTint="@color/primary"
             android:insetRight="0dp"
             android:insetBottom="0dp"
@@ -116,8 +114,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_margin="16dp"
         android:orientation="vertical"
+        android:gravity="center"
         android:background="@drawable/background_item_corners_rounded">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:indeterminate="true"
+            android:indeterminateDrawable="@drawable/progress_bg"
+            android:progress="0" />
+
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/containerForm"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:overScrollMode="never">
@@ -134,7 +145,11 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_margin="16dp"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    app:layout_constraintBottom_toTopOf="@+id/startDateLayout"
+                    app:layout_constraintBottom_toTopOf="@+id/startEndDateLayout"
+                    app:startIconDrawable="@drawable/ic_workout_plans"
+                    app:startIconContentDescription="@string/edit_text_name_workout_plan"
+                    app:errorEnabled="true"
+                    app:errorContentDescription="@string/required_field"
                     >
                     <EditText
                         android:id="@+id/name"
@@ -151,85 +166,68 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/startDateLayout"
+                    android:id="@+id/startEndDateLayout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@+id/nameLayout"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/endDateLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/noteLayout"
                     android:layout_marginStart="16dp"
-                    android:layout_marginEnd="4dp"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    app:startIconDrawable="@drawable/ic_check"
-                    app:startIconContentDescription="@string/edit_text_date_start_workout_plan"
-                    >
-                <EditText
-                    android:id="@+id/startDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:autofillHints="name"
-                    android:hint="@string/edit_text_date_start_workout_plan"
-                    android:inputType="datetime"
-                    android:labelFor="@+id/name"
-                    android:minHeight="48dp"
-                    android:textColor="@color/primary_text"
-                    android:textColorHint="@color/tertiary_text"
-                    android:imeOptions="actionDone"
-                    tools:ignore="DuplicateSpeakableTextCheck,LabelFor" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/endDateLayout"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="@+id/startDateLayout"
-                    app:layout_constraintStart_toEndOf="@+id/startDateLayout"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@+id/startDateLayout"
-                    android:layout_marginStart="4dp"
                     android:layout_marginEnd="16dp"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:startIconDrawable="@drawable/ic_calendar"
+                    app:startIconContentDescription="@string/edit_text_date_start_workout_plan"
+                    app:errorEnabled="true"
+                    app:errorContentDescription="@string/required_field"
                     >
-                <EditText
-                    android:id="@+id/endDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:autofillHints="name"
-                    android:hint="@string/edit_text_date_end_workout_plan"
-                    android:inputType="date"
-                    android:labelFor="@+id/name"
-                    android:minHeight="48dp"
-                    android:imeOptions="actionDone"
-                    android:textColor="@color/primary_text"
-                    android:textColorHint="@color/tertiary_text"
-                    tools:ignore="DuplicateSpeakableTextCheck,LabelFor" />
+
+                    <EditText
+                        android:id="@+id/startEndDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autofillHints="name"
+                        android:hint="@string/edit_text_date_start_workout_plan"
+                        android:imeOptions="actionDone"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:cursorVisible="false"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
+                        android:inputType="none"
+                        android:labelFor="@+id/name"
+                        android:minHeight="48dp"
+                        android:textColor="@color/primary_text"
+                        android:textColorHint="@color/tertiary_text"
+                        tools:ignore="DuplicateSpeakableTextCheck,LabelFor,SpeakableTextPresentCheck" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/noteLayout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/endDateLayout"
+                    app:layout_constraintTop_toBottomOf="@+id/startEndDateLayout"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_margin="16dp"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:startIconDrawable="@drawable/ic_note"
+                    app:startIconContentDescription="@string/edit_text_note_workout_plan"
+                    app:endIconMode="clear_text"
                     >
 
-                <EditText
-                    android:id="@+id/note"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:autofillHints="name"
-                    android:hint="@string/edit_text_note_workout_plan"
-                    android:inputType="textMultiLine"
-                    android:labelFor="@+id/name"
-                    android:minHeight="48dp"
-                    android:textColor="@color/primary_text"
-                    android:textColorHint="@color/tertiary_text"
-                    tools:ignore="DuplicateSpeakableTextCheck,LabelFor" />
+                    <EditText
+                        android:id="@+id/note"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autofillHints="name"
+                        android:hint="@string/edit_text_note_workout_plan"
+                        android:inputType="textMultiLine"
+                        android:labelFor="@+id/name"
+                        android:minHeight="48dp"
+                        android:textColor="@color/primary_text"
+                        android:textColorHint="@color/tertiary_text"
+                        tools:ignore="DuplicateSpeakableTextCheck,LabelFor,SpeakableTextPresentCheck" />
                 </com.google.android.material.textfield.TextInputLayout>
 
 

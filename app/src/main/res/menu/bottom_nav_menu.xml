@@ -5,6 +5,12 @@
     <item
         android:id="@+id/navigation_home"
         android:icon="@drawable/ic_home"
+        android:title="@string/home"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/navigation_workout_plan"
+        android:icon="@drawable/ic_workout_plans"
         android:title="@string/workout_plan"
         app:showAsAction="ifRoom" />
 
@@ -12,12 +18,12 @@
         android:id="@+id/navigation_dashboard"
         android:icon="@drawable/ic_person"
         android:title="@string/profile"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/navigation_notifications"
         android:icon="@drawable/ic_menu"
         android:title="@string/setting"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 
 </menu>

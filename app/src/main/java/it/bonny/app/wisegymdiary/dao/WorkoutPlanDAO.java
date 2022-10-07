@@ -24,5 +24,11 @@ public interface WorkoutPlanDAO {
     @Query("SELECT * FROM workout_plan WHERE isEnd = 0 AND isSelected = 1")
     LiveData<WorkoutPlanBean> loadWorkoutPlanOpen();
 
+    @Query("SELECT * FROM workout_plan WHERE id = :id")
+    WorkoutPlanBean findWorkoutPlanByPrimaryKey(long id);
+
+    @Query("SELECT COUNT(*) FROM workout_plan WHERE isSelected = :isSelected")
+    int countWorkoutPlanIsSelected(int isSelected);
+
 }
 

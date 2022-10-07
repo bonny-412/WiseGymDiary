@@ -8,8 +8,14 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="it.bonny.app.wisegymdiary.manager.ui.home.HomeFragment"
-        android:label="@string/workout_plan"
+        android:label="@string/home"
         tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_workout_plan"
+        android:name="it.bonny.app.wisegymdiary.manager.ui.workout_plan.WorkoutPlanFragment"
+        android:label="@string/workout_plan"
+        tools:layout="@layout/fragment_workout_plan" />
 
     <fragment
         android:id="@+id/navigation_dashboard"

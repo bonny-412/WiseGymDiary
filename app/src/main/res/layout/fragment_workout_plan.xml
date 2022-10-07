@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".manager.ui.dashboard.DashboardFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        app:liftOnScroll="true"
+        android:layout_height="128dp">
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:expandedTitleMarginStart="72dp"
+            app:expandedTitleMarginBottom="28dp"
+            app:expandedTitleTextAppearance="@style/TextAppearance.App.CollapsingToolbar.Expanded"
+            app:collapsedTitleTextAppearance="@style/TextAppearance.App.CollapsingToolbar.Collapsed">
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title="Schede"
+            app:titleTextColor="@color/primary_text"
+            android:elevation="0dp"
+            app:menu="@menu/popup_menu_routine_options"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            />
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="The suggested solution works, but it doesn't look elegant, ideally a fragment shouldn't know anything about its parent activity. An alternative might be not to use setSupportActionBar at all. If you use navigation library it might be easier to add a Toolbar to the fragment layout and setup it using NavigationUI, for example:The suggested solution works, but it doesn't look elegant, ideally a fragment shouldn't know anything about its parent activity. An alternative might be not to use setSupportActionBar at all. If you use navigation library it might be easier to add a Toolbar to the fragment layout and setup it using NavigationUI, for example:The suggested solution works, but it doesn't look elegant, ideally a fragment shouldn't know anything about its parent activity. An alternative might be not to use setSupportActionBar at all. If you use navigation library it might be easier to add a Toolbar to the fragment layout and setup it using NavigationUI, for example:The suggested solution works, but it doesn't look elegant, ideally a fragment shouldn't know anything about its parent activity. An alternative might be not to use setSupportActionBar at all. If you use navigation library it might be easier to add a Toolbar to the fragment layout and setup it using NavigationUI, for example:The suggested solution works, but it doesn't look elegant, ideally a fragment shouldn't know anything about its parent activity. An alternative might be not to use setSupportActionBar at all. If you use navigation library it might be easier to add a Toolbar to the fragment layout and setup it using NavigationUI, for example:The suggested solution works, but it doesn't look elegant, ideally a fragment shouldn't know anything about its parent activity. An alternative might be not to use setSupportActionBar at all. If you use navigation library it might be easier to add a Toolbar to the fragment layout and setup it using NavigationUI, for example:The suggested solution works, but it doesn't look elegant, ideally a fragment shouldn't know anything about its parent activity. An alternative might be not to use setSupportActionBar at all. If you use navigation library it might be easier to add a Toolbar to the fragment layout and setup it using NavigationUI, for example:The suggested solution works, but it doesn't look elegant, ideally a fragment shouldn't know anything about its parent activity. An alternative might be not to use setSupportActionBar at all. If you use navigation library it might be easier to add a Toolbar to the fragment layout and setup it using NavigationUI, for example:The suggested solution works, but it doesn't look elegant, ideally a fragment shouldn't know anything about its parent activity. An alternative might be not to use setSupportActionBar at all. If you use navigation library it might be easier to add a Toolbar to the fragment layout and setup it using NavigationUI, for example:The suggested solution works, but it doesn't look elegant, ideally a fragment shouldn't know anything about its parent activity. An alternative might be not to use setSupportActionBar at all. If you use navigation library it might be easier to add a Toolbar to the fragment layout and setup it using NavigationUI, for example:The suggested solution works, but it doesn't look elegant, ideally a fragment shouldn't know anything about its parent activity. An alternative might be not to use setSupportActionBar at all. If you use navigation library it might be easier to add a Toolbar to the fragment layout and setup it using NavigationUI, for example:The suggested solution works, but it doesn't look elegant, ideally a fragment shouldn't know anything about its parent activity. An alternative might be not to use setSupportActionBar at all. If you use navigation library it might be easier to add a Toolbar to the fragment layout and setup it using NavigationUI, for example:The suggested solution works, but it doesn't look elegant, ideally a fragment shouldn't know anything about its parent activity. An alternative might be not to use setSupportActionBar at all. If you use navigation library it might be easier to add a Toolbar to the fragment layout and setup it using NavigationUI, for example:The suggested solution works, but it doesn't look elegant, ideally a fragment shouldn't know anything about its parent activity. An alternative might be not to use setSupportActionBar at all. If you use navigation library it might be easier to add a Toolbar to the fragment layout and setup it using NavigationUI, for example:The suggested solution works, but it doesn't look elegant, ideally a fragment shouldn't know anything about its parent activity. An alternative might be not to use setSupportActionBar at all. If you use navigation library it might be easier to add a Toolbar to the fragment layout and setup it using NavigationUI, for example:The suggested solution works, but it doesn't look elegant, ideally a fragment shouldn't know anything about its parent activity. An alternative might be not to use setSupportActionBar at all. If you use navigation library it might be easier to add a Toolbar to the fragment layout and setup it using NavigationUI, for example:The suggested solution works, but it doesn't look elegant, ideally a fragment shouldn't know anything about its parent activity. An alternative might be not to use setSupportActionBar at all. If you use navigation library it might be easier to add a Toolbar to the fragment layout and setup it using NavigationUI, for example:The suggested solution works, but it doesn't look elegant, ideally a fragment shouldn't know anything about its parent activity. An alternative might be not to use setSupportActionBar at all. If you use navigation library it might be easier to add a Toolbar to the fragment layout and setup it using NavigationUI, for example:The suggested solution works, but it doesn't look elegant, ideally a fragment shouldn't know anything about its parent activity. An alternative might be not to use setSupportActionBar at all. If you use navigation library it might be easier to add a Toolbar to the fragment layout and setup it using NavigationUI, for example:The suggested solution works, but it doesn't look elegant, ideally a fragment shouldn't know anything about its parent activity. An alternative might be not to use setSupportActionBar at all. If you use navigation library it might be easier to add a Toolbar to the fragment layout and setup it using NavigationUI, for example:"
+                android:textColor="@color/primary_text"
+                android:textSize="16sp"
+                android:textAlignment="center" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

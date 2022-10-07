@@ -14,12 +14,23 @@
         android:theme="@style/Theme.GymDiary"
         tools:targetApi="31">
         <activity
+            android:name=".manager.DetailWorkoutPlanActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.GymDiary"
+            android:windowSoftInputMode="adjustPan"
+            tools:ignore="LockedOrientationActivity">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".manager.NewEditWorkoutPlanActivity"
             android:exported="false"
             android:screenOrientation="portrait"
+            android:theme="@style/Theme.GymDiary"
             android:windowSoftInputMode="adjustPan"
-            tools:ignore="LockedOrientationActivity"
-            android:theme="@style/Theme.GymDiary">
+            tools:ignore="LockedOrientationActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -28,9 +39,9 @@
             android:name=".manager.SessionDetailActivity"
             android:exported="false"
             android:screenOrientation="portrait"
+            android:theme="@style/Theme.GymDiary"
             android:windowSoftInputMode="adjustPan"
-            tools:ignore="LockedOrientationActivity"
-            android:theme="@style/Theme.GymDiary">
+            tools:ignore="LockedOrientationActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -39,9 +50,9 @@
             android:name=".NewEditExerciseActivity"
             android:exported="false"
             android:screenOrientation="portrait"
+            android:theme="@style/Theme.GymDiary"
             android:windowSoftInputMode="adjustPan"
-            tools:ignore="LockedOrientationActivity"
-            android:theme="@style/Theme.GymDiary"/>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".NewEditWorkoutDay"
             android:exported="false"

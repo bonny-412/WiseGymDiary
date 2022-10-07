@@ -1,13 +1,16 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/edit"
         android:title="@string/title_page_edit_workout_day"
-        android:icon="@drawable/ic_edit"/>
+        android:icon="@drawable/ic_edit"
+        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/delete"
         android:title="@string/title_delete_workout_day"
-        android:icon="@drawable/ic_delete"/>
+        android:icon="@drawable/ic_delete"
+        app:showAsAction="ifRoom"/>
 
 </menu>

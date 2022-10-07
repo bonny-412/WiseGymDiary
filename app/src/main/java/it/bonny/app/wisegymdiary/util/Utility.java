@@ -15,12 +15,19 @@ import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.ZoneId;
+import java.time.temporal.TemporalAdjuster;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import it.bonny.app.wisegymdiary.R;
 import it.bonny.app.wisegymdiary.component.GridViewChooseColorAdapter;
@@ -121,6 +128,70 @@ public class Utility {
 
     public static String capitalizeFirstLetterString(String str) {
         return str.substring(0, 1).toUpperCase() + str.substring(1);
+    }
+
+    public static SimpleDateFormat getDateForm() {
+       return new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+    }
+
+    public static SimpleDateFormat getDateFormView() {
+        return new SimpleDateFormat("dd MMM", Locale.getDefault());
+    }
+
+    public String convertStringDateToStringDateView(String d1) {
+        String str;
+        Date date;
+        try {
+            date = getDateForm().parse(d1);
+        }catch (Exception exception) {
+            date = new Date();
+        }
+
+        if(date == null) {
+            date = new Date();
+        }
+        str = getDateFormView().format(date);
+
+        return str;
+    }
+
+    public int getCountWeeks(String d1, String d2)  {
+        int numWeeks = 0;
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
+            Date start = sdf.parse(d1);
+            Date end = sdf.parse(d2);
+
+            if(start != null && end != null) {
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    Date firstOfWeek = Date.from(start.toInstant().atZone(ZoneId.of("Europe/Paris")).toLocalDate().with(
+                            TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)
+                    ).atStartOfDay(ZoneId.systemDefault()).toInstant());
+                    Date lastOfWeek = Date.from(end.toInstant().atZone(ZoneId.of("Europe/Paris")).toLocalDate().with(
+                            TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY)
+                    ).atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+                    numWeeks = countWeeks(firstOfWeek, lastOfWeek);
+                }else {
+                    numWeeks = countWeeks(start, end);
+                }
+            }
+        }catch (Exception ignored) {}
+        
+        return numWeeks;
+    }
+
+    private int countWeeks(Date start, Date end) {
+        Calendar cal = Calendar.getInstance(Locale.getDefault());
+        cal.setTime(start);
+
+        int weeks = 0;
+        while(cal.getTime().before(end)) {
+            cal.add(Calendar.WEEK_OF_YEAR, 1);
+            weeks++;
+        }
+
+        return weeks;
     }
 
 }

@@ -41,5 +41,8 @@ public interface WorkoutDayDAO {
     @Query("SELECT * FROM  session ORDER BY id ASC LIMIT 1")
     SessionBean getWorkoutDayByIdMin();
 
+    @Query("SELECT COUNT(*) FROM session WHERE id_work_plan = :idWorkPlan")
+    int getCountSessionByWorkoutPlan(long idWorkPlan);
+
 }
 
