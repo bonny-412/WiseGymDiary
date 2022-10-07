@@ -19,6 +19,7 @@
     <string name="content_description_button_return_back">Return back</string>
     <string name="content_description_button_save">Save form</string>
     <string name="content_description_button_add_workout">Add workout</string>
+    <string name="content_description_button_add_generic">Add element</string>
 
     <!-- Menu -->
     <string name="home">Home</string>
@@ -71,6 +72,13 @@
     <!-- Detail Workout Plan -->
     <string name="title_page_details_workout_plan">Workout plan</string>
     <string name="text_sessions_is_empty_details_workout_plan">Press + to add a workout to your workout plan</string>
+
+    <!-- Workout Plan Fragment -->
+    <string name="title_page_workout_plan_fragment">All workout plans</string>
+    <string name="sub_title_page_workout_plan_fragment">Select workout plan to track</string>
+    <string name="title_your_workout_plans_page_workout_plan_fragment">Your workout plans</string>
+    <string name="title_your_workout_end_plans_page_workout_plan_fragment">Your finished workout plans</string>
+    <string name="text_workout_plan_is_empty">Press + to add a new workout plan</string>
 
     <!-- OLD -->
 

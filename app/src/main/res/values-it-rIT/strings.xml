@@ -102,5 +102,11 @@
     <string name="text_sessions_is_empty_details_workout_plan">Premi + per aggiungere una sessione alla tua scheda</string>
     <string name="content_description_button_add_workout">Aggiungi sessione</string>
     <string name="home">Home</string>
+    <string name="title_page_workout_plan_fragment">Tutte le schede</string>
+    <string name="sub_title_page_workout_plan_fragment">Seleziona una scheda da monitorare</string>
+    <string name="content_description_button_add_generic">Aggiungi elemento</string>
+    <string name="title_your_workout_plans_page_workout_plan_fragment">Le tue schede</string>
+    <string name="title_your_workout_end_plans_page_workout_plan_fragment">Le tue schede terminate</string>
+    <string name="text_workout_plan_is_empty">Premi + per aggiungere una nuova scheda</string>
 
 </resources>

@@ -7,6 +7,8 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import java.util.List;
+
 import it.bonny.app.wisegymdiary.bean.WorkoutPlanBean;
 
 @Dao
@@ -27,8 +29,14 @@ public interface WorkoutPlanDAO {
     @Query("SELECT * FROM workout_plan WHERE id = :id")
     WorkoutPlanBean findWorkoutPlanByPrimaryKey(long id);
 
-    @Query("SELECT COUNT(*) FROM workout_plan WHERE isSelected = :isSelected")
+    @Query("SELECT COUNT(*) FROM workout_plan WHERE isEnd = 0 AND isSelected = :isSelected")
     int countWorkoutPlanIsSelected(int isSelected);
+
+    @Query("SELECT COUNT(*) FROM workout_plan WHERE isEnd = :isEnd")
+    int countWorkoutPlanByIsEnd(int isEnd);
+
+    @Query("SELECT * FROM workout_plan WHERE isEnd = :isEnd")
+    LiveData<List<WorkoutPlanBean>> findAllWorkoutPlanByIsEnd(int isEnd);
 
 }
 

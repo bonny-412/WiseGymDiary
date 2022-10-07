@@ -102,12 +102,13 @@ public class NewEditWorkoutPlanActivity extends AppCompatActivity {
                     int countWorkoutPlanIsSelected = AppDatabase.getInstance(getApplicationContext()).workoutPlanDAO().countWorkoutPlanIsSelected(ValueFlagBean.WORKOUT_PLAN_IS_SELECTED);
                     if(countWorkoutPlanIsSelected == 0)
                         workoutPlanBean.setIsSelected(ValueFlagBean.WORKOUT_PLAN_IS_SELECTED);
+                    else
+                        workoutPlanBean.setIsSelected(ValueFlagBean.WORKOUT_PLAN_IS_NOT_SELECTED);
                     AppDatabase.getInstance(getApplicationContext()).workoutPlanDAO().insert(workoutPlanBean);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Intent intent = new Intent(getApplicationContext(), DashboardFragment.class);
-                            startActivity(intent);
+                            //TODO: Add detail workout plan
                             finish();
                         }
                     });

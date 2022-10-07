@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="8dp"
+    style="?attr/materialCardViewFilledStyle"
+    app:cardBackgroundColor="@color/background_card"
+    app:cardElevation="0dp"
+    android:layout_margin="4dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintClicked"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground">
+
+            <TextView
+                android:id="@+id/titleWorkoutPlan"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary_text"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/dateWorkoutPlan"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:textAlignment="center"
+
+                android:ellipsize="marquee"
+                android:lines="1"
+                android:fadingEdge="horizontal"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:scrollHorizontally="true"
+                />
+
+            <TextView
+                android:id="@+id/dateWorkoutPlan"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/secondary_text"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textAlignment="center"
+                app:layout_constraintTop_toBottomOf="@+id/titleWorkoutPlan"
+                app:layout_constraintStart_toStartOf="@+id/titleWorkoutPlan"
+                app:layout_constraintEnd_toEndOf="@+id/titleWorkoutPlan"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="18dp"
+                android:ellipsize="marquee"
+                android:lines="1"
+                android:fadingEdge="horizontal"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:scrollHorizontally="true"
+                />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
