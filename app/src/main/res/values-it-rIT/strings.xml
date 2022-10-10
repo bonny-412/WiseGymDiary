@@ -108,5 +108,8 @@
     <string name="title_your_workout_plans_page_workout_plan_fragment">Le tue schede</string>
     <string name="title_your_workout_end_plans_page_workout_plan_fragment">Le tue schede terminate</string>
     <string name="text_workout_plan_is_empty">Premi + per aggiungere una nuova scheda</string>
+    <string name="text_button_add_session_workout_plan">Aggiungi sessione</string>
+    <string name="edit_text_name_session_workout_plan">Nome sessione</string>
+    <string name="text_button_add_exercise_workout_plan">Aggiungi esercizio</string>
 
 </resources>

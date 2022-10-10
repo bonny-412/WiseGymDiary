@@ -17,23 +17,15 @@ public class WorkoutPlanViewModel extends AndroidViewModel {
     private final WorkoutPlanRepository workoutPlanRepository;
     private final LiveData<List<WorkoutPlanBean>> workoutPlanNotEndList;
     private final LiveData<List<WorkoutPlanBean>> workoutPlanEndList;
-    private final MutableLiveData<Integer> countWorkoutPlanByIsEnd;
+    private final LiveData<Integer> countWorkoutPlanByIsEnd;
 
     public WorkoutPlanViewModel(Application application) {
         super(application);
         workoutPlanRepository = new WorkoutPlanRepository(application);
-        countWorkoutPlanByIsEnd = new MutableLiveData<>();
 
         workoutPlanNotEndList = workoutPlanRepository.getWorkoutPlanNotEndList();
         workoutPlanEndList = workoutPlanRepository.getWorkoutPlanEndList();
-
-        if(workoutPlanNotEndList != null && workoutPlanNotEndList.getValue() != null && workoutPlanNotEndList.getValue().size() > 0) {
-            countWorkoutPlanByIsEnd.setValue(workoutPlanNotEndList.getValue().size());
-        }else {
-            countWorkoutPlanByIsEnd.setValue(0);
-        }
-
-
+        countWorkoutPlanByIsEnd = workoutPlanRepository.getCountWorkoutPlanByIsEnd();
     }
 
     public void insert(WorkoutPlanBean workoutPlanBean) { workoutPlanRepository.insert(workoutPlanBean); }
@@ -47,7 +39,7 @@ public class WorkoutPlanViewModel extends AndroidViewModel {
         return workoutPlanEndList;
     }
 
-    public MutableLiveData<Integer> getCountWorkoutPlanByIsEnd() {
+    public LiveData<Integer> getCountWorkoutPlanByIsEnd() {
         return countWorkoutPlanByIsEnd;
     }
 

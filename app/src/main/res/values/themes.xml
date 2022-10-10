@@ -23,6 +23,8 @@
         <item name="bottomSheetDialogTheme">@style/BottomSheetDialogTheme</item>
 
         <item name="materialCalendarTheme">@style/ThemeOverlay.App.DatePicker</item>
+
+        <item name="android:windowContentTransitions">true</item>
     </style>
 
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">

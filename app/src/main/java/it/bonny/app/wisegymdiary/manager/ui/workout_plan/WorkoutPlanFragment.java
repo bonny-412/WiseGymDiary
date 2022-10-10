@@ -10,23 +10,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback;
 
 import it.bonny.app.wisegymdiary.R;
-import it.bonny.app.wisegymdiary.bean.WorkoutPlanBean;
 import it.bonny.app.wisegymdiary.component.GridViewWorkoutPlanAdapter;
-import it.bonny.app.wisegymdiary.database.AppDatabase;
 import it.bonny.app.wisegymdiary.databinding.FragmentWorkoutPlanBinding;
 import it.bonny.app.wisegymdiary.manager.NewEditWorkoutPlanActivity;
-import it.bonny.app.wisegymdiary.util.App;
-import it.bonny.app.wisegymdiary.util.ValueFlagBean;
 import it.bonny.app.wisegymdiary.util.WorkoutPlanOnCLickItemCheckbox;
 
 public class WorkoutPlanFragment extends Fragment {
@@ -52,6 +49,9 @@ public class WorkoutPlanFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), NewEditWorkoutPlanActivity.class);
                 intent.putExtra("idWorkoutPlan", 0);
                 startActivity(intent);
+                //if(getActivity() != null)
+                    //getActivity().overridePendingTransition(R.anim.slide_up, R.anim.fade_out);
+
                 return true;
             }
             return false;
@@ -60,8 +60,10 @@ public class WorkoutPlanFragment extends Fragment {
         workoutPlanViewModel.getWorkoutPlanNotEndList().observe(getViewLifecycleOwner(), workoutPlanBeans -> {
             if(workoutPlanBeans == null || workoutPlanBeans.size() <= 0)
                 containerListNotEnd.setVisibility(View.GONE);
-            else
+            else {
                 containerListNotEnd.setVisibility(View.VISIBLE);
+                textWorkoutPlansListEmpty.setVisibility(View.GONE);
+            }
             workoutPlanAdapter.updateWorkoutPlanList(workoutPlanBeans);
         });
 
@@ -93,7 +95,9 @@ public class WorkoutPlanFragment extends Fragment {
         WorkoutPlanOnCLickItemCheckbox workoutPlanOnCLickItemCheckbox = new WorkoutPlanOnCLickItemCheckbox() {
             @Override
             public void recyclerViewItemClick(long idElement) {
-                Toast.makeText(getContext(), "Selected : " + idElement, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), NewEditWorkoutPlanActivity.class);
+                intent.putExtra("idWorkoutPlan", idElement);
+                startActivity(intent);
             }
         };
 

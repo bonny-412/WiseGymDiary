@@ -68,6 +68,9 @@
     <string name="label_edit_text_start_date_workout_plan">Choose start date for your workout plan</string>
     <string name="label_edit_text_note_workout_plan">Add your workout plan a notes</string>
     <string name="choose_start_end_date">Choose start/end date</string>
+    <string name="text_button_add_session_workout_plan">Add session</string>
+    <string name="edit_text_name_session_workout_plan">Name session</string>
+    <string name="text_button_add_exercise_workout_plan">Add exercise</string>
 
     <!-- Detail Workout Plan -->
     <string name="title_page_details_workout_plan">Workout plan</string>

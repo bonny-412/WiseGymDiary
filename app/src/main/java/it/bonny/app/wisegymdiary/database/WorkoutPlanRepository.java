@@ -15,6 +15,7 @@ public class WorkoutPlanRepository {
     private final LiveData<WorkoutPlanBean> workoutPlan;
     private final LiveData<List<WorkoutPlanBean>> workoutPlanNotEndList;
     private final LiveData<List<WorkoutPlanBean>> workoutPlanEndList;
+    private final LiveData<Integer> countWorkoutPlanByIsEnd;
 
     public WorkoutPlanRepository(Application application) {
         AppDatabase db = AppDatabase.getInstance(application);
@@ -23,6 +24,7 @@ public class WorkoutPlanRepository {
 
         workoutPlanNotEndList = workoutPlanDAO.findAllWorkoutPlanByIsEnd(ValueFlagBean.WORKOUT_PLAN_IS_NOT_END);
         workoutPlanEndList = workoutPlanDAO.findAllWorkoutPlanByIsEnd(ValueFlagBean.WORKOUT_PLAN_IS_END);
+        countWorkoutPlanByIsEnd = workoutPlanDAO.countWorkoutPlanByIsEnd();
     }
 
     public LiveData<WorkoutPlanBean> getWorkoutPlan() {
@@ -35,6 +37,10 @@ public class WorkoutPlanRepository {
 
     public LiveData<List<WorkoutPlanBean>> getWorkoutPlanEndList() {
         return workoutPlanEndList;
+    }
+
+    public LiveData<Integer> getCountWorkoutPlanByIsEnd() {
+        return countWorkoutPlanByIsEnd;
     }
 
     public void insert(WorkoutPlanBean workoutPlanBean) {

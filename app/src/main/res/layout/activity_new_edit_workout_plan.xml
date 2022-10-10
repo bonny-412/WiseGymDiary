@@ -11,108 +11,178 @@
         android:id="@+id/containerToolBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/background_card"
         android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="@color/background_card">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnReturnBack"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="48dp"
-            app:cornerRadius="10dp"
             android:layout_height="48dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginBottom="52dp"
+            android:contentDescription="@string/content_description_button_return_back"
             android:insetLeft="0dp"
             android:insetTop="0dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
-            app:iconTint="@color/primary_text"
             android:insetRight="0dp"
             android:insetBottom="0dp"
+            app:cornerRadius="10dp"
+            app:elevation="0dp"
             app:icon="@drawable/ic_return_back"
             app:iconGravity="textStart"
             app:iconPadding="0dp"
-            app:elevation="0dp"
-            android:contentDescription="@string/content_description_button_return_back"
-            app:layout_constraintTop_toTopOf="parent"
+            app:iconTint="@color/primary_text"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/titlePage"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:textColor="@color/primary_text"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/btnReturnBack"
+            app:layout_constraintEnd_toStartOf="@+id/btnSave"
+            app:layout_constraintStart_toEndOf="@id/btnReturnBack"
+            app:layout_constraintTop_toTopOf="@id/btnReturnBack" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSave"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
-            app:cornerRadius="10dp"
             android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:minWidth="48dp"
-            app:iconTint="@color/primary"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:contentDescription="@string/content_description_button_save"
             android:insetRight="0dp"
             android:insetBottom="0dp"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            app:cornerRadius="10dp"
+            app:elevation="0dp"
             app:icon="@drawable/ic_check"
             app:iconGravity="textStart"
             app:iconPadding="0dp"
-            app:elevation="0dp"
-            android:contentDescription="@string/content_description_button_save"
-            app:layout_constraintTop_toTopOf="parent"
+            app:iconTint="@color/primary"
+            app:layout_constraintBottom_toBottomOf="@+id/btnReturnBack"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintTop_toTopOf="@id/btnReturnBack" />
 
-    <!-- containerTitleToolBar -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/containerTitleToolBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/containerToolBar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:background="@color/background_card"
-        android:padding="8dp">
-        <TextView
-            android:id="@+id/titlePage"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/nameLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/primary_text"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/subTitlePage"
-            android:layout_marginStart="8dp"
-            android:textSize="24sp"
-            />
-        <TextView
-            android:id="@+id/subTitlePage"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textColor="@color/secondary_text"
-            app:layout_constraintTop_toBottomOf="@+id/titlePage"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/lineToolbar"
-            android:layout_marginStart="8dp"
-            android:textSize="16sp"
-            android:layout_marginTop="2dp"
-            />
-        <View
-            android:id="@+id/lineToolbar"
-            android:layout_width="48dp"
-            android:layout_height="2dp"
-            android:background="@drawable/bottom_sheet_line"
-            app:layout_constraintTop_toBottomOf="@+id/subTitlePage"
-            app:layout_constraintStart_toStartOf="@+id/subTitlePage"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"/>
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="4dp"
+            app:layout_constraintEnd_toEndOf="@+id/btnSave"
+            app:layout_constraintStart_toStartOf="@+id/btnReturnBack"
+            app:layout_constraintTop_toBottomOf="@+id/btnReturnBack">
+
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="name"
+                android:hint="@string/edit_text_name_workout_plan"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:textColor="@color/primary_text"
+                android:textColorHint="@color/tertiary_text"
+                tools:ignore="LabelFor,SpeakableTextPresentCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/startEndDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="2dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:contentDescription="@string/choose_start_end_date"
+            android:drawablePadding="2dp"
+            android:ellipsize="marquee"
+            android:fadingEdge="horizontal"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:lines="1"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:minHeight="48dp"
+            android:scrollHorizontally="true"
+            android:textColor="@color/primary_text"
+            app:drawableStartCompat="@drawable/ic_calendar"
+
+            app:drawableTint="@color/primary_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/textViewNote"
+            app:layout_constraintStart_toStartOf="@+id/nameLayout"
+            app:layout_constraintTop_toBottomOf="@+id/nameLayout" />
+
+        <TextView
+            android:id="@+id/textViewNote"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="8dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:contentDescription="@string/choose_start_end_date"
+            android:drawablePadding="2dp"
+            android:ellipsize="marquee"
+            android:fadingEdge="horizontal"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:lines="1"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:minHeight="48dp"
+            android:scrollHorizontally="true"
+            android:textColor="@color/primary_text"
+            app:drawableStartCompat="@drawable/ic_note"
+
+            app:drawableTint="@color/primary_text"
+            app:layout_constraintBottom_toBottomOf="@+id/startEndDate"
+            app:layout_constraintEnd_toEndOf="@+id/nameLayout"
+            app:layout_constraintStart_toEndOf="@+id/startEndDate"
+            app:layout_constraintTop_toTopOf="@+id/startEndDate" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnAddSession"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        app:cornerRadius="10dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/text_button_add_session_workout_plan"
+        app:icon="@drawable/ic_add_1"
+        app:iconGravity="textStart"
+        android:layout_marginTop="4dp"
+        android:contentDescription="@string/text_button_add_session_workout_plan"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/containerToolBar"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/containerTitleToolBar"
+        app:layout_constraintTop_toBottomOf="@+id/btnAddSession"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:orientation="vertical"
         android:gravity="center"
         android:background="@drawable/background_item_corners_rounded">
@@ -125,114 +195,53 @@
             android:layout_marginBottom="10dp"
             android:indeterminate="true"
             android:indeterminateDrawable="@drawable/progress_bg"
-            android:progress="0" />
+            android:progress="0"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/containerForm"
+        <TextView
+            android:id="@+id/textSessionsIsEmpty"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:overScrollMode="never">
+            android:layout_height="wrap_content"
+            android:text="@string/text_sessions_is_empty_details_workout_plan"
+            android:textColor="@color/primary_text"
+            android:textSize="16sp"
+            android:textAlignment="center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/containerForm"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/nameLayout"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_margin="16dp"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    app:layout_constraintBottom_toTopOf="@+id/startEndDateLayout"
-                    app:startIconDrawable="@drawable/ic_workout_plans"
-                    app:startIconContentDescription="@string/edit_text_name_workout_plan"
-                    app:errorEnabled="true"
-                    app:errorContentDescription="@string/required_field"
-                    >
-                    <EditText
-                        android:id="@+id/name"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <!--<com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tabs"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:autofillHints="name"
-                        android:hint="@string/edit_text_name_workout_plan"
-                        android:inputType="text"
-                        android:minHeight="48dp"
-                        android:imeOptions="actionDone"
-                        android:textColor="@color/primary_text"
-                        android:textColorHint="@color/tertiary_text"
-                        tools:ignore="LabelFor,SpeakableTextPresentCheck" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/startEndDateLayout"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/nameLayout"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/noteLayout"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    app:startIconDrawable="@drawable/ic_calendar"
-                    app:startIconContentDescription="@string/edit_text_date_start_workout_plan"
-                    app:errorEnabled="true"
-                    app:errorContentDescription="@string/required_field"
-                    >
-
-                    <EditText
-                        android:id="@+id/startEndDate"
+                        app:tabMode="scrollable"
+                        />-->
+                    <androidx.viewpager2.widget.ViewPager2
+                        android:id="@+id/view_pager"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:autofillHints="name"
-                        android:hint="@string/edit_text_date_start_workout_plan"
-                        android:imeOptions="actionDone"
-                        android:focusable="false"
-                        android:focusableInTouchMode="false"
-                        android:cursorVisible="false"
-                        android:foreground="?attr/selectableItemBackgroundBorderless"
-                        android:inputType="none"
-                        android:labelFor="@+id/name"
-                        android:minHeight="48dp"
-                        android:textColor="@color/primary_text"
-                        android:textColorHint="@color/tertiary_text"
-                        tools:ignore="DuplicateSpeakableTextCheck,LabelFor,SpeakableTextPresentCheck" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/noteLayout"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/startEndDateLayout"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_margin="16dp"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    app:startIconDrawable="@drawable/ic_note"
-                    app:startIconContentDescription="@string/edit_text_note_workout_plan"
-                    app:endIconMode="clear_text"
-                    >
-
-                    <EditText
-                        android:id="@+id/note"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:autofillHints="name"
-                        android:hint="@string/edit_text_note_workout_plan"
-                        android:inputType="textMultiLine"
-                        android:labelFor="@+id/name"
-                        android:minHeight="48dp"
-                        android:textColor="@color/primary_text"
-                        android:textColorHint="@color/tertiary_text"
-                        tools:ignore="DuplicateSpeakableTextCheck,LabelFor,SpeakableTextPresentCheck" />
-                </com.google.android.material.textfield.TextInputLayout>
-
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        />
+                </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.core.widget.NestedScrollView>
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
