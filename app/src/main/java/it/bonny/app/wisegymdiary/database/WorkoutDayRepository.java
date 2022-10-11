@@ -6,40 +6,40 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
-import it.bonny.app.wisegymdiary.bean.SessionBean;
+import it.bonny.app.wisegymdiary.bean.WorkoutBean;
 import it.bonny.app.wisegymdiary.dao.WorkoutDayDAO;
 
 public class WorkoutDayRepository {
     private final WorkoutDayDAO workoutDayDAO;
-    private LiveData<List<SessionBean>> workoutDayList;
-    private LiveData<SessionBean> sessionLiveData;
+    private LiveData<List<WorkoutBean>> workoutDayList;
+    private LiveData<WorkoutBean> sessionLiveData;
 
     public WorkoutDayRepository(Application application) {
         AppDatabase db = AppDatabase.getInstance(application);
         workoutDayDAO = db.workoutDayDAO();
     }
 
-    public LiveData<List<SessionBean>> getWorkoutDayList(long idWorkoutPlan) {
-        return workoutDayDAO.getAllRoutineByIdWorkPlan(idWorkoutPlan);
+    public LiveData<List<WorkoutBean>> getWorkoutDayList(long idWorkoutPlan) {
+        return workoutDayDAO.getAllWorkoutByIdWorkPlan(idWorkoutPlan);
     }
 
-    public LiveData<SessionBean> getSessionLiveData(long idSession) {
-        return workoutDayDAO.findWorkoutDayByPrimaryKeyLiveData(idSession);
+    public LiveData<WorkoutBean> getSessionLiveData(long idSession) {
+        return workoutDayDAO.findWorkoutByPrimaryKeyLiveData(idSession);
     }
 
-    public void insert(SessionBean sessionBean) {
+    public void insert(WorkoutBean workoutBean) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
-            workoutDayDAO.insert(sessionBean);
+            workoutDayDAO.insert(workoutBean);
         });
     }
-    public void update(SessionBean sessionBean) {
+    public void update(WorkoutBean workoutBean) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
-            workoutDayDAO.update(sessionBean);
+            workoutDayDAO.update(workoutBean);
         });
     }
-    public void delete(SessionBean sessionBean) {
+    public void delete(WorkoutBean workoutBean) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
-            workoutDayDAO.delete(sessionBean);
+            workoutDayDAO.delete(workoutBean);
         });
     }
 

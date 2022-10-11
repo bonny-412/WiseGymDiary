@@ -13,19 +13,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import it.bonny.app.wisegymdiary.R;
-import it.bonny.app.wisegymdiary.bean.SessionBean;
+import it.bonny.app.wisegymdiary.bean.WorkoutBean;
 import it.bonny.app.wisegymdiary.util.RecyclerViewClickBottomSheetInterface;
 
 public class ListWorkoutDayBottomSheetAdapter extends RecyclerView.Adapter<ListWorkoutDayBottomSheetAdapter.ViewHolder> {
 
-    private final List<SessionBean> sessionBeanList;
+    private final List<WorkoutBean> workoutBeanList;
     private int selectedPosition = -1;
     private final long idElementSelected;
     private final RecyclerViewClickBottomSheetInterface recyclerViewClickBottomSheetInterface;
 
-    public ListWorkoutDayBottomSheetAdapter(long idElementSelected, List<SessionBean> sessionBeanList,
+    public ListWorkoutDayBottomSheetAdapter(long idElementSelected, List<WorkoutBean> workoutBeanList,
                                             RecyclerViewClickBottomSheetInterface recyclerViewClickBottomSheetInterface) {
-        this.sessionBeanList = sessionBeanList;
+        this.workoutBeanList = workoutBeanList;
         this.idElementSelected = idElementSelected;
         this.recyclerViewClickBottomSheetInterface = recyclerViewClickBottomSheetInterface;
     }
@@ -40,26 +40,26 @@ public class ListWorkoutDayBottomSheetAdapter extends RecyclerView.Adapter<ListW
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final SessionBean sessionBean = sessionBeanList.get(position);
-        holder.itemListWorkoutDayName.setText(sessionBean.getName());
+        final WorkoutBean workoutBean = workoutBeanList.get(position);
+        holder.itemListWorkoutDayName.setText(workoutBean.getName());
 
-        if(idElementSelected == sessionBean.getId()) {
+        if(idElementSelected == workoutBean.getId()) {
             holder.radioButtonWorkoutDay.setVisibility(View.VISIBLE);
         }else {
             holder.radioButtonWorkoutDay.setVisibility(View.GONE);
         }
 
-        if(sessionBeanList.size() > 0) {
+        if(workoutBeanList.size() > 0) {
             holder.itemListWorkoutDay.setOnClickListener(view -> {
                 selectedPosition = holder.getAdapterPosition();
-                recyclerViewClickBottomSheetInterface.onItemClick(sessionBeanList.get(selectedPosition).getId());
+                recyclerViewClickBottomSheetInterface.onItemClick(workoutBeanList.get(selectedPosition).getId());
             });
         }
     }
 
     @Override
     public int getItemCount() {
-        return sessionBeanList.size();
+        return workoutBeanList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -77,7 +77,7 @@ public class ListWorkoutDayBottomSheetAdapter extends RecyclerView.Adapter<ListW
 
     /*private View.OnClickListener onStateChangedListener(final ImageView radioButtonAccount, final int position) {
         return v -> {
-            if (sessionBeanList.get(position).getIsSelected() == TypeObjectBean.NO_SELECTED) {
+            if (workoutBeanList.get(position).getIsSelected() == TypeObjectBean.NO_SELECTED) {
                 notifyItemChanged(selectedPosition);
                 accountBeanList.get(selectedPosition).setIsSelected(TypeObjectBean.NO_SELECTED);
                 db.updateAccountBean(accountBeanList.get(selectedPosition));

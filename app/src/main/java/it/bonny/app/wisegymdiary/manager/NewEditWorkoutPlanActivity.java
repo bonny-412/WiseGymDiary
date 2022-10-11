@@ -1,19 +1,10 @@
 package it.bonny.app.wisegymdiary.manager;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.core.util.Pair;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -21,26 +12,17 @@ import android.widget.TextView;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.datepicker.MaterialDatePicker;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
-import it.bonny.app.wisegymdiary.NewEditWorkoutDay;
 import it.bonny.app.wisegymdiary.R;
-import it.bonny.app.wisegymdiary.bean.SessionBean;
 import it.bonny.app.wisegymdiary.bean.WorkoutPlanBean;
-import it.bonny.app.wisegymdiary.component.GridViewWorkoutPlanAdapter;
-import it.bonny.app.wisegymdiary.component.RecyclerViewSessionAdapter;
 import it.bonny.app.wisegymdiary.database.AppDatabase;
 import it.bonny.app.wisegymdiary.util.Utility;
-import it.bonny.app.wisegymdiary.util.ValueFlagBean;
-import it.bonny.app.wisegymdiary.util.WorkoutPlanOnCLickItemCheckbox;
 
 public class NewEditWorkoutPlanActivity extends AppCompatActivity {
 
@@ -51,7 +33,7 @@ public class NewEditWorkoutPlanActivity extends AppCompatActivity {
     private TextInputLayout nameLayout, noteLayout;
     private WorkoutPlanBean workoutPlanBean;
     private ProgressBar progressBar;
-    private MaterialButton btnSave;
+    private MaterialButton btnAddWorkout;
     private MaterialDatePicker<Pair<Long, Long>> materialDatePicker;
     private final Utility utility = new Utility();
 
@@ -86,12 +68,15 @@ public class NewEditWorkoutPlanActivity extends AppCompatActivity {
                 String endDateStr = Utility.getDateFormView().format(myCal.getTime());
                 workoutPlanBean.setEndDate(Utility.getDateForm().format(myCal.getTime()));
 
-                String startEndDateStr = startDateStr + " / " + endDateStr;
+                String startEndDateStr = getString(R.string.from) + " "
+                        + startDateStr + " "
+                        + getString(R.string.to) + " "
+                        + endDateStr;
                 startEndDate.setText(startEndDateStr);
             });
         });
 
-        btnSave.setOnClickListener(view -> {
+        /*btnSave.setOnClickListener(view -> {
             boolean isError = false;
 
             if (name.getText() == null || "".equals(name.getText().toString().trim())) {
@@ -143,7 +128,7 @@ public class NewEditWorkoutPlanActivity extends AppCompatActivity {
                 btnSave.startAnimation(shake);
             }
 
-        });
+        });*/
 
         if (idWorkoutPlan == 0) {
             titlePage.setText(getString(R.string.title_page_new_edit_workout_plan));
@@ -158,15 +143,13 @@ public class NewEditWorkoutPlanActivity extends AppCompatActivity {
             myCal.set(Calendar.DAY_OF_MONTH, myCal.getActualMaximum(Calendar.DAY_OF_MONTH));
             workoutPlanBean.setEndDate(Utility.getDateForm().format(myCal.getTime()));
 
-            getTimeInMillisCustom();
-
-            showHideProgressBar(false);
+            countWorkoutPlan();
         } else {
             titlePage.setText(getString(R.string.title_page_new_edit_workout_plan_edit));
             subTitlePage.setText(getString(R.string.sub_title_page_new_edit_workout_plan_edit));
             materialToolbar.setTitle(getString(R.string.title_page_new_edit_workout_plan_edit));
 
-            retrieveRoutine(idWorkoutPlan);
+            retrieveWorkoutPlan(idWorkoutPlan);
         }
 
     }
@@ -182,17 +165,33 @@ public class NewEditWorkoutPlanActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         materialToolbar = findViewById(R.id.materialToolbar);
         noteLayout = findViewById(R.id.noteLayout);
-        btnSave = findViewById(R.id.btnSave);
+        btnAddWorkout = findViewById(R.id.btnAddWorkout);
 
         showHideProgressBar(true);
     }
 
-    private void retrieveRoutine(long idWorkoutPlan) {
+    private void retrieveWorkoutPlan(long idWorkoutPlan) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             workoutPlanBean = AppDatabase.getInstance(getApplicationContext()).workoutPlanDAO().findWorkoutPlanByPrimaryKey(idWorkoutPlan);
             runOnUiThread(() -> {
                 name.setText(workoutPlanBean.getName());
                 note.setText(workoutPlanBean.getNote());
+                getTimeInMillisCustom();
+                showHideProgressBar(false);
+            });
+        });
+    }
+
+    private void countWorkoutPlan() {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            int count = AppDatabase.getInstance(getApplicationContext()).workoutPlanDAO().countWorkoutPlanNotEnd();
+            runOnUiThread(() -> {
+                String nameApp = getString(R.string.day);
+                if(count == 0)
+                    nameApp += " " + 1;
+                else
+                    nameApp += " " + count;
+                name.setText(nameApp);
                 getTimeInMillisCustom();
                 showHideProgressBar(false);
             });
@@ -205,14 +204,13 @@ public class NewEditWorkoutPlanActivity extends AppCompatActivity {
             nameLayout.setVisibility(View.GONE);
             noteLayout.setVisibility(View.GONE);
             startEndDate.setVisibility(View.GONE);
-            btnSave.setVisibility(View.GONE);
+            btnAddWorkout.setVisibility(View.GONE);
         }else {
             progressBar.setVisibility(View.GONE);
             nameLayout.setVisibility(View.VISIBLE);
             noteLayout.setVisibility(View.VISIBLE);
             startEndDate.setVisibility(View.VISIBLE);
-            btnSave.setVisibility(View.VISIBLE);
-            btnSave.setVisibility(View.VISIBLE);
+            btnAddWorkout.setVisibility(View.VISIBLE);
         }
     }
 
@@ -235,7 +233,9 @@ public class NewEditWorkoutPlanActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        String startEndDateStr = Utility.getDateFormView().format(startDateCal.getTime()) + " / "
+        String startEndDateStr = getString(R.string.from) + " "
+                + Utility.getDateFormView().format(startDateCal.getTime()) + " "
+                + getString(R.string.to) + " "
                 + Utility.getDateFormView().format(endDateCal.getTime());
         startEndDate.setText(startEndDateStr);
 

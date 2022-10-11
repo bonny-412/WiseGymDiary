@@ -6,9 +6,9 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(
-        tableName = "session"
+        tableName = "workout"
 )
-public class SessionBean {
+public class WorkoutBean {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
@@ -29,32 +29,28 @@ public class SessionBean {
     @ColumnInfo(name = "note")
     private String note;
 
-    @ColumnInfo(name = "label_session")
+    @ColumnInfo(name = "label_workout")
     private String label;
 
-    @ColumnInfo(name = "color_session")
-    private int color;
-
-    public SessionBean() {}
+    public WorkoutBean() {}
 
     @Ignore
-    public SessionBean(String name, long idWorkPlan) {
+    public WorkoutBean(String name, long idWorkPlan) {
         this.name = name;
         this.idWorkPlan = idWorkPlan;
     }
 
     @Ignore
-    public SessionBean(String name, Integer numTimeDone, long idWorkPlan, String workedMuscle, String note, String label, int color) {
+    public WorkoutBean(String name, Integer numTimeDone, long idWorkPlan, String workedMuscle, String note, String label) {
         this.name = name;
         this.numTimeDone = numTimeDone;
         this.idWorkPlan = idWorkPlan;
         this.workedMuscle = workedMuscle;
         this.note = note;
         this.label = label;
-        this.color = color;
     }
 
-    public SessionBean(long id, String name, Integer numTimeDone, long idWorkPlan, String workedMuscle, String note, String label, int color) {
+    public WorkoutBean(long id, String name, Integer numTimeDone, long idWorkPlan, String workedMuscle, String note, String label) {
         this.id = id;
         this.name = name;
         this.numTimeDone = numTimeDone;
@@ -62,7 +58,6 @@ public class SessionBean {
         this.workedMuscle = workedMuscle;
         this.note = note;
         this.label = label;
-        this.color = color;
     }
 
     public long getId() {
@@ -114,15 +109,8 @@ public class SessionBean {
         this.label = label;
     }
 
-    public int getColor() {
-        return color;
-    }
-    public void setColor(int color) {
-        this.color = color;
-    }
-
     @Ignore
-    public void copy(SessionBean obj) {
+    public void copy(WorkoutBean obj) {
         setId(obj.getId());
         setName(obj.getName());
         setIdWorkPlan(obj.getIdWorkPlan());
@@ -130,7 +118,6 @@ public class SessionBean {
         setNote(obj.getNote());
         setWorkedMuscle(obj.getWorkedMuscle());
         setLabel(obj.getLabel());
-        setColor(obj.getColor());
     }
 
 }

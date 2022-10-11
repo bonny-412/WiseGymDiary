@@ -54,13 +54,6 @@
             android:windowSoftInputMode="adjustPan"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".NewEditWorkoutDay"
-            android:exported="false"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.GymDiary"
-            android:windowSoftInputMode="adjustPan"
-            tools:ignore="LockedOrientationActivity" />
-        <activity
             android:name=".manager.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"

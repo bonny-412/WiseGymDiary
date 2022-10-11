@@ -114,5 +114,6 @@
     <string name="text_button_save_workout_plan_workout_plan">Salva scheda</string>
     <string name="text_title_sessions_list_details_workout_plan">Allenamenti</string>
     <string name="exercise">Esercizi</string>
+    <string name="day">Giorno</string>
 
 </resources>

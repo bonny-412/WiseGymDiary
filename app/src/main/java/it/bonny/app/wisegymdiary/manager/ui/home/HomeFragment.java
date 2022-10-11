@@ -35,9 +35,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import it.bonny.app.wisegymdiary.NewEditWorkoutDay;
 import it.bonny.app.wisegymdiary.R;
-import it.bonny.app.wisegymdiary.bean.SessionBean;
+import it.bonny.app.wisegymdiary.bean.WorkoutBean;
 import it.bonny.app.wisegymdiary.manager.NewEditWorkoutPlanActivity;
-import it.bonny.app.wisegymdiary.util.RecyclerViewClickInterface;
 import it.bonny.app.wisegymdiary.util.SwipeToDeleteCallback;
 import it.bonny.app.wisegymdiary.util.Utility;
 import it.bonny.app.wisegymdiary.component.RecyclerViewSessionAdapter;
@@ -270,7 +269,7 @@ public class HomeFragment extends Fragment {
     public void onItemClick(long idElement) {
         if(idElement > 0) {
             AppDatabase.databaseWriteExecutor.execute(() -> {
-                SessionBean workoutDay = AppDatabase.getInstance(getContext()).workoutDayDAO().getWorkoutDayById(idElement);
+                WorkoutBean workoutDay = AppDatabase.getInstance(getContext()).workoutDayDAO().getWorkoutDayById(idElement);
                 if(getActivity() != null) {
                     getActivity().runOnUiThread(() -> {
                         setIdWorkoutDaySelected(idElement);
@@ -292,7 +291,7 @@ public class HomeFragment extends Fragment {
 
 
                     final int position = viewHolder.getAdapterPosition();
-                    final SessionBean item = recyclerViewSessionAdapter.getData().get(position);
+                    final WorkoutBean item = recyclerViewSessionAdapter.getData().get(position);
 
                     AtomicBoolean clickedButtonAction = new AtomicBoolean(false);
 
@@ -346,15 +345,15 @@ public class HomeFragment extends Fragment {
                                 String label = data.getStringExtra(Utility.EXTRA_SESSION_LABEL);
                                 int color = data.getIntExtra(Utility.EXTRA_SESSION_COLOR, 0);
 
-                                SessionBean sessionBean;
+                                WorkoutBean sessionBean;
                                 if(id == 0) {
-                                    sessionBean = new SessionBean(name, numTimeDone, idWorkoutPlan, workedMuscle, note, label, color);
+                                    sessionBean = new WorkoutBean(name, numTimeDone, idWorkoutPlan, workedMuscle, note, label, color);
                                     homeViewModel.insert(sessionBean);
 
                                     //setIdWorkoutDaySelected(idInsert);
                                     //getIdWorkoutDaySelected();
                                 }else {
-                                    sessionBean = new SessionBean(id, name, numTimeDone, idWorkoutPlan, workedMuscle, note, label, color);
+                                    sessionBean = new WorkoutBean(id, name, numTimeDone, idWorkoutPlan, workedMuscle, note, label, color);
                                     homeViewModel.update(sessionBean);
                                 }
 

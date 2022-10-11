@@ -32,6 +32,9 @@ public interface WorkoutPlanDAO {
     @Query("SELECT COUNT(*) FROM workout_plan WHERE isEnd = 0 AND isSelected = :isSelected")
     int countWorkoutPlanIsSelected(int isSelected);
 
+    @Query("SELECT COUNT(*) FROM workout_plan WHERE isEnd = 0")
+    int countWorkoutPlanNotEnd();
+
     @Query("SELECT COUNT(*) FROM workout_plan")
     LiveData<Integer> countWorkoutPlanByIsEnd();
 

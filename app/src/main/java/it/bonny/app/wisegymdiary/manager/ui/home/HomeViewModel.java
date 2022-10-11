@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
-import it.bonny.app.wisegymdiary.bean.SessionBean;
+import it.bonny.app.wisegymdiary.bean.WorkoutBean;
 import it.bonny.app.wisegymdiary.bean.WorkoutPlanBean;
 import it.bonny.app.wisegymdiary.database.WorkoutDayRepository;
 import it.bonny.app.wisegymdiary.database.WorkoutPlanRepository;
@@ -35,10 +35,10 @@ public class HomeViewModel extends AndroidViewModel {
         return workoutPlanLiveData;
     }
 
-    public void insert(SessionBean sessionBean) { workoutDayRepository.insert(sessionBean); }
-    public void update(SessionBean sessionBean) { workoutDayRepository.update(sessionBean); }
-    public void delete(SessionBean sessionBean) { workoutDayRepository.delete(sessionBean); }
-    public LiveData<List<SessionBean>> getWorkoutDayList(long idWorkoutPlan) {
+    public void insert(WorkoutBean workoutBean) { workoutDayRepository.insert(workoutBean); }
+    public void update(WorkoutBean workoutBean) { workoutDayRepository.update(workoutBean); }
+    public void delete(WorkoutBean workoutBean) { workoutDayRepository.delete(workoutBean); }
+    public LiveData<List<WorkoutBean>> getWorkoutDayList(long idWorkoutPlan) {
         return workoutDayRepository.getWorkoutDayList(idWorkoutPlan);
     }
 

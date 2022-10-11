@@ -81,7 +81,7 @@ public class DetailWorkoutPlanActivity extends AppCompatActivity {
     private void retrieveRoutine(long idWorkoutPlan) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             workoutPlanBean = AppDatabase.getInstance(getApplicationContext()).workoutPlanDAO().findWorkoutPlanByPrimaryKey(idWorkoutPlan);
-            int countSessions = AppDatabase.getInstance(getApplicationContext()).workoutDayDAO().getCountSessionByWorkoutPlan(idWorkoutPlan);
+            int countSessions = AppDatabase.getInstance(getApplicationContext()).workoutDayDAO().getCountWorkoutByIdWorkoutPlan(idWorkoutPlan);
             runOnUiThread(() -> {
                 materialToolbar.setTitle(workoutPlanBean.getName());
 

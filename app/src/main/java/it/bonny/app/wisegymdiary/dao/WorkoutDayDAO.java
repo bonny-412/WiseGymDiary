@@ -9,40 +9,37 @@ import androidx.room.Update;
 
 import java.util.List;
 
-import it.bonny.app.wisegymdiary.bean.SessionBean;
+import it.bonny.app.wisegymdiary.bean.WorkoutBean;
 
 @Dao
 public interface WorkoutDayDAO {
 
     @Insert
-    Long insert(SessionBean sessionBean);
+    Long insert(WorkoutBean workoutBean);
 
     @Update
-    void update(SessionBean sessionBean);
+    void update(WorkoutBean workoutBean);
 
     @Delete
-    void delete(SessionBean sessionBean);
+    void delete(WorkoutBean workoutBean);
 
-    @Query("SELECT * FROM session WHERE id_work_plan = :idWorkPlan")
-    LiveData<List<SessionBean>> getAllRoutineByIdWorkPlan(long idWorkPlan);
+    @Query("SELECT * FROM workout WHERE id_work_plan = :idWorkPlan")
+    LiveData<List<WorkoutBean>> getAllWorkoutByIdWorkPlan(long idWorkPlan);
 
-    @Query("SELECT * FROM session WHERE id_work_plan = :idWorkPlan")
-    List<SessionBean> getAllRoutineByIdWorkPlanNoLiveData(long idWorkPlan);
+    @Query("SELECT * FROM workout WHERE id_work_plan = :idWorkPlan")
+    List<WorkoutBean> getAllWorkoutByIdWorkPlanNoLiveData(long idWorkPlan);
 
-    @Query("SELECT * FROM session WHERE id = :id")
-    SessionBean findWorkoutDayByPrimaryKey(long id);
+    @Query("SELECT * FROM workout WHERE id = :id")
+    WorkoutBean findWorkoutByPrimaryKey(long id);
 
-    @Query("SELECT * FROM  session WHERE id = :id")
-    LiveData<SessionBean> findWorkoutDayByPrimaryKeyLiveData(long id);
+    @Query("SELECT * FROM  workout WHERE id = :id")
+    LiveData<WorkoutBean> findWorkoutByPrimaryKeyLiveData(long id);
 
-    @Query("SELECT COUNT(id) FROM session")
-    int getCount();
+    @Query("SELECT COUNT(id) FROM workout WHERE id_work_plan = :idWorkoutPlan")
+    int getCountWorkoutByIdWorkoutPlan(long idWorkoutPlan);
 
-    @Query("SELECT * FROM  session ORDER BY id ASC LIMIT 1")
-    SessionBean getWorkoutDayByIdMin();
-
-    @Query("SELECT COUNT(*) FROM session WHERE id_work_plan = :idWorkPlan")
-    int getCountSessionByWorkoutPlan(long idWorkPlan);
+    @Query("SELECT * FROM  workout ORDER BY id ASC LIMIT 1")
+    WorkoutBean getWorkoutByIdMin();
 
 }
 

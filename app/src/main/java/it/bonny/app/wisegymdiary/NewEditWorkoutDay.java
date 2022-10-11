@@ -31,7 +31,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import it.bonny.app.wisegymdiary.bean.CategoryMuscleBean;
-import it.bonny.app.wisegymdiary.bean.SessionBean;
+import it.bonny.app.wisegymdiary.bean.WorkoutBean;
 import it.bonny.app.wisegymdiary.component.GridViewChooseColorAdapter;
 import it.bonny.app.wisegymdiary.database.AppDatabase;
 import it.bonny.app.wisegymdiary.util.Utility;
@@ -41,7 +41,7 @@ public class NewEditWorkoutDay extends AppCompatActivity {
     private final Utility utility = new Utility();
     private Button btnSave;
     private TextInputEditText nameWorkoutDay, noteWorkoutDay;
-    private SessionBean sessionBean;
+    private WorkoutBean workoutBean;
     private Button btnReturn;
     private ProgressBar progressBar, progressBar1;
     private final List<String> chipsSelectedList = new ArrayList<>();
@@ -63,9 +63,9 @@ public class NewEditWorkoutDay extends AppCompatActivity {
 
         if(idWorkoutDay == 0) {
             titlePage.setText(R.string.title_page_new_workout_day);
-            sessionBean = new SessionBean();
-            sessionBean.setNumTimeDone(0);
-            sessionBean.setIdWorkPlan(idWorkoutPlan);
+            workoutBean = new WorkoutBean();
+            workoutBean.setNumTimeDone(0);
+            workoutBean.setIdWorkPlan(idWorkoutPlan);
             progressBar1.setVisibility(View.GONE);
             scrollView.setVisibility(View.VISIBLE);
             btnSave.setVisibility(View.VISIBLE);
@@ -96,12 +96,12 @@ public class NewEditWorkoutDay extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 String lab = "";
-                if(sessionBean != null && sessionBean.getLabel() != null) {
-                    lab = sessionBean.getLabel();
+                if(workoutBean != null && workoutBean.getLabel() != null) {
+                    lab = workoutBean.getLabel();
                 }else {
                     if (nameWorkoutDay.getText() != null && nameWorkoutDay.getText().toString().length() > 0)
                         lab = editable.toString().substring(0, 1).toUpperCase();
-                    sessionBean.setLabel(lab);
+                    workoutBean.setLabel(lab);
                 }
                 labelSession.setText(lab);
             }
@@ -114,10 +114,10 @@ public class NewEditWorkoutDay extends AppCompatActivity {
                 nameWorkoutDay.setError(getText(R.string.required_field));
             }else {
                 nameWorkoutDay.setError(null);
-                sessionBean.setName(nameWorkoutDay.getText().toString());
+                workoutBean.setName(nameWorkoutDay.getText().toString());
             }
 
-            sessionBean.setNote(noteWorkoutDay.getText() != null ? noteWorkoutDay.getText().toString(): "");
+            workoutBean.setNote(noteWorkoutDay.getText() != null ? noteWorkoutDay.getText().toString(): "");
 
             TextView titleChooseIconNewAccount = findViewById(R.id.titleChooseIconNewAccount);
             if(chipsSelectedList == null || chipsSelectedList.size() == 0) {
@@ -134,22 +134,21 @@ public class NewEditWorkoutDay extends AppCompatActivity {
                     if(i < strings.length - 1)
                         app.append(", ");
                 }
-                sessionBean.setWorkedMuscle(app.toString());
+                workoutBean.setWorkedMuscle(app.toString());
             }
 
             if(!isError) {
                 Intent intent = new Intent();
                 intent.putExtra("page", Utility.ADD_SESSION);
-                if(sessionBean.getId() > 0) {
-                    intent.putExtra(Utility.EXTRA_SESSION_ID, sessionBean.getId());
+                if(workoutBean.getId() > 0) {
+                    intent.putExtra(Utility.EXTRA_SESSION_ID, workoutBean.getId());
                 }
-                intent.putExtra(Utility.EXTRA_SESSION_NAME, sessionBean.getName());
-                intent.putExtra(Utility.EXTRA_SESSION_NUM_TIME_DONE, sessionBean.getNumTimeDone());
-                intent.putExtra(Utility.EXTRA_SESSION_ID_WORK_PLAIN, sessionBean.getIdWorkPlan());
-                intent.putExtra(Utility.EXTRA_SESSION_WORKED_MUSCLE, sessionBean.getWorkedMuscle());
-                intent.putExtra(Utility.EXTRA_SESSION_NOTE, sessionBean.getNote());
-                intent.putExtra(Utility.EXTRA_SESSION_LABEL, sessionBean.getLabel());
-                intent.putExtra(Utility.EXTRA_SESSION_COLOR, sessionBean.getColor());
+                intent.putExtra(Utility.EXTRA_SESSION_NAME, workoutBean.getName());
+                intent.putExtra(Utility.EXTRA_SESSION_NUM_TIME_DONE, workoutBean.getNumTimeDone());
+                intent.putExtra(Utility.EXTRA_SESSION_ID_WORK_PLAIN, workoutBean.getIdWorkPlan());
+                intent.putExtra(Utility.EXTRA_SESSION_WORKED_MUSCLE, workoutBean.getWorkedMuscle());
+                intent.putExtra(Utility.EXTRA_SESSION_NOTE, workoutBean.getNote());
+                intent.putExtra(Utility.EXTRA_SESSION_LABEL, workoutBean.getLabel());
                 setResult(RESULT_OK, intent);
                 finish();
             }else {
@@ -199,7 +198,7 @@ public class NewEditWorkoutDay extends AppCompatActivity {
         Chip chip = new Chip(this);
         chip.setText(nameChip);
 
-        if(sessionBean.getWorkedMuscle() != null && sessionBean.getWorkedMuscle().contains(nameChip)) {
+        if(workoutBean.getWorkedMuscle() != null && workoutBean.getWorkedMuscle().contains(nameChip)) {
             //chip.setChipBackgroundColor(getColorStateList(R.color.secondary));
             //chip.setTextColor(getColor(R.color.secondary_text));
             chip.setChecked(true);
@@ -232,14 +231,13 @@ public class NewEditWorkoutDay extends AppCompatActivity {
         AppDatabase.databaseWriteExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                sessionBean = AppDatabase.getInstance(getApplicationContext()).workoutDayDAO().findWorkoutDayByPrimaryKey(idWorkoutDay);
+                workoutBean = AppDatabase.getInstance(getApplicationContext()).workoutDayDAO().findWorkoutByPrimaryKey(idWorkoutDay);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                       nameWorkoutDay.setText(sessionBean.getName());
-                       noteWorkoutDay.setText(sessionBean.getNote());
-                       colorSession.setBackgroundTintList(ContextCompat.getColorStateList(getApplicationContext(), utility.getColorByPosition(sessionBean.getColor())));
-                       labelSession.setText(sessionBean.getLabel());
+                       nameWorkoutDay.setText(workoutBean.getName());
+                       noteWorkoutDay.setText(workoutBean.getNote());
+                       labelSession.setText(workoutBean.getLabel());
 
                         populateChipMuscle();
                         progressBar1.setVisibility(View.GONE);
@@ -265,11 +263,7 @@ public class NewEditWorkoutDay extends AppCompatActivity {
         GridViewChooseColorAdapter colorAdapter =new GridViewChooseColorAdapter(getApplicationContext());
         gridViewColor.setAdapter(colorAdapter);
 
-        if(sessionBean.getColor() > 0) {
-            colorSelected[0] = sessionBean.getColor();
-        }
-
-        textLabel.setText(sessionBean.getLabel());
+        textLabel.setText(workoutBean.getLabel());
 
         colorAdapter.makeAllUnselect(colorSelected[0]);
         colorAdapter.notifyDataSetChanged();
@@ -288,13 +282,12 @@ public class NewEditWorkoutDay extends AppCompatActivity {
         }
         btnCancel.setOnClickListener(v -> dialog.dismiss());
         btnDelete.setOnClickListener(v -> {
-            sessionBean.setColor(colorSelected[0]);
             if(textLabel.getText() != null)
-                sessionBean.setLabel(textLabel.getText().toString());
+                workoutBean.setLabel(textLabel.getText().toString());
             else
-                sessionBean.setLabel("");
+                workoutBean.setLabel("");
             colorSession.setBackgroundTintList(ContextCompat.getColorStateList(getApplicationContext(), utility.getColorByPosition(colorSelected[0])));
-            labelSession.setText(sessionBean.getLabel());
+            labelSession.setText(workoutBean.getLabel());
 
             dialog.dismiss();
         });

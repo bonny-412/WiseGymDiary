@@ -14,6 +14,7 @@
     <string name="date_format_view">dd MMM</string>
     <string name="from">From</string>
     <string name="to">to</string>
+    <string name="day">Day</string>
 
     <!-- Content description button toolbar pages -->
     <string name="content_description_button_return_back">Return back</string>
@@ -94,24 +95,24 @@
     <string name="today">Today</string>
 
 
-    <string name="add_routine">Add your sessionBean</string>
-    <string name="title_add_session">Add sessionBean</string>
-    <string name="title_new_routine">New sessionBean</string>
-    <string name="name_routine_text">Name sessionBean</string>
+    <string name="add_routine">Add your workoutBean</string>
+    <string name="title_add_session">Add workoutBean</string>
+    <string name="title_new_routine">New workoutBean</string>
+    <string name="name_routine_text">Name workoutBean</string>
     <string name="alert_btn_cancel">Cancel</string>
     <string name="alert_btn_save">Save</string>
     <string name="alert_btn_ok">OK</string>
-    <string name="routine_added">Saved sessionBean</string>
-    <string name="title_page_new_workout_day">New sessionBean</string>
-    <string name="title_page_edit_workout_day">Edit sessionBean</string>
-    <string name="title_delete_workout_day">Delete sessionBean</string>
-    <string name="title_deleted_workout_day">Deleted sessionBean</string>
+    <string name="routine_added">Saved workoutBean</string>
+    <string name="title_page_new_workout_day">New workoutBean</string>
+    <string name="title_page_edit_workout_day">Edit workoutBean</string>
+    <string name="title_delete_workout_day">Delete workoutBean</string>
+    <string name="title_deleted_workout_day">Deleted workoutBean</string>
     <string name="save">Save</string>
     <string name="notes">Notes</string>
     <string name="text_affected_muscle">Affected muscles:</string>
     <string name="content_descr_button_return">Come back</string>
     <string name="new_session">New</string>
-    <string name="title_workout_day_saved">Saved sessionBean</string>
+    <string name="title_workout_day_saved">Saved workoutBean</string>
     <string name="title_sessions">Workouts</string>
     <string name="add_exercise">Add exerciseBean</string>
     <string name="text_exercise_empty">There are no exercises</string>
@@ -134,7 +135,7 @@
 
     <string name="content_description_radio_button">Selected</string>
     <string name="content_description_options_workout">Options</string>
-    <string name="content_description_fab_new_routine">New sessionBean</string>
+    <string name="content_description_fab_new_routine">New workoutBean</string>
     <string name="content_description_color_chosen">Chosen</string>
     <string name="content_description_editable">Editable</string>
 

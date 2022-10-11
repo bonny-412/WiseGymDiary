@@ -8,9 +8,6 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -18,7 +15,7 @@ import it.bonny.app.wisegymdiary.R;
 import it.bonny.app.wisegymdiary.bean.CategoryExerciseBean;
 import it.bonny.app.wisegymdiary.bean.CategoryMuscleBean;
 import it.bonny.app.wisegymdiary.bean.ExerciseBean;
-import it.bonny.app.wisegymdiary.bean.SessionBean;
+import it.bonny.app.wisegymdiary.bean.WorkoutBean;
 import it.bonny.app.wisegymdiary.bean.WorkoutPlanBean;
 import it.bonny.app.wisegymdiary.dao.CategoryExerciseDAO;
 import it.bonny.app.wisegymdiary.dao.CategoryMuscleDAO;
@@ -27,7 +24,7 @@ import it.bonny.app.wisegymdiary.dao.WorkoutDayDAO;
 import it.bonny.app.wisegymdiary.dao.WorkoutPlanDAO;
 import it.bonny.app.wisegymdiary.util.App;
 
-@Database(entities = {WorkoutPlanBean.class, SessionBean.class, ExerciseBean.class, CategoryMuscleBean.class, CategoryExerciseBean.class}, exportSchema = false, version = 1)
+@Database(entities = {WorkoutPlanBean.class, WorkoutBean.class, ExerciseBean.class, CategoryMuscleBean.class, CategoryExerciseBean.class}, exportSchema = false, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
     private static final String DB_NAME = "gym_diary_db";
     private static AppDatabase instance;

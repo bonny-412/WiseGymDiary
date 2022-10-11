@@ -23,15 +23,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.bonny.app.wisegymdiary.R;
-import it.bonny.app.wisegymdiary.bean.SessionBean;
+import it.bonny.app.wisegymdiary.bean.WorkoutBean;
 import it.bonny.app.wisegymdiary.manager.SessionDetailActivity;
-import it.bonny.app.wisegymdiary.util.RecyclerViewClickInterface;
 import it.bonny.app.wisegymdiary.util.Utility;
 import it.bonny.app.wisegymdiary.util.WorkoutPlanOnCLickItemCheckbox;
 
 public class RecyclerViewSessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<SessionBean> sessionBeanList;
+    private List<WorkoutBean> workoutBeanList;
     private final Context mContext;
     private final WorkoutPlanOnCLickItemCheckbox workoutPlanOnCLickItemCheckbox;
     private final Utility utility = new Utility();
@@ -39,7 +38,7 @@ public class RecyclerViewSessionAdapter extends RecyclerView.Adapter<RecyclerVie
     public RecyclerViewSessionAdapter(Context context, WorkoutPlanOnCLickItemCheckbox workoutPlanOnCLickItemCheckbox) {
         this.mContext = context;
         this.workoutPlanOnCLickItemCheckbox = workoutPlanOnCLickItemCheckbox;
-        this.sessionBeanList = new ArrayList<>();
+        this.workoutBeanList = new ArrayList<>();
     }
 
     @NonNull
@@ -52,7 +51,7 @@ public class RecyclerViewSessionAdapter extends RecyclerView.Adapter<RecyclerVie
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
-        SessionBean sessionBean = sessionBeanList.get(position);
+        WorkoutBean workoutBean = workoutBeanList.get(position);
         RecyclerViewViewHolder viewHolder = (RecyclerViewViewHolder) holder;
 
         /*if(viewHolder.textWorkedMuscle != null) {
@@ -60,10 +59,9 @@ public class RecyclerViewSessionAdapter extends RecyclerView.Adapter<RecyclerVie
             viewHolder.textWorkedMuscle.setText(numTimeDoneTxt);
         }*/
 
-        viewHolder.colorSession.setBackgroundTintList(ContextCompat.getColorStateList(mContext, utility.getColorByPosition(sessionBean.getColor())));
-        viewHolder.labelSession.setText(sessionBean.getLabel());
-        viewHolder.titleSession.setText(sessionBean.getName());
-        viewHolder.nameWorkedMuscle.setText(sessionBean.getWorkedMuscle());
+        viewHolder.labelSession.setText(workoutBean.getLabel());
+        viewHolder.titleSession.setText(workoutBean.getName());
+        viewHolder.nameWorkedMuscle.setText(workoutBean.getWorkedMuscle());
 
         /*String[] splitNumSetsReps = exercise.getNumSetsReps().split(Utility.SYMBOL_SPLIT);
         if(splitNumSetsReps.length > 0) {
@@ -85,7 +83,7 @@ public class RecyclerViewSessionAdapter extends RecyclerView.Adapter<RecyclerVie
 
         viewHolder.constraintClicked.setOnClickListener(view -> {
             Intent intent = new Intent(mContext, SessionDetailActivity.class);
-            intent.putExtra("idWorkoutDay", sessionBean.getId());
+            intent.putExtra("idWorkoutDay", workoutBean.getId());
             mContext.startActivity(intent);
         });
 
@@ -95,9 +93,9 @@ public class RecyclerViewSessionAdapter extends RecyclerView.Adapter<RecyclerVie
             popupMenu.setForceShowIcon(true);
             popupMenu.setOnMenuItemClickListener(menuItem -> {
                 if(menuItem.getItemId() == R.id.edit) {
-                    workoutPlanOnCLickItemCheckbox.recyclerViewItemClick(sessionBean.getId());
+                    workoutPlanOnCLickItemCheckbox.recyclerViewItemClick(workoutBean.getId());
                 }else if(menuItem.getItemId() == R.id.delete) {
-                    workoutPlanOnCLickItemCheckbox.recyclerViewItemClick(sessionBean.getId());
+                    workoutPlanOnCLickItemCheckbox.recyclerViewItemClick(workoutBean.getId());
                 }
                 popupMenu.dismiss();
                 return true;
@@ -111,13 +109,13 @@ public class RecyclerViewSessionAdapter extends RecyclerView.Adapter<RecyclerVie
 
     @Override
     public int getItemCount() {
-        return sessionBeanList.size();
+        return workoutBeanList.size();
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void updateSessionList(final List<SessionBean> sessionBeanList) {
-        this.sessionBeanList.clear();
-        this.sessionBeanList = sessionBeanList;
+    public void updateSessionList(final List<WorkoutBean> workoutBeanList) {
+        this.workoutBeanList.clear();
+        this.workoutBeanList = workoutBeanList;
         notifyDataSetChanged();
     }
 
@@ -168,17 +166,17 @@ public class RecyclerViewSessionAdapter extends RecyclerView.Adapter<RecyclerVie
     }
 
     public void removeItem(int position) {
-        sessionBeanList.remove(position);
+        workoutBeanList.remove(position);
         notifyItemRemoved(position);
     }
 
-    public void restoreItem(SessionBean item, int position) {
-        sessionBeanList.add(position, item);
+    public void restoreItem(WorkoutBean item, int position) {
+        workoutBeanList.add(position, item);
         notifyItemInserted(position);
     }
 
-    public List<SessionBean> getData() {
-        return sessionBeanList;
+    public List<WorkoutBean> getData() {
+        return workoutBeanList;
     }
 
 }

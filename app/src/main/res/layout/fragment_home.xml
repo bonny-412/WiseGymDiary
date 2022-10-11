@@ -155,7 +155,7 @@
                     android:id="@+id/containerSessionEmpty"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/background_item_corners_rounded"
+                    android:background="@drawable/background_corners_rounded_big"
                     android:orientation="vertical"
                     app:layout_constraintTop_toBottomOf="@+id/calendarHorizontal"
                     app:layout_constraintStart_toStartOf="parent"
@@ -208,7 +208,7 @@
                             android:layout_marginStart="8dp"
                             android:textColor="@color/white"
                             android:text="@string/text_button_home_frag_container_session_empty"
-                            android:background="@drawable/background_item_corners_rounded"
+                            android:background="@drawable/background_corners_rounded_small"
                             android:backgroundTint="@color/primary"
                             android:padding="8dp"
                             android:textAlignment="center" />
