@@ -27,17 +27,18 @@ import it.bonny.app.wisegymdiary.bean.SessionBean;
 import it.bonny.app.wisegymdiary.manager.SessionDetailActivity;
 import it.bonny.app.wisegymdiary.util.RecyclerViewClickInterface;
 import it.bonny.app.wisegymdiary.util.Utility;
+import it.bonny.app.wisegymdiary.util.WorkoutPlanOnCLickItemCheckbox;
 
-public class RecyclerViewHomePageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class RecyclerViewSessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<SessionBean> sessionBeanList;
     private final Context mContext;
-    private final RecyclerViewClickInterface listener;
+    private final WorkoutPlanOnCLickItemCheckbox workoutPlanOnCLickItemCheckbox;
     private final Utility utility = new Utility();
 
-    public RecyclerViewHomePageAdapter(Context context, RecyclerViewClickInterface listener) {
+    public RecyclerViewSessionAdapter(Context context, WorkoutPlanOnCLickItemCheckbox workoutPlanOnCLickItemCheckbox) {
         this.mContext = context;
-        this.listener = listener;
+        this.workoutPlanOnCLickItemCheckbox = workoutPlanOnCLickItemCheckbox;
         this.sessionBeanList = new ArrayList<>();
     }
 
@@ -94,9 +95,9 @@ public class RecyclerViewHomePageAdapter extends RecyclerView.Adapter<RecyclerVi
             popupMenu.setForceShowIcon(true);
             popupMenu.setOnMenuItemClickListener(menuItem -> {
                 if(menuItem.getItemId() == R.id.edit) {
-                    listener.recyclerViewItemClick(sessionBean.getId(), 0);
+                    workoutPlanOnCLickItemCheckbox.recyclerViewItemClick(sessionBean.getId());
                 }else if(menuItem.getItemId() == R.id.delete) {
-                    listener.recyclerViewItemClick(sessionBean.getId(), 1);
+                    workoutPlanOnCLickItemCheckbox.recyclerViewItemClick(sessionBean.getId());
                 }
                 popupMenu.dismiss();
                 return true;

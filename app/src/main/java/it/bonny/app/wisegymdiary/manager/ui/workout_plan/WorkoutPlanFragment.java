@@ -23,6 +23,7 @@ import com.google.android.material.transition.platform.MaterialContainerTransfor
 import it.bonny.app.wisegymdiary.R;
 import it.bonny.app.wisegymdiary.component.GridViewWorkoutPlanAdapter;
 import it.bonny.app.wisegymdiary.databinding.FragmentWorkoutPlanBinding;
+import it.bonny.app.wisegymdiary.manager.DetailWorkoutPlanActivity;
 import it.bonny.app.wisegymdiary.manager.NewEditWorkoutPlanActivity;
 import it.bonny.app.wisegymdiary.util.WorkoutPlanOnCLickItemCheckbox;
 
@@ -95,7 +96,7 @@ public class WorkoutPlanFragment extends Fragment {
         WorkoutPlanOnCLickItemCheckbox workoutPlanOnCLickItemCheckbox = new WorkoutPlanOnCLickItemCheckbox() {
             @Override
             public void recyclerViewItemClick(long idElement) {
-                Intent intent = new Intent(getActivity(), NewEditWorkoutPlanActivity.class);
+                Intent intent = new Intent(getActivity(), DetailWorkoutPlanActivity.class);
                 intent.putExtra("idWorkoutPlan", idElement);
                 startActivity(intent);
             }

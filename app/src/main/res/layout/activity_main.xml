@@ -16,8 +16,8 @@
         app:itemIconTint="@drawable/bottom_navigation_color_selector"
         app:menu="@menu/bottom_nav_menu"
         android:elevation="8dp"
-        app:itemIconSize="36dp"
         app:backgroundTint="@color/background_card"
+        app:itemIconSize="28dp"
         />
 
     <fragment

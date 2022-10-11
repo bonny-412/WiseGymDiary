@@ -15,6 +15,12 @@
         app:showAsAction="ifRoom" />
 
     <item
+        android:id="@+id/navigation_exercise"
+        android:icon="@drawable/ic_add_menu"
+        android:title="@string/exercise"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/navigation_dashboard"
         android:icon="@drawable/ic_person"
         android:title="@string/profile"

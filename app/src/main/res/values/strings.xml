@@ -23,7 +23,8 @@
 
     <!-- Menu -->
     <string name="home">Home</string>
-    <string name="workout_plan">Workout</string>
+    <string name="workout_plan">Workouts</string>
+    <string name="exercise">Exercises</string>
     <string name="profile">Profile</string>
     <string name="setting">Settings</string>
     <string name="text_max">Max</string>
@@ -68,13 +69,15 @@
     <string name="label_edit_text_start_date_workout_plan">Choose start date for your workout plan</string>
     <string name="label_edit_text_note_workout_plan">Add your workout plan a notes</string>
     <string name="choose_start_end_date">Choose start/end date</string>
-    <string name="text_button_add_session_workout_plan">Add session</string>
-    <string name="edit_text_name_session_workout_plan">Name session</string>
+    <string name="text_button_add_session_workout_plan">Add workout</string>
+    <string name="edit_text_name_session_workout_plan">Name workout</string>
     <string name="text_button_add_exercise_workout_plan">Add exercise</string>
+    <string name="text_button_save_workout_plan_workout_plan">Save workout plan</string>
 
     <!-- Detail Workout Plan -->
     <string name="title_page_details_workout_plan">Workout plan</string>
     <string name="text_sessions_is_empty_details_workout_plan">Press + to add a workout to your workout plan</string>
+    <string name="text_title_sessions_list_details_workout_plan">Workouts</string>
 
     <!-- Workout Plan Fragment -->
     <string name="title_page_workout_plan_fragment">All workout plans</string>
@@ -109,7 +112,7 @@
     <string name="content_descr_button_return">Come back</string>
     <string name="new_session">New</string>
     <string name="title_workout_day_saved">Saved sessionBean</string>
-    <string name="title_sessions">Sessions</string>
+    <string name="title_sessions">Workouts</string>
     <string name="add_exercise">Add exerciseBean</string>
     <string name="text_exercise_empty">There are no exercises</string>
 
@@ -123,7 +126,7 @@
     <string name="title_min">Min.</string>
     <string name="title_sec">Sec.</string>
     <string name="title_exercise_saved">Saved exerciseBean</string>
-    <string name="title_bottom_sheet_workout_day">Sessions</string>
+    <string name="title_bottom_sheet_workout_day">Workouts</string>
     <string name="title_exercise_deleted">Deleted exerciseBean</string>
 
     <string name="title_label">Label</string>

@@ -1,8 +1,5 @@
 package it.bonny.app.wisegymdiary.manager.ui.home;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,20 +12,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
-import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -36,7 +25,6 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -52,7 +40,7 @@ import it.bonny.app.wisegymdiary.manager.NewEditWorkoutPlanActivity;
 import it.bonny.app.wisegymdiary.util.RecyclerViewClickInterface;
 import it.bonny.app.wisegymdiary.util.SwipeToDeleteCallback;
 import it.bonny.app.wisegymdiary.util.Utility;
-import it.bonny.app.wisegymdiary.component.RecyclerViewHomePageAdapter;
+import it.bonny.app.wisegymdiary.component.RecyclerViewSessionAdapter;
 import it.bonny.app.wisegymdiary.bean.WorkoutPlanBean;
 import it.bonny.app.wisegymdiary.databinding.FragmentHomeBinding;
 
@@ -66,7 +54,7 @@ public class HomeFragment extends Fragment {
     private TextView titleInfoWeekWorkoutPlan, titleMyWorkoutPlan;
     private LinearLayout containerCurrentWeek;
     private LinearLayout containerSessionEmpty, containerSession;
-    private RecyclerViewHomePageAdapter recyclerViewHomePageAdapter;
+    private RecyclerViewSessionAdapter recyclerViewSessionAdapter;
     private RecyclerView recyclerView;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -106,7 +94,7 @@ public class HomeFragment extends Fragment {
 
                    homeViewModel.getWorkoutDayList(workoutPlan.getId()).observe(getViewLifecycleOwner(), workoutDays -> {
                        customUISessionIsEmpty(workoutDays == null || workoutDays.size() <= 0);
-                       recyclerViewHomePageAdapter.updateSessionList(workoutDays);
+                       //recyclerViewSessionAdapter.updateSessionList(workoutDays);
                    });
 
                }
@@ -226,7 +214,7 @@ public class HomeFragment extends Fragment {
         recyclerView = binding.recyclerView;
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(manager);
-        recyclerViewHomePageAdapter = new RecyclerViewHomePageAdapter(context, new RecyclerViewClickInterface() {
+        /*recyclerViewSessionAdapter = new RecyclerViewSessionAdapter(context, new RecyclerViewClickInterface() {
             @Override
             public void recyclerViewItemClick(long idElement, int typeButton) {
                 if(typeButton == 0) {
@@ -237,7 +225,7 @@ public class HomeFragment extends Fragment {
 
                 }
             }
-        });
+        });*/
         setAdapter();
     }
 
@@ -256,7 +244,7 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(recyclerViewHomePageAdapter);
+        recyclerView.setAdapter(recyclerViewSessionAdapter);
     }
 
     private void callNewEditWorkoutDay() {
@@ -304,11 +292,11 @@ public class HomeFragment extends Fragment {
 
 
                     final int position = viewHolder.getAdapterPosition();
-                    final SessionBean item = recyclerViewHomePageAdapter.getData().get(position);
+                    final SessionBean item = recyclerViewSessionAdapter.getData().get(position);
 
                     AtomicBoolean clickedButtonAction = new AtomicBoolean(false);
 
-                    recyclerViewHomePageAdapter.removeItem(position);
+                    recyclerViewSessionAdapter.removeItem(position);
 
                     Snackbar snackbar = Snackbar.make(containerSession, getString(R.string.snackbar_text_exercise_removed), Snackbar.LENGTH_LONG);
                     snackbar.addCallback(new BaseTransientBottomBar.BaseCallback<Snackbar>() {
@@ -321,7 +309,7 @@ public class HomeFragment extends Fragment {
                     });
                     snackbar.setAction(getString(R.string.snackbar_text_button_undo), view -> {
                         clickedButtonAction.set(true);
-                        recyclerViewHomePageAdapter.restoreItem(item, position);
+                        recyclerViewSessionAdapter.restoreItem(item, position);
                         recyclerView.scrollToPosition(position);
                     });
 
