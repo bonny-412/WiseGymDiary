@@ -12,32 +12,29 @@ import it.bonny.app.wisegymdiary.dao.ExerciseDAO;
 public class ExerciseRepository {
 
     private final ExerciseDAO exerciseDAO;
+    private final LiveData<List<ExerciseBean>> exerciseList;
 
     public ExerciseRepository(Application application) {
         AppDatabase appDatabase = AppDatabase.getInstance(application);
         exerciseDAO = appDatabase.exerciseDAO();
+
+        exerciseList = exerciseDAO.findAllExercise();
     }
 
-    /*public LiveData<List<ExerciseBean>> getExerciseList(long idWorkoutDay) {
-        return exerciseDAO.getAllExercisesByIdWorkoutDay(idWorkoutDay);
-    }*/
-
     public void insert(ExerciseBean exerciseBean) {
-        AppDatabase.databaseWriteExecutor.execute(() -> {
-            exerciseDAO.insert(exerciseBean);
-        });
+        AppDatabase.databaseWriteExecutor.execute(() -> exerciseDAO.insert(exerciseBean));
     }
 
     public void update(ExerciseBean exerciseBean) {
-        AppDatabase.databaseWriteExecutor.execute(() -> {
-            exerciseDAO.update(exerciseBean);
-        });
+        AppDatabase.databaseWriteExecutor.execute(() -> exerciseDAO.update(exerciseBean));
     }
 
     public void delete(ExerciseBean exerciseBean) {
-        AppDatabase.databaseWriteExecutor.execute(() -> {
-            exerciseDAO.delete(exerciseBean);
-        });
+        AppDatabase.databaseWriteExecutor.execute(() -> exerciseDAO.delete(exerciseBean));
+    }
+
+    public LiveData<List<ExerciseBean>> getExerciseList() {
+        return exerciseList;
     }
 
 }

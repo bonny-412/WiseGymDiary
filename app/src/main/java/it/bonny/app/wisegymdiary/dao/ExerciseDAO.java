@@ -26,4 +26,7 @@ public interface ExerciseDAO {
     @Query("SELECT * FROM exercise WHERE id = :id")
     ExerciseBean findExerciseById(long id);
 
+    @Query("SELECT * FROM exercise ORDER BY UPPER(TRIM(name)) ASC")
+    LiveData<List<ExerciseBean>> findAllExercise();
+
 }

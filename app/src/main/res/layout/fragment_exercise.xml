@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".manager.ui.exercise.ExerciseFragment">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/background_card"
+            app:liftOnScroll="true">
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:expandedTitleMarginTop="0dp"
+                app:collapsedTitleGravity="center"
+                android:background="@color/background_card"
+                app:expandedTitleTextAppearance="@style/expandedBarTextStyle"
+                app:expandedTitleGravity="left|bottom"
+                app:contentScrim="@color/background_card"
+                app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
+                app:collapsedTitleTextAppearance="@style/TextAppearance.App.CollapsingToolbar.Collapsed">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="128dp"
+                    android:orientation="vertical"
+                    android:padding="8dp"
+                    android:gravity="bottom">
+                    <TextView
+                        android:id="@+id/titlePage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/primary_text"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toTopOf="@+id/subTitlePage"
+                        android:layout_marginStart="8dp"
+                        android:textSize="24sp"
+                        android:text="@string/title_page_exercise_fragment"
+                        android:contentDescription="@string/title_page_exercise_fragment"
+                        />
+                    <TextView
+                        android:id="@+id/subTitlePage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sub_title_page_exercise_fragment"
+                        android:textColor="@color/secondary_text"
+                        app:layout_constraintTop_toBottomOf="@+id/titlePage"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toTopOf="@+id/lineToolbar"
+                        android:layout_marginStart="8dp"
+                        android:textSize="16sp"
+                        android:layout_marginTop="2dp"
+                        android:contentDescription="@string/sub_title_page_exercise_fragment"
+                        />
+                    <View
+                        android:id="@+id/lineToolbar"
+                        android:layout_width="48dp"
+                        android:layout_height="2dp"
+                        android:background="@drawable/bottom_sheet_line"
+                        app:layout_constraintTop_toBottomOf="@+id/subTitlePage"
+                        app:layout_constraintStart_toStartOf="@+id/subTitlePage"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="4dp"/>
+                </LinearLayout>
+
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/materialToolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="@color/background_card"
+                    app:menu="@menu/top_menu_icon_clear_add"
+                    app:layout_collapseMode="pin"
+                    app:navigationIconTint="@color/primary_text"
+                    app:title="@string/title_page_exercise_fragment" />
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+            android:padding="8dp"
+            android:overScrollMode="never"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_corners_rounded_big"
+                android:padding="8dp">
+
+                <!--<SearchView
+                    android:id="@+id/searchView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/background"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:queryHint="@string/text_hint_search_view_exercise_fragment"
+                    android:iconifiedByDefault="false"
+                    app:layout_constraintBottom_toTopOf="@+id/recyclerViewExercise" />-->
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/searchView"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@color/background"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:endIconMode="clear_text"
+                    app:startIconDrawable="@drawable/ic_search"
+                    app:layout_constraintBottom_toTopOf="@+id/recyclerViewExercise">
+
+                    <EditText
+                        android:id="@+id/searchViewText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autofillHints="name"
+                        android:background="@color/background"
+                        android:hint="@string/text_hint_search_view_exercise_fragment"
+                        android:imeOptions="actionSearch"
+                        android:inputType="text"
+                        android:textColor="@color/primary_text"
+                        android:textColorHint="@color/tertiary_text"
+                        android:importantForAutofill="noExcludeDescendants"
+                        tools:ignore="LabelFor,SpeakableTextPresentCheck" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewExercise"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/searchView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/textViewInfoToAddExercise"
+                    android:layoutAnimation="@anim/layout_animation"/>
+
+                <TextView
+                    android:id="@+id/textViewInfoToAddExercise"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/tertiary_text"
+                    android:textAlignment="center"
+                    android:textSize="11sp"
+                    android:text="@string/text_info_add_exercise_fragment"
+                    android:layout_margin="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerViewExercise"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</FrameLayout>

@@ -15,12 +15,14 @@
     <string name="from">From</string>
     <string name="to">to</string>
     <string name="day">Day</string>
+    <string name="all">All</string>
 
     <!-- Content description button toolbar pages -->
     <string name="content_description_button_return_back">Return back</string>
     <string name="content_description_button_save">Save form</string>
     <string name="content_description_button_add_workout">Add workout</string>
     <string name="content_description_button_add_generic">Add element</string>
+    <string name="content_description_button_clear_generic">Remove duplicates</string>
 
     <!-- Menu -->
     <string name="home">Home</string>
@@ -47,6 +49,41 @@
     <string name="category_exercise_reps">Reps</string>
     <string name="category_exercise_distance">Distance</string>
     <string name="category_exercise_time">Time</string>
+
+    <!-- Name Default Exercises -->
+    <string name="name_exercise_crunch">Crunch</string>
+    <string name="name_exercise_cable_crunch">Cable crunch</string>
+    <string name="name_exercise_planck">Plank</string>
+    <string name="name_exercise_lat_machine">Lat machine</string>
+    <string name="name_exercise_pulley">Pulley</string>
+    <string name="name_exercise_barbell_row">Barbell row</string>
+    <string name="name_exercise_pull_up">Pull up</string>
+    <string name="name_exercise_barbell_curl">Barbell curl</string>
+    <string name="name_exercise_dumbbell_curl">Dumbbell curl</string>
+    <string name="name_exercise_dumbbell_hammer_curl">Dumbbell hammer curl</string>
+    <string name="name_exercise_walkin">Walking</string>
+    <string name="name_exercise_elliptical_training">Elliptical training</string>
+    <string name="name_exercise_cyclette">Cyclette</string>
+    <string name="name_exercise_bench_press_flat">Flat bench press</string>
+    <string name="name_exercise_bench_press_flat_dumbbell">Flat dumbbell bench press</string>
+    <string name="name_exercise_bench_press_incline">Incline barbell bench press</string>
+    <string name="name_exercise_bench_press_incline_dumbbell">Incline dumbbell bench press</string>
+    <string name="name_exercise_machine_chest_press">Machine chest press</string>
+    <string name="name_exercise_squat">Squat</string>
+    <string name="name_exercise_leg_ext_machine">Leg extension</string>
+    <string name="name_exercise_leg_press">Leg press</string>
+    <string name="name_exercise_deadlift">Deadlift</string>
+    <string name="name_exercise_leg_curl">Leg curl</string>
+    <string name="name_exercise_leg_curl_seated">Leg curl seated</string>
+    <string name="name_exercise_seated_calf_raise_machine">Seated calf raise machine</string>
+    <string name="name_exercise_military_press">Military press</string>
+    <string name="name_exercise_arnold_dumbbell_press">Arnold dumbbell press</string>
+    <string name="name_exercise_face_pull">Face pull</string>
+    <string name="name_exercise_lateral_dumbbell_raise">Lateral dumbbell raise</string>
+    <string name="name_exercise_kick_back">Kick back</string>
+    <string name="name_exercise_dips">Dips</string>
+    <string name="name_exercise_v_bar_push_down">V-Bar push down</string>
+    <string name="name_exercise_rope_push_down">Rope push down</string>
 
     <!-- Home Fragment -->
     <string name="title_page_home_fragment_one">Hi</string>
@@ -86,6 +123,12 @@
     <string name="title_your_workout_plans_page_workout_plan_fragment">Your workout plans</string>
     <string name="title_your_workout_end_plans_page_workout_plan_fragment">Your finished workout plans</string>
     <string name="text_workout_plan_is_empty">Press + to add a new workout plan</string>
+
+    <!-- Exercise Fragment -->
+    <string name="title_page_exercise_fragment">All exercise</string>
+    <string name="sub_title_page_exercise_fragment">Select exercise to track</string>
+    <string name="text_info_add_exercise_fragment">Did not find what you were looking for? You can create your own exercise by tapping on + button.</string>
+    <string name="text_hint_search_view_exercise_fragment">Search all exercises</string>
 
     <!-- OLD -->
 

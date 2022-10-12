@@ -18,6 +18,12 @@
         tools:layout="@layout/fragment_workout_plan" />
 
     <fragment
+        android:id="@+id/navigation_exercise"
+        android:name="it.bonny.app.wisegymdiary.manager.ui.exercise.ExerciseFragment"
+        android:label="@string/exercise"
+        tools:layout="@layout/fragment_exercise" />
+
+    <fragment
         android:id="@+id/navigation_dashboard"
         android:name="it.bonny.app.wisegymdiary.manager.ui.dashboard.DashboardFragment"
         android:label="@string/profile"

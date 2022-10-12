@@ -25,4 +25,7 @@ public interface CategoryMuscleDAO {
     @Query("SELECT * FROM category_muscle ORDER BY order_muscle, name_muscle ASC")
     List<CategoryMuscleBean> findAllMuscles();
 
+    @Query("SELECT * FROM category_muscle WHERE id = :id")
+    CategoryMuscleBean findCategoryMuscleById(long id);
+
 }

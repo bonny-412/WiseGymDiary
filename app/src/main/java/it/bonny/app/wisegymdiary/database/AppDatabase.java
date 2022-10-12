@@ -54,19 +54,6 @@ public abstract class AppDatabase extends RoomDatabase {
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
             databaseWriteExecutor.execute(() -> {
-                /*WorkoutPlanBean workoutPlanBean = new WorkoutPlanBean();
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-                Calendar calendar = Calendar.getInstance();
-
-                workoutPlanBean.setName("Workout 1");
-                workoutPlanBean.setIsEnd(0);
-                workoutPlanBean.setNumWeek(8);
-                workoutPlanBean.setStartDate(simpleDateFormat.format(calendar.getTime()));
-                calendar.add(Calendar.WEEK_OF_YEAR, 8);
-                workoutPlanBean.setEndDate(simpleDateFormat.format(calendar.getTime()));
-
-                instance.workoutPlanDAO().insert(workoutPlanBean);*/
-
                 //Create Category Muscle
                 instance.categoryMuscleDAO().insert(new CategoryMuscleBean(1, App.getContext().getString(R.string.category_muscle_abs), 0));
                 instance.categoryMuscleDAO().insert(new CategoryMuscleBean(2, App.getContext().getString(R.string.category_muscle_back), 0));
@@ -83,6 +70,48 @@ public abstract class AppDatabase extends RoomDatabase {
                 instance.categoryExerciseDAO().insert(new CategoryExerciseBean(2, App.getContext().getString(R.string.category_exercise_reps)));
                 instance.categoryExerciseDAO().insert(new CategoryExerciseBean(3, App.getContext().getString(R.string.category_exercise_distance)));
                 instance.categoryExerciseDAO().insert(new CategoryExerciseBean(4, App.getContext().getString(R.string.category_exercise_time)));
+
+                //Create Default Exercise
+                instance.exerciseDAO().insert(new ExerciseBean(App.getContext().getString(R.string.name_exercise_crunch), 1, 1, 0));
+                instance.exerciseDAO().insert(new ExerciseBean(App.getContext().getString(R.string.name_exercise_cable_crunch), 1, 1, 0));
+                instance.exerciseDAO().insert(new ExerciseBean(App.getContext().getString(R.string.name_exercise_planck), 1, 1, 0));
+
+                instance.exerciseDAO().insert(new ExerciseBean(App.getContext().getString(R.string.name_exercise_lat_machine), 2, 1, 0));
+                instance.exerciseDAO().insert(new ExerciseBean(App.getContext().getString(R.string.name_exercise_pulley), 2, 1, 0));
+                instance.exerciseDAO().insert(new ExerciseBean(App.getContext().getString(R.string.name_exercise_barbell_row), 2, 1, 0));
+                instance.exerciseDAO().insert(new ExerciseBean(App.getContext().getString(R.string.name_exercise_pull_up), 2, 1, 0));
+
+                instance.exerciseDAO().insert(new ExerciseBean(App.getContext().getString(R.string.name_exercise_barbell_curl), 3, 1, 0));
+                instance.exerciseDAO().insert(new ExerciseBean(App.getContext().getString(R.string.name_exercise_dumbbell_curl), 3, 1, 0));
+                instance.exerciseDAO().insert(new ExerciseBean(App.getContext().getString(R.string.name_exercise_dumbbell_hammer_curl), 3, 1, 0));
+
+                instance.exerciseDAO().insert(new ExerciseBean(App.getContext().getString(R.string.name_exercise_walkin), 4, 4, 0));
+                instance.exerciseDAO().insert(new ExerciseBean(App.getContext().getString(R.string.name_exercise_elliptical_training), 4, 4, 0));
+                instance.exerciseDAO().insert(new ExerciseBean(App.getContext().getString(R.string.name_exercise_cyclette), 4, 4, 0));
+
+                instance.exerciseDAO().insert(new ExerciseBean(App.getContext().getString(R.string.name_exercise_bench_press_flat), 5, 1, 0));
+                instance.exerciseDAO().insert(new ExerciseBean(App.getContext().getString(R.string.name_exercise_bench_press_flat_dumbbell), 5, 1, 0));
+                instance.exerciseDAO().insert(new ExerciseBean(App.getContext().getString(R.string.name_exercise_bench_press_incline), 5, 1, 0));
+                instance.exerciseDAO().insert(new ExerciseBean(App.getContext().getString(R.string.name_exercise_bench_press_incline_dumbbell), 5, 1, 0));
+                instance.exerciseDAO().insert(new ExerciseBean(App.getContext().getString(R.string.name_exercise_machine_chest_press), 5, 1, 0));
+
+                instance.exerciseDAO().insert(new ExerciseBean(App.getContext().getString(R.string.name_exercise_squat), 6, 1, 0));
+                instance.exerciseDAO().insert(new ExerciseBean(App.getContext().getString(R.string.name_exercise_leg_ext_machine), 6, 1, 0));
+                instance.exerciseDAO().insert(new ExerciseBean(App.getContext().getString(R.string.name_exercise_leg_press), 6, 1, 0));
+                instance.exerciseDAO().insert(new ExerciseBean(App.getContext().getString(R.string.name_exercise_deadlift), 6, 1, 0));
+                instance.exerciseDAO().insert(new ExerciseBean(App.getContext().getString(R.string.name_exercise_leg_curl), 6, 1, 0));
+                instance.exerciseDAO().insert(new ExerciseBean(App.getContext().getString(R.string.name_exercise_leg_curl_seated), 6, 1, 0));
+                instance.exerciseDAO().insert(new ExerciseBean(App.getContext().getString(R.string.name_exercise_seated_calf_raise_machine), 6, 1, 0));
+
+                instance.exerciseDAO().insert(new ExerciseBean(App.getContext().getString(R.string.name_exercise_military_press), 8, 1, 0));
+                instance.exerciseDAO().insert(new ExerciseBean(App.getContext().getString(R.string.name_exercise_arnold_dumbbell_press), 8, 1, 0));
+                instance.exerciseDAO().insert(new ExerciseBean(App.getContext().getString(R.string.name_exercise_face_pull), 8, 1, 0));
+                instance.exerciseDAO().insert(new ExerciseBean(App.getContext().getString(R.string.name_exercise_lateral_dumbbell_raise), 8, 1, 0));
+
+                instance.exerciseDAO().insert(new ExerciseBean(App.getContext().getString(R.string.name_exercise_kick_back), 9, 1, 0));
+                instance.exerciseDAO().insert(new ExerciseBean(App.getContext().getString(R.string.name_exercise_dips), 9, 1, 0));
+                instance.exerciseDAO().insert(new ExerciseBean(App.getContext().getString(R.string.name_exercise_v_bar_push_down), 9, 1, 0));
+                instance.exerciseDAO().insert(new ExerciseBean(App.getContext().getString(R.string.name_exercise_rope_push_down), 9, 1, 0));
 
             });
         }

@@ -24,23 +24,36 @@ public class ExerciseBean {
     @ColumnInfo(name = "id_category_exercise")
     private long idCategoryExercise;
 
-    public ExerciseBean(long id, String name, String note, long idCategoryMuscle, long idCategoryExercise) {
+    @ColumnInfo(name = "icon")
+    private int icon;
+
+    public ExerciseBean(long id, String name, String note, long idCategoryMuscle, long idCategoryExercise, int icon) {
         this.id = id;
         this.name = name;
         this.note = note;
         this.idCategoryMuscle = idCategoryMuscle;
         this.idCategoryExercise = idCategoryExercise;
+        this.icon = icon;
     }
 
     @Ignore
     public ExerciseBean() {}
 
     @Ignore
-    public ExerciseBean(String name, String note, long idCategoryMuscle, long idCategoryExercise) {
+    public ExerciseBean(String name, String note, long idCategoryMuscle, long idCategoryExercise, int icon) {
         this.name = name;
         this.note = note;
         this.idCategoryMuscle = idCategoryMuscle;
         this.idCategoryExercise = idCategoryExercise;
+        this.icon = icon;
+    }
+
+    @Ignore
+    public ExerciseBean(String name, long idCategoryMuscle, long idCategoryExercise, int icon) {
+        this.name = name;
+        this.idCategoryMuscle = idCategoryMuscle;
+        this.idCategoryExercise = idCategoryExercise;
+        this.icon = icon;
     }
 
     public long getId() {
@@ -76,6 +89,13 @@ public class ExerciseBean {
     }
     public void setIdCategoryExercise(long idCategoryExercise) {
         this.idCategoryExercise = idCategoryExercise;
+    }
+
+    public int getIcon() {
+        return icon;
+    }
+    public void setIcon(int icon) {
+        this.icon = icon;
     }
 
 }
