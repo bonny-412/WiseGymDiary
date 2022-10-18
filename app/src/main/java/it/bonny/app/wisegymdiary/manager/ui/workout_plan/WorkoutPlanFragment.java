@@ -7,10 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -18,14 +16,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback;
 
 import it.bonny.app.wisegymdiary.R;
 import it.bonny.app.wisegymdiary.component.GridViewWorkoutPlanAdapter;
 import it.bonny.app.wisegymdiary.databinding.FragmentWorkoutPlanBinding;
 import it.bonny.app.wisegymdiary.manager.DetailWorkoutPlanActivity;
 import it.bonny.app.wisegymdiary.manager.NewEditWorkoutPlanActivity;
-import it.bonny.app.wisegymdiary.util.WorkoutPlanOnCLickItemCheckbox;
+import it.bonny.app.wisegymdiary.util.RecyclerViewOnClickItem;
 
 public class WorkoutPlanFragment extends Fragment {
 
@@ -93,7 +90,7 @@ public class WorkoutPlanFragment extends Fragment {
         containerListNotEnd = binding.containerListNotEnd;
         textWorkoutPlansListEmpty = binding.textWorkoutPlansListEmpty;
 
-        WorkoutPlanOnCLickItemCheckbox workoutPlanOnCLickItemCheckbox = new WorkoutPlanOnCLickItemCheckbox() {
+        RecyclerViewOnClickItem recyclerViewOnClickItem = new RecyclerViewOnClickItem() {
             @Override
             public void recyclerViewItemClick(long idElement) {
                 Intent intent = new Intent(getActivity(), DetailWorkoutPlanActivity.class);
@@ -103,14 +100,14 @@ public class WorkoutPlanFragment extends Fragment {
         };
 
         RecyclerView gridViewNotEnd = binding.gridViewWorkoutPlan;
-        workoutPlanAdapter = new GridViewWorkoutPlanAdapter(getContext(), workoutPlanOnCLickItemCheckbox);
+        workoutPlanAdapter = new GridViewWorkoutPlanAdapter(getContext(), recyclerViewOnClickItem);
         gridViewNotEnd.setLayoutManager(new GridLayoutManager(getContext(),2));
         gridViewNotEnd.setHasFixedSize(true);
         gridViewNotEnd.setItemAnimator(new DefaultItemAnimator());
         gridViewNotEnd.setAdapter(workoutPlanAdapter);
 
         RecyclerView gridViewEnd = binding.gridViewWorkoutPlanEnd;
-        workoutPlanEndAdapter = new GridViewWorkoutPlanAdapter(getContext(), workoutPlanOnCLickItemCheckbox);
+        workoutPlanEndAdapter = new GridViewWorkoutPlanAdapter(getContext(), recyclerViewOnClickItem);
         gridViewEnd.setLayoutManager(new GridLayoutManager(getContext(),2));
         gridViewEnd.setHasFixedSize(true);
         gridViewEnd.setItemAnimator(new DefaultItemAnimator());

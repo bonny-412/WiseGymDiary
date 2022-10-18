@@ -17,6 +17,10 @@
     <string name="to">to</string>
     <string name="day">Day</string>
     <string name="all">All</string>
+    <string name="title_alert">Attention!</string>
+    <string name="delete">Delete</string>
+    <string name="deleted">Deleted</string>
+    <string name="title_alert_delete">Are you sure?</string>
 
     <!-- Content description button toolbar pages -->
     <string name="content_description_button_return_back">Return back</string>
@@ -130,6 +134,7 @@
     <string name="sub_title_page_exercise_fragment">Select exercise to track</string>
     <string name="text_info_add_exercise_fragment">Did not find what you were looking for? You can create your own exercise by tapping on + button.</string>
     <string name="text_hint_search_view_exercise_fragment">Search all exercises</string>
+    <string name="text_delete_exercise">Deleting this exercise will remove all the workout log associated with it</string>
 
     <!-- NEW EDIT EXERCISE -->
     <string name="title_page_new_edit_exercise">Create exercise</string>

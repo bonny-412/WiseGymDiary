@@ -1,5 +1,5 @@
 package it.bonny.app.wisegymdiary.util;
 
-public interface WorkoutPlanOnCLickItemCheckbox {
+public interface RecyclerViewOnClickItem {
     void recyclerViewItemClick(long idElement);
 }

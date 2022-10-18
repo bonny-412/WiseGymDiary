@@ -14,7 +14,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
@@ -26,18 +25,18 @@ import it.bonny.app.wisegymdiary.R;
 import it.bonny.app.wisegymdiary.bean.WorkoutBean;
 import it.bonny.app.wisegymdiary.manager.SessionDetailActivity;
 import it.bonny.app.wisegymdiary.util.Utility;
-import it.bonny.app.wisegymdiary.util.WorkoutPlanOnCLickItemCheckbox;
+import it.bonny.app.wisegymdiary.util.RecyclerViewOnClickItem;
 
 public class RecyclerViewSessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<WorkoutBean> workoutBeanList;
     private final Context mContext;
-    private final WorkoutPlanOnCLickItemCheckbox workoutPlanOnCLickItemCheckbox;
+    private final RecyclerViewOnClickItem recyclerViewOnClickItem;
     private final Utility utility = new Utility();
 
-    public RecyclerViewSessionAdapter(Context context, WorkoutPlanOnCLickItemCheckbox workoutPlanOnCLickItemCheckbox) {
+    public RecyclerViewSessionAdapter(Context context, RecyclerViewOnClickItem recyclerViewOnClickItem) {
         this.mContext = context;
-        this.workoutPlanOnCLickItemCheckbox = workoutPlanOnCLickItemCheckbox;
+        this.recyclerViewOnClickItem = recyclerViewOnClickItem;
         this.workoutBeanList = new ArrayList<>();
     }
 
@@ -93,9 +92,9 @@ public class RecyclerViewSessionAdapter extends RecyclerView.Adapter<RecyclerVie
             popupMenu.setForceShowIcon(true);
             popupMenu.setOnMenuItemClickListener(menuItem -> {
                 if(menuItem.getItemId() == R.id.edit) {
-                    workoutPlanOnCLickItemCheckbox.recyclerViewItemClick(workoutBean.getId());
+                    recyclerViewOnClickItem.recyclerViewItemClick(workoutBean.getId());
                 }else if(menuItem.getItemId() == R.id.delete) {
-                    workoutPlanOnCLickItemCheckbox.recyclerViewItemClick(workoutBean.getId());
+                    recyclerViewOnClickItem.recyclerViewItemClick(workoutBean.getId());
                 }
                 popupMenu.dismiss();
                 return true;

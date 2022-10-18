@@ -5,18 +5,11 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +17,7 @@ import java.util.List;
 import it.bonny.app.wisegymdiary.R;
 import it.bonny.app.wisegymdiary.bean.WorkoutPlanBean;
 import it.bonny.app.wisegymdiary.util.Utility;
-import it.bonny.app.wisegymdiary.util.ValueFlagBean;
-import it.bonny.app.wisegymdiary.util.WorkoutPlanOnCLickItemCheckbox;
+import it.bonny.app.wisegymdiary.util.RecyclerViewOnClickItem;
 
 public class GridViewWorkoutPlanAdapter extends RecyclerView.Adapter<GridViewWorkoutPlanAdapter.RecyclerViewHolder> {
 
@@ -33,12 +25,12 @@ public class GridViewWorkoutPlanAdapter extends RecyclerView.Adapter<GridViewWor
     private List<WorkoutPlanBean> workoutPlanList;
     private final Utility utility = new Utility();
     int selectedPosition = -1;
-    private final WorkoutPlanOnCLickItemCheckbox workoutPlanOnCLickItemCheckbox;
+    private final RecyclerViewOnClickItem recyclerViewOnClickItem;
 
-    public GridViewWorkoutPlanAdapter(Context mContext, WorkoutPlanOnCLickItemCheckbox workoutPlanOnCLickItemCheckbox) {
+    public GridViewWorkoutPlanAdapter(Context mContext, RecyclerViewOnClickItem recyclerViewOnClickItem) {
         this.workoutPlanList = new ArrayList<>();
         this.mContext = mContext;
-        this.workoutPlanOnCLickItemCheckbox = workoutPlanOnCLickItemCheckbox;
+        this.recyclerViewOnClickItem = recyclerViewOnClickItem;
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -70,7 +62,7 @@ public class GridViewWorkoutPlanAdapter extends RecyclerView.Adapter<GridViewWor
         holder.constraintClicked.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                workoutPlanOnCLickItemCheckbox.recyclerViewItemClick(workoutPlan.getId());
+                recyclerViewOnClickItem.recyclerViewItemClick(workoutPlan.getId());
             }
         });
 

@@ -162,5 +162,10 @@
     <string name="edit_text_note_exercise">Note esercizio</string>
     <string name="text_exercise_based">Il tuo esercizio si basa su:</string>
     <string name="saved">Salvato</string>
+    <string name="delete">Elimina</string>
+    <string name="text_delete_exercise">L\'eliminazione di questo esercizio rimuoverà tutto il registro dell\'allenamento ad esso associato</string>
+    <string name="deleted">Cancellato</string>
+    <string name="title_alert">Attenzione!</string>
+    <string name="title_alert_delete">Sei sicuro?</string>
 
 </resources>

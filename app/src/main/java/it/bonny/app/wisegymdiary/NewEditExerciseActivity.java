@@ -42,6 +42,8 @@ public class NewEditExerciseActivity extends AppCompatActivity {
     private ProgressBar progressBar, progressBarMuscle, progressBarExerciseBased;
     private EditText name, note;
     private LinearLayout containerForm;
+    private TextInputLayout nameLayout;
+    private TextView titleChooseIconMuscle, titleChooseExerciseBased;
 
     private ExerciseBean exerciseBean;
     private ChipGroup chipGroup, chipGroupExerciseBased;
@@ -63,16 +65,30 @@ public class NewEditExerciseActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 if(item.getItemId() == R.id.btn_save_generic_menu) {
                     boolean isError = false;
-                    if(name.getText() == null || "".equals(name.getText().toString().trim()))
-                        isError = true;
-                    if(chipMuscleSelected == null)
-                        isError = true;
-                    if(chipCategoryExerciseSelected == null)
-                        isError = true;
+                    Animation shake = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shake);
 
-                    if(isError) {
-                        //TODO: Alert
-                    }else {
+                    if(name.getText() == null || "".equals(name.getText().toString().trim())) {
+                        isError = true;
+                        nameLayout.setError(getString(R.string.required_field));
+                        nameLayout.startAnimation(shake);
+                    }else
+                        nameLayout.setError(null);
+
+                    if(chipMuscleSelected == null) {
+                        isError = true;
+                        titleChooseIconMuscle.setTextColor(getColor(R.color.primary));
+                        titleChooseIconMuscle.startAnimation(shake);
+                    }else
+                        titleChooseIconMuscle.setTextColor(getColor(R.color.secondary_text));
+
+                    if(chipCategoryExerciseSelected == null) {
+                        isError = true;
+                        titleChooseExerciseBased.setTextColor(getColor(R.color.primary));
+                        titleChooseExerciseBased.startAnimation(shake);
+                    }else
+                        titleChooseExerciseBased.setTextColor(getColor(R.color.secondary_text));
+
+                   if(!isError) {
                         Intent intent = new Intent();
                         intent.putExtra("id", idExercise);
                         intent.putExtra("name", name.getText().toString().trim());
@@ -121,7 +137,9 @@ public class NewEditExerciseActivity extends AppCompatActivity {
         progressBarExerciseBased = findViewById(R.id.progressBarExerciseBased);
         chipGroup = findViewById(R.id.chipGroup);
         chipGroupExerciseBased = findViewById(R.id.chipGroupExerciseBased);
-
+        nameLayout = findViewById(R.id.nameLayout);
+        titleChooseIconMuscle = findViewById(R.id.titleChooseIconMuscle);
+        titleChooseExerciseBased = findViewById(R.id.titleChooseExerciseBased);
     }
 
     @Override
