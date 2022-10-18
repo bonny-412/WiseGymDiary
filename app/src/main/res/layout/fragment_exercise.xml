@@ -94,6 +94,7 @@
             android:scrollbars="none"
             android:padding="8dp"
             android:overScrollMode="never"
+            android:focusable="false"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -102,17 +103,20 @@
                 android:background="@drawable/background_corners_rounded_big"
                 android:padding="8dp">
 
-                <!--<SearchView
-                    android:id="@+id/searchView"
-                    android:layout_width="0dp"
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/background"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:indeterminate="true"
+                    android:indeterminateDrawable="@drawable/progress_bg"
+                    android:progress="0"
+                    android:visibility="gone"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:queryHint="@string/text_hint_search_view_exercise_fragment"
-                    android:iconifiedByDefault="false"
-                    app:layout_constraintBottom_toTopOf="@+id/recyclerViewExercise" />-->
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/searchView"

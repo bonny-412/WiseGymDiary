@@ -154,5 +154,13 @@
     <string name="name_exercise_dips">Dips</string>
     <string name="name_exercise_v_bar_push_down">Push down V-Bar</string>
     <string name="name_exercise_rope_push_down">Push down corda</string>
+    <string name="title_page_new_edit_exercise">Crea esercizio</string>
+    <string name="title_page_new_edit_exercise_edit">Modifica esercizio</string>
+    <string name="sub_title_page_new_edit_exercise">Puoi creare un nuovo esercizio</string>
+    <string name="sub_title_page_new_edit_exercise_edit">Puoi modificare un esercizio</string>
+    <string name="edit_text_name_exercise">Nome esercizio</string>
+    <string name="edit_text_note_exercise">Note esercizio</string>
+    <string name="text_exercise_based">Il tuo esercizio si basa su:</string>
+    <string name="saved">Salvato</string>
 
 </resources>

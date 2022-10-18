@@ -19,15 +19,15 @@ public class ExerciseBean {
     private String note;
 
     @ColumnInfo(name = "id_category_muscle")
-    private long idCategoryMuscle;
+    private String idCategoryMuscle;
 
     @ColumnInfo(name = "id_category_exercise")
-    private long idCategoryExercise;
+    private String idCategoryExercise;
 
     @ColumnInfo(name = "icon")
     private int icon;
 
-    public ExerciseBean(long id, String name, String note, long idCategoryMuscle, long idCategoryExercise, int icon) {
+    public ExerciseBean(long id, String name, String note, String idCategoryMuscle, String idCategoryExercise, int icon) {
         this.id = id;
         this.name = name;
         this.note = note;
@@ -40,7 +40,7 @@ public class ExerciseBean {
     public ExerciseBean() {}
 
     @Ignore
-    public ExerciseBean(String name, String note, long idCategoryMuscle, long idCategoryExercise, int icon) {
+    public ExerciseBean(String name, String note, String idCategoryMuscle, String idCategoryExercise, int icon) {
         this.name = name;
         this.note = note;
         this.idCategoryMuscle = idCategoryMuscle;
@@ -49,7 +49,7 @@ public class ExerciseBean {
     }
 
     @Ignore
-    public ExerciseBean(String name, long idCategoryMuscle, long idCategoryExercise, int icon) {
+    public ExerciseBean(String name, String idCategoryMuscle, String idCategoryExercise, int icon) {
         this.name = name;
         this.idCategoryMuscle = idCategoryMuscle;
         this.idCategoryExercise = idCategoryExercise;
@@ -77,17 +77,17 @@ public class ExerciseBean {
         this.note = note;
     }
 
-    public long getIdCategoryMuscle() {
+    public String getIdCategoryMuscle() {
         return idCategoryMuscle;
     }
-    public void setIdCategoryMuscle(long idCategoryMuscle) {
+    public void setIdCategoryMuscle(String idCategoryMuscle) {
         this.idCategoryMuscle = idCategoryMuscle;
     }
 
-    public long getIdCategoryExercise() {
+    public String getIdCategoryExercise() {
         return idCategoryExercise;
     }
-    public void setIdCategoryExercise(long idCategoryExercise) {
+    public void setIdCategoryExercise(String idCategoryExercise) {
         this.idCategoryExercise = idCategoryExercise;
     }
 

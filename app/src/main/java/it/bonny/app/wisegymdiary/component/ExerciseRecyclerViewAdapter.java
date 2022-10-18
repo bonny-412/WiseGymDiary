@@ -44,6 +44,12 @@ public class ExerciseRecyclerViewAdapter extends RecyclerView.Adapter<ExerciseRe
         notifyDataSetChanged();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    public void filterList(ArrayList<ExerciseBean> filteredList) {
+        exerciseList = filteredList;
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -57,10 +63,7 @@ public class ExerciseRecyclerViewAdapter extends RecyclerView.Adapter<ExerciseRe
 
         holder.title.setText(exerciseBean.getName());
 
-        AppDatabase.databaseWriteExecutor.execute(() -> {
-            CategoryMuscleBean categoryMuscleBean = AppDatabase.getInstance(mActivity).categoryMuscleDAO().findCategoryMuscleById(exerciseBean.getIdCategoryMuscle());
-            mActivity.runOnUiThread(() -> holder.categoryExercise.setText(categoryMuscleBean.getName()));
-        });
+        holder.categoryExercise.setText(exerciseBean.getIdCategoryMuscle());
 
         holder.constraintClicked.setOnClickListener(v -> workoutPlanOnCLickItemCheckbox.recyclerViewItemClick(exerciseBean.getId()));
 

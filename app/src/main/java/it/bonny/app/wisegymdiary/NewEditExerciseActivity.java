@@ -1,12 +1,14 @@
 package it.bonny.app.wisegymdiary;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -18,6 +20,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -26,6 +29,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.List;
 
+import it.bonny.app.wisegymdiary.bean.CategoryExerciseBean;
 import it.bonny.app.wisegymdiary.bean.ExerciseBean;
 import it.bonny.app.wisegymdiary.bean.CategoryMuscleBean;
 import it.bonny.app.wisegymdiary.database.AppDatabase;
@@ -33,209 +37,91 @@ import it.bonny.app.wisegymdiary.util.Utility;
 
 public class NewEditExerciseActivity extends AppCompatActivity {
 
-    private MaterialButton btnReturn, btnSave, btnAddNewSetsReps;
-    private ToggleButton btnMaxReps;
-    private TextInputLayout nameExercise, noteExercise;
+    private MaterialToolbar materialToolbar;
+    private TextView titlePage, subTitlePage;
+    private ProgressBar progressBar, progressBarMuscle, progressBarExerciseBased;
+    private EditText name, note;
+    private LinearLayout containerForm;
+
     private ExerciseBean exerciseBean;
-    private ChipGroup chipGroup;
-    private LinearLayout linearLayout;
-    private EditText editTextSets, editTextReps, editTextReps1;
-    private TextView slash;
-    private NumberPicker numPickerMin, numPickerSec;
-    private ProgressBar progressBar, progressBar1;
-    private Chip chipSelected = null;
-    private ScrollView scrollView;
-    private long idWorkoutDay;
+    private ChipGroup chipGroup, chipGroupExerciseBased;
+    private Chip chipMuscleSelected = null, chipCategoryExerciseSelected = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_edit_exercise);
 
-        idWorkoutDay = getIntent().getLongExtra("idWorkoutDay", 0);
         long idExercise = getIntent().getLongExtra("idExercise", 0);
 
         initElements();
 
+        materialToolbar.setNavigationOnClickListener(v -> finish());
+
+        materialToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if(item.getItemId() == R.id.btn_save_generic_menu) {
+                    boolean isError = false;
+                    if(name.getText() == null || "".equals(name.getText().toString().trim()))
+                        isError = true;
+                    if(chipMuscleSelected == null)
+                        isError = true;
+                    if(chipCategoryExerciseSelected == null)
+                        isError = true;
+
+                    if(isError) {
+                        //TODO: Alert
+                    }else {
+                        Intent intent = new Intent();
+                        intent.putExtra("id", idExercise);
+                        intent.putExtra("name", name.getText().toString().trim());
+                        intent.putExtra("idCategoryMuscle", chipMuscleSelected.getText().toString().trim());
+                        intent.putExtra("idCategoryExercise", chipCategoryExerciseSelected.getText().toString().trim());
+                        intent.putExtra("note", note.getText().toString().trim());
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
+
+                    return true;
+                }
+                return false;
+            }
+        });
+
         if(idExercise == 0) {
             exerciseBean = new ExerciseBean();
-            progressBar1.setVisibility(View.GONE);
-            scrollView.setVisibility(View.VISIBLE);
-            btnSave.setVisibility(View.VISIBLE);
+            exerciseBean.setIdCategoryExercise(getString(R.string.category_exercise_weight_reps));
+
+            titlePage.setText(getString(R.string.title_page_new_edit_exercise));
+            subTitlePage.setText(getString(R.string.sub_title_page_new_edit_exercise));
+            materialToolbar.setTitle(getString(R.string.title_page_new_edit_exercise));
 
             populateChipMuscle();
+            populateChipCategoryExercise();
         }else {
-            progressBar1.setVisibility(View.VISIBLE);
-            scrollView.setVisibility(View.GONE);
-            btnSave.setVisibility(View.GONE);
+            titlePage.setText(getString(R.string.title_page_new_edit_exercise_edit));
+            subTitlePage.setText(getString(R.string.sub_title_page_new_edit_exercise_edit));
+            materialToolbar.setTitle(getString(R.string.title_page_new_edit_exercise_edit));
 
             retrieveExercise(idExercise);
         }
 
-
-        btnReturn.setOnClickListener(view -> finish());
-
-        btnSave.setOnClickListener(view -> {
-            boolean isError = controlForm();
-            if(!isError) {
-                Intent intent = new Intent();
-                intent.putExtra("page", Utility.ADD_EXERCISE);
-                if(exerciseBean.getId() > 0) {
-                    intent.putExtra(Utility.EXTRA_EXERCISE_ID, exerciseBean.getId());
-                }
-                intent.putExtra(Utility.EXTRA_EXERCISE_NAME, exerciseBean.getName());
-                //intent.putExtra(Utility.EXTRA_EXERCISE_ID_WORK_DAY, exerciseBean.getIdWorkDay());
-                intent.putExtra(Utility.EXTRA_EXERCISE_NOTE, exerciseBean.getNote());
-                //intent.putExtra(Utility.EXTRA_EXERCISE_REST_TIME, exerciseBean.getRestTime());
-                //intent.putExtra(Utility.EXTRA_EXERCISE_NUM_SETS_REPS, exerciseBean.getNumSetsReps());
-                //intent.putExtra(Utility.EXTRA_EXERCISE_WORKED_MUSCLE, exerciseBean.getWorkedMuscle());
-                setResult(RESULT_OK, intent);
-                finish();
-            }else {
-                Animation shake = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shake);
-                btnSave.startAnimation(shake);
-            }
-        });
-
-        btnAddNewSetsReps.setOnClickListener(v -> addView(null, null, null));
-
-        btnMaxReps.setOnCheckedChangeListener((compoundButton, b) -> {
-            if(b) {
-                btnMaxReps.setTextColor(getColor(R.color.secondary));
-                editTextReps.setText("");
-                editTextReps1.setText("");
-                editTextReps.setVisibility(View.INVISIBLE);
-                editTextReps1.setVisibility(View.INVISIBLE);
-                slash.setVisibility(View.INVISIBLE);
-            }else {
-                btnMaxReps.setTextColor(getColor(R.color.secondary_text));
-                editTextReps.setVisibility(View.VISIBLE);
-                editTextReps1.setVisibility(View.VISIBLE);
-                slash.setVisibility(View.VISIBLE);
-            }
-        });
-
     }
 
     private void initElements() {
-        btnReturn = findViewById(R.id.btnReturn);
-        btnSave = findViewById(R.id.btnSave);
-        nameExercise = findViewById(R.id.nameExercise);
-        noteExercise = findViewById(R.id.noteExercise);
-        chipGroup = findViewById(R.id.chipGroup);
-        btnAddNewSetsReps = findViewById(R.id.btnAddNewSetsReps);
-        linearLayout = findViewById(R.id.layout_list);
-        editTextReps = findViewById(R.id.editTextReps);
-        editTextReps1 = findViewById(R.id.editTextReps1);
-        editTextSets = findViewById(R.id.editTextSets);
-        numPickerMin = findViewById(R.id.numPickerMin);
-        numPickerSec = findViewById(R.id.numPickerSec);
+        titlePage = findViewById(R.id.titlePage);
+        subTitlePage = findViewById(R.id.subTitlePage);
+        materialToolbar = findViewById(R.id.materialToolbar);
         progressBar = findViewById(R.id.progressBar);
-        progressBar1 = findViewById(R.id.progressBar1);
-        scrollView = findViewById(R.id.scrollView);
-        btnMaxReps = findViewById(R.id.btnMaxReps);
-        slash = findViewById(R.id.slash);
+        name = findViewById(R.id.name);
+        note = findViewById(R.id.note);
+        containerForm = findViewById(R.id.containerForm);
+        progressBarMuscle = findViewById(R.id.progressBarMuscle);
+        progressBarExerciseBased = findViewById(R.id.progressBarExerciseBased);
+        chipGroup = findViewById(R.id.chipGroup);
+        chipGroupExerciseBased = findViewById(R.id.chipGroupExerciseBased);
 
-        TextInputEditText textInputNameExercise = findViewById(R.id.textInputNameExercise);
-        TextInputEditText textInputNoteExercise = findViewById(R.id.textInputNoteExercise);
-        textInputNameExercise.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-        textInputNoteExercise.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-
-        numPickerMin.setMinValue(0);
-        numPickerMin.setMaxValue(59);
-        numPickerSec.setMinValue(0);
-        numPickerSec.setMaxValue(59);
-
-    }
-
-    @SuppressLint("InflateParams")
-    private void addView(String numSets, String numReps, String numReps1) {
-        final View setsRepsView = getLayoutInflater().inflate(R.layout.row_sets_reps, null, false);
-
-        MaterialButton btnDelete = setsRepsView.findViewById(R.id.btnDelete);
-        ToggleButton btnMaxReps = setsRepsView.findViewById(R.id.btnMaxReps);
-        EditText sets = setsRepsView.findViewById(R.id.editTextSets);
-        EditText reps = setsRepsView.findViewById(R.id.editTextReps);
-        EditText reps1 = setsRepsView.findViewById(R.id.editTextReps1);
-        TextView slash = setsRepsView.findViewById(R.id.slash);
-
-        btnDelete.setOnClickListener(v -> removeView(setsRepsView));
-
-        btnMaxReps.setOnCheckedChangeListener((compoundButton, b) -> {
-            if(b) {
-                btnMaxReps.setTextColor(getColor(R.color.secondary));
-                reps.setText("");
-                reps1.setText("");
-                reps.setVisibility(View.INVISIBLE);
-                reps1.setVisibility(View.INVISIBLE);
-                slash.setVisibility(View.INVISIBLE);
-            }else {
-                btnMaxReps.setTextColor(getColor(R.color.secondary_text));
-                reps.setVisibility(View.VISIBLE);
-                reps1.setVisibility(View.VISIBLE);
-                slash.setVisibility(View.VISIBLE);
-            }
-        });
-
-        if(numSets != null && numReps != null && numReps.contains(Utility.SYMBOL_MAX)) {
-            btnMaxReps.setChecked(true);
-            sets.setText(numSets);
-            reps.setText("");
-            reps1.setText("");
-        }else if(numSets != null && numReps != null && numReps1 == null) {
-            sets.setText(numSets);
-            reps.setText(numReps);
-        }else if(numSets != null && numReps != null) {
-            sets.setText(numSets);
-            reps.setText(numReps);
-            reps1.setText(numReps1);
-        }
-
-        linearLayout.addView(setsRepsView);
-    }
-
-    private void removeView(View view) {
-        linearLayout.removeView(view);
-    }
-
-    private String readAllSetsReps() {
-        StringBuilder result;
-
-        if(btnMaxReps.isChecked() && !"".equals(editTextSets.getText().toString())) {
-            result = new StringBuilder(editTextSets.getText().toString() + Utility.SYMBOL_SPLIT_BETWEEN_SET_REP + Utility.SYMBOL_MAX + Utility.SYMBOL_SPLIT);
-        }else if(!btnMaxReps.isChecked() && !"".equals(editTextSets.getText().toString())
-                && !"".equals(editTextReps.getText().toString())) {
-
-            String reps = editTextReps.getText().toString();
-            if(!"".equals(editTextReps1.getText().toString()))
-                reps += Utility.SYMBOL_SPLIT_BETWEEN_REPS + editTextReps1.getText().toString();
-            result = new StringBuilder(editTextSets.getText().toString() + Utility.SYMBOL_SPLIT_BETWEEN_SET_REP + reps + Utility.SYMBOL_SPLIT);
-        }else {
-            result = new StringBuilder();
-        }
-
-        for(int i=0; i < linearLayout.getChildCount(); i++){
-            View view = linearLayout.getChildAt(i);
-
-            EditText editTextSetsApp = view.findViewById(R.id.editTextSets);
-            EditText editTextRepsApp = view.findViewById(R.id.editTextReps);
-            EditText editTextRepsApp1 = view.findViewById(R.id.editTextReps1);
-            ToggleButton btnMaxReps = view.findViewById(R.id.btnMaxReps);
-
-            if(btnMaxReps.isChecked() && !"".equals(editTextSetsApp.getText().toString())) {
-                result.append(editTextSetsApp.getText().toString()).append(Utility.SYMBOL_SPLIT_BETWEEN_SET_REP)
-                        .append(Utility.SYMBOL_MAX).append(Utility.SYMBOL_SPLIT);
-            }else if(!btnMaxReps.isChecked() && !"".equals(editTextSetsApp.getText().toString())
-                    && !"".equals(editTextRepsApp.getText().toString())) {
-                String repsInView = editTextRepsApp.getText().toString();
-                if(!"".equals(editTextRepsApp1.getText().toString()))
-                    repsInView += Utility.SYMBOL_SPLIT_BETWEEN_REPS + editTextRepsApp1.getText().toString();
-                result.append(editTextSetsApp.getText().toString()).append(Utility.SYMBOL_SPLIT_BETWEEN_SET_REP)
-                        .append(repsInView).append(Utility.SYMBOL_SPLIT);
-            }
-
-        }
-        return result.toString();
     }
 
     @Override
@@ -248,157 +134,135 @@ public class NewEditExerciseActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    private boolean controlForm() {
-        boolean isError = false;
-
-        if(nameExercise.getEditText() == null || "".equals(nameExercise.getEditText().getText().toString())) {
-            isError = true;
-            nameExercise.setError(getText(R.string.required_field));
-        }else {
-            exerciseBean.setName(nameExercise.getEditText().getText().toString());
-            nameExercise.setError(null);
-        }
-
-        TextView titleChooseIconMuscle = findViewById(R.id.titleChooseIconMuscle);
-        if(chipSelected == null) {
-            isError = true;
-            titleChooseIconMuscle.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.error));
-        }else {
-            titleChooseIconMuscle.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.primary_text));
-            //exerciseBean.setWorkedMuscle(chipSelected.getText().toString());
-        }
-
-        TextView titleSetsReps = findViewById(R.id.titleSetsReps);
-        String totSetsReps = readAllSetsReps();
-        if("".equals(totSetsReps)) {
-            isError = true;
-            titleSetsReps.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.error));
-        }else {
-            titleSetsReps.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.primary_text));
-            //exerciseBean.setNumSetsReps(totSetsReps);
-        }
-
-        //exerciseBean.setIdWorkDay(idWorkoutDay);
-        exerciseBean.setNote(noteExercise.getEditText() != null ? noteExercise.getEditText().getText().toString(): "");
-        String timeRest = numPickerMin.getValue() + Utility.SYMBOL_SPLIT + numPickerSec.getValue();
-        //exerciseBean.setRestTime(timeRest);
-
-        return isError;
-    }
-
     private void populateChipMuscle() {
+        progressBarMuscle.setVisibility(View.VISIBLE);
+        chipGroup.setVisibility(View.GONE);
         AppDatabase.databaseWriteExecutor.execute(() -> {
             List<CategoryMuscleBean> categoryMuscleBeanList = AppDatabase.getInstance(getApplicationContext()).categoryMuscleDAO().findAllMuscles();
 
             runOnUiThread(() -> {
                 for(CategoryMuscleBean categoryMuscleBean : categoryMuscleBeanList) {
-                    addChip(categoryMuscleBean.getName());
+                    addChip(categoryMuscleBean.getName(), false);
                 }
-                progressBar.setVisibility(View.GONE);
+                progressBarMuscle.setVisibility(View.GONE);
                 chipGroup.setVisibility(View.VISIBLE);
                 chipGroup.setSelectionRequired(true);
             });
         });
     }
 
-    private void addChip(String nameChip) {
+    private void populateChipCategoryExercise() {
+        progressBarExerciseBased.setVisibility(View.VISIBLE);
+        chipGroupExerciseBased.setVisibility(View.GONE);
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            List<CategoryExerciseBean> categoryExerciseBeans = AppDatabase.getInstance(getApplicationContext()).categoryExerciseDAO().findAllCategoryExercise();
+
+            runOnUiThread(() -> {
+                for(CategoryExerciseBean bean: categoryExerciseBeans) {
+                    addChip(bean.getName(), true);
+                }
+
+                progressBarExerciseBased.setVisibility(View.GONE);
+                chipGroupExerciseBased.setVisibility(View.VISIBLE);
+                chipGroupExerciseBased.setSelectionRequired(true);
+            });
+        });
+    }
+
+    private void addChip(String nameChip, boolean isCategoryExercise) {
         Chip chip = new Chip(this);
         chip.setText(nameChip);
 
-       /* if(exerciseBean.getWorkedMuscle() != null && nameChip.equals(exerciseBean.getWorkedMuscle())) {
-            chip.setChipBackgroundColor(getColorStateList(R.color.blue_text));
-            chip.setTextColor(getColor(R.color.blue_background));
-            chip.setChecked(true);
-            chipSelected = chip;
-        }else {*/
-            chip.setChipBackgroundColor(getColorStateList(R.color.blue_background));
-            chip.setTextColor(getColor(R.color.blue_text));
-            chip.setChecked(false);
-        //}
+        if(isCategoryExercise) {
+            if(exerciseBean.getIdCategoryExercise() != null && nameChip.equals(exerciseBean.getIdCategoryExercise())) {
+                chip.setChipBackgroundColor(getColorStateList(R.color.background));
+                chip.setChipBackgroundColor(getColorStateList(R.color.primary));
+                chip.setTextColor(getColor(R.color.white));
+                chipCategoryExerciseSelected = chip;
+            }else {
+                chip.setChipBackgroundColor(getColorStateList(R.color.background));
+                chip.setTextColor(getColor(R.color.secondary_text));
+                chip.setChecked(false);
+            }
+        }else {
+            if(exerciseBean.getIdCategoryMuscle() != null && nameChip.equals(exerciseBean.getIdCategoryMuscle())) {
+                chip.setChipBackgroundColor(getColorStateList(R.color.background));
+                chip.setChipBackgroundColor(getColorStateList(R.color.primary));
+                chip.setTextColor(getColor(R.color.white));
+                chipMuscleSelected = chip;
+            }else {
+                chip.setChipBackgroundColor(getColorStateList(R.color.background));
+                chip.setTextColor(getColor(R.color.secondary_text));
+                chip.setChecked(false);
+            }
+        }
 
         chip.setOnClickListener(view -> {
-            if(chipSelected == null) {
-                chip.setChecked(true);
-                chip.setChipBackgroundColor(getColorStateList(R.color.blue_text));
-                chip.setTextColor(getColor(R.color.blue_background));
-                chipSelected = chip;
-            }else {
-                if(!chipSelected.equals(chip)) {
-                    chipSelected.setChecked(true);
-                    chipSelected.setChipBackgroundColor(getColorStateList(R.color.blue_background));
-                    chipSelected.setTextColor(getColor(R.color.blue_text));
+            if(isCategoryExercise) {
+                if(chipCategoryExerciseSelected == null) {
                     chip.setChecked(true);
-                    chip.setChipBackgroundColor(getColorStateList(R.color.blue_text));
-                    chip.setTextColor(getColor(R.color.blue_background));
-                    chipSelected = chip;
+                    chip.setChipBackgroundColor(getColorStateList(R.color.primary));
+                    chip.setTextColor(getColor(R.color.white));
+                    chipCategoryExerciseSelected = chip;
+                }else {
+                    if(!chipCategoryExerciseSelected.equals(chip)) {
+                        chipCategoryExerciseSelected.setChecked(true);
+                        chipCategoryExerciseSelected.setChipBackgroundColor(getColorStateList(R.color.background));
+                        chipCategoryExerciseSelected.setTextColor(getColor(R.color.secondary_text));
+                        chip.setChecked(true);
+                        chip.setChipBackgroundColor(getColorStateList(R.color.primary));
+                        chip.setTextColor(getColor(R.color.white));
+                        chipCategoryExerciseSelected = chip;
+                    }
+                }
+            }else {
+                if(chipMuscleSelected == null) {
+                    chip.setChecked(true);
+                    chip.setChipBackgroundColor(getColorStateList(R.color.primary));
+                    chip.setTextColor(getColor(R.color.white));
+                    chipMuscleSelected = chip;
+                }else {
+                    if(!chipMuscleSelected.equals(chip)) {
+                        chipMuscleSelected.setChecked(true);
+                        chipMuscleSelected.setChipBackgroundColor(getColorStateList(R.color.background));
+                        chipMuscleSelected.setTextColor(getColor(R.color.secondary_text));
+                        chip.setChecked(true);
+                        chip.setChipBackgroundColor(getColorStateList(R.color.primary));
+                        chip.setTextColor(getColor(R.color.white));
+                        chipMuscleSelected = chip;
+                    }
                 }
             }
         });
 
-        chipGroup.addView(chip);
+        if(isCategoryExercise)
+            chipGroupExerciseBased.addView(chip);
+        else
+            chipGroup.addView(chip);
     }
 
     private void retrieveExercise(long idExercise) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             exerciseBean = AppDatabase.getInstance(getApplicationContext()).exerciseDAO().findExerciseById(idExercise);
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if(nameExercise.getEditText() != null)
-                        nameExercise.getEditText().setText(exerciseBean.getName());
-                    if(noteExercise.getEditText() != null)
-                        noteExercise.getEditText().setText(exerciseBean.getNote());
+            runOnUiThread(() -> {
+                name.setText(exerciseBean.getName());
+                note.setText(exerciseBean.getNote());
 
-                    /*String[] splitRestTime = exerciseBean.getRestTime().split(Utility.SYMBOL_SPLIT);
-                    numPickerMin.setValue(Integer.parseInt(splitRestTime[0]));
-                    numPickerSec.setValue(Integer.parseInt(splitRestTime[1]));*/
-
-                    /*String[] splitNumSetsReps = exerciseBean.getNumSetsReps().split(Utility.SYMBOL_SPLIT);
-                    for(int i = 0; i < splitNumSetsReps.length; i ++) {
-                        String[] singleNumSetsReps = splitNumSetsReps[i].split(Utility.SYMBOL_SPLIT_BETWEEN_SET_REP);
-                        String numSet = singleNumSetsReps[0];
-                        String numReps = singleNumSetsReps[1];
-
-                        if(numReps.contains(Utility.SYMBOL_MAX)) {
-
-
-                            if(i >= 1) {
-                                addView(numSet, numReps, null);
-                            }else {
-                                btnMaxReps.setChecked(true);
-                                editTextSets.setText(numSet);
-                                editTextReps.setText("");
-                            }
-                        }else if(numReps.contains(Utility.SYMBOL_SPLIT_BETWEEN_REPS)) {
-                            String[] numRepSplit = numReps.split(Utility.SYMBOL_SPLIT_BETWEEN_REPS);
-                            String numRep = numRepSplit[0];
-                            String numRep1 = numRepSplit[1];
-
-                            if(i >= 1) {
-                                addView(numSet, numRep, numRep1);
-                            }else {
-                                editTextSets.setText(numSet);
-                                editTextReps.setText(numRep);
-                                editTextReps1.setText(numRep1);
-                            }
-                        }else {
-                            if(i >= 1) {
-                                addView(numSet, numReps, null);
-                            }else {
-                                editTextSets.setText(numSet);
-                                editTextReps.setText(numReps);
-                            }
-                        }
-
-                    }*/
-
-                    populateChipMuscle();
-                    progressBar1.setVisibility(View.GONE);
-                    scrollView.setVisibility(View.VISIBLE);
-                    btnSave.setVisibility(View.VISIBLE);
-                }
+                populateChipMuscle();
+                populateChipCategoryExercise();
+                showHideProgressBar(false);
             });
         });
+    }
+
+    private void showHideProgressBar(boolean show) {
+        if (show) {
+            progressBar.setVisibility(View.VISIBLE);
+            containerForm.setVisibility(View.GONE);
+        }else {
+            progressBar.setVisibility(View.GONE);
+            containerForm.setVisibility(View.VISIBLE);
+        }
     }
 
 }

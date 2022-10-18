@@ -38,7 +38,7 @@ public class ChipMuscleAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int i) {
-        return categoryMuscleBeanList.get(i).getId();
+        return 0;
     }
 
     @Override

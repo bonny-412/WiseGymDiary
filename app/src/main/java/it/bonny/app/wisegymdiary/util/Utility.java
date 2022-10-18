@@ -96,7 +96,7 @@ public class Utility {
 
     public void createSnackbar(String message, View view, Context context) {
         Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_SHORT);
-        snackbar.setBackgroundTint(context.getColor(R.color.secondary));
+        snackbar.setBackgroundTint(context.getColor(R.color.background_card));
         snackbar.setTextColor(context.getColor(R.color.primary_text));
         snackbar.show();
     }

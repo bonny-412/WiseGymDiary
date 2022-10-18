@@ -1,5 +1,6 @@
 package it.bonny.app.wisegymdiary.bean;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -8,32 +9,23 @@ import androidx.room.PrimaryKey;
 public class CategoryMuscleBean {
 
     @PrimaryKey()
-    @ColumnInfo(name = "id")
-    private long id;
-
+    @NonNull
     @ColumnInfo(name = "name_muscle")
     private String name;
 
     @ColumnInfo(name = "order_muscle")
     private int order;
 
-    public CategoryMuscleBean(long id, String name, int order) {
-        this.id = id;
+    public CategoryMuscleBean(@NonNull String name, int order) {
         this.name = name;
         this.order = order;
     }
 
-    public long getId() {
-        return id;
-    }
-    public void setId(long id) {
-        this.id = id;
-    }
-
+    @NonNull
     public String getName() {
         return name;
     }
-    public void setName(String name) {
+    public void setName(@NonNull String name) {
         this.name = name;
     }
 
