@@ -7,7 +7,9 @@ import androidx.core.content.ContextCompat;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
@@ -37,13 +39,13 @@ import it.bonny.app.wisegymdiary.util.Utility;
 
 public class NewEditExerciseActivity extends AppCompatActivity {
 
-    private MaterialToolbar materialToolbar;
-    private TextView titlePage, subTitlePage;
+    private TextView titlePage;
     private ProgressBar progressBar, progressBarMuscle, progressBarExerciseBased;
     private EditText name, note;
     private LinearLayout containerForm;
     private TextInputLayout nameLayout;
     private TextView titleChooseIconMuscle, titleChooseExerciseBased;
+    private MaterialButton btnReturn, btnSave;
 
     private ExerciseBean exerciseBean;
     private ChipGroup chipGroup, chipGroupExerciseBased;
@@ -58,50 +60,42 @@ public class NewEditExerciseActivity extends AppCompatActivity {
 
         initElements();
 
-        materialToolbar.setNavigationOnClickListener(v -> finish());
+        btnReturn.setOnClickListener(v -> finish());
 
-        materialToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if(item.getItemId() == R.id.btn_save_generic_menu) {
-                    boolean isError = false;
-                    Animation shake = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shake);
+        btnSave.setOnClickListener(v -> {
+            boolean isError = false;
+            Animation shake = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shake);
 
-                    if(name.getText() == null || "".equals(name.getText().toString().trim())) {
-                        isError = true;
-                        nameLayout.setError(getString(R.string.required_field));
-                        nameLayout.startAnimation(shake);
-                    }else
-                        nameLayout.setError(null);
+            if(name.getText() == null || "".equals(name.getText().toString().trim())) {
+                isError = true;
+                nameLayout.setError(getString(R.string.required_field));
+                nameLayout.startAnimation(shake);
+            }else
+                nameLayout.setError(null);
 
-                    if(chipMuscleSelected == null) {
-                        isError = true;
-                        titleChooseIconMuscle.setTextColor(getColor(R.color.primary));
-                        titleChooseIconMuscle.startAnimation(shake);
-                    }else
-                        titleChooseIconMuscle.setTextColor(getColor(R.color.secondary_text));
+            if(chipMuscleSelected == null) {
+                isError = true;
+                titleChooseIconMuscle.setTextColor(getColor(R.color.primary));
+                titleChooseIconMuscle.startAnimation(shake);
+            }else
+                titleChooseIconMuscle.setTextColor(getColor(R.color.secondary_text));
 
-                    if(chipCategoryExerciseSelected == null) {
-                        isError = true;
-                        titleChooseExerciseBased.setTextColor(getColor(R.color.primary));
-                        titleChooseExerciseBased.startAnimation(shake);
-                    }else
-                        titleChooseExerciseBased.setTextColor(getColor(R.color.secondary_text));
+            if(chipCategoryExerciseSelected == null) {
+                isError = true;
+                titleChooseExerciseBased.setTextColor(getColor(R.color.primary));
+                titleChooseExerciseBased.startAnimation(shake);
+            }else
+                titleChooseExerciseBased.setTextColor(getColor(R.color.secondary_text));
 
-                   if(!isError) {
-                        Intent intent = new Intent();
-                        intent.putExtra("id", idExercise);
-                        intent.putExtra("name", name.getText().toString().trim());
-                        intent.putExtra("idCategoryMuscle", chipMuscleSelected.getText().toString().trim());
-                        intent.putExtra("idCategoryExercise", chipCategoryExerciseSelected.getText().toString().trim());
-                        intent.putExtra("note", note.getText().toString().trim());
-                        setResult(RESULT_OK, intent);
-                        finish();
-                    }
-
-                    return true;
-                }
-                return false;
+            if(!isError) {
+                Intent intent = new Intent();
+                intent.putExtra("id", idExercise);
+                intent.putExtra("name", name.getText().toString().trim());
+                intent.putExtra("idCategoryMuscle", chipMuscleSelected.getText().toString().trim());
+                intent.putExtra("idCategoryExercise", chipCategoryExerciseSelected.getText().toString().trim());
+                intent.putExtra("note", note.getText().toString().trim());
+                setResult(RESULT_OK, intent);
+                finish();
             }
         });
 
@@ -110,15 +104,11 @@ public class NewEditExerciseActivity extends AppCompatActivity {
             exerciseBean.setIdCategoryExercise(getString(R.string.category_exercise_weight_reps));
 
             titlePage.setText(getString(R.string.title_page_new_edit_exercise));
-            subTitlePage.setText(getString(R.string.sub_title_page_new_edit_exercise));
-            materialToolbar.setTitle(getString(R.string.title_page_new_edit_exercise));
 
             populateChipMuscle();
             populateChipCategoryExercise();
         }else {
             titlePage.setText(getString(R.string.title_page_new_edit_exercise_edit));
-            subTitlePage.setText(getString(R.string.sub_title_page_new_edit_exercise_edit));
-            materialToolbar.setTitle(getString(R.string.title_page_new_edit_exercise_edit));
 
             retrieveExercise(idExercise);
         }
@@ -127,8 +117,8 @@ public class NewEditExerciseActivity extends AppCompatActivity {
 
     private void initElements() {
         titlePage = findViewById(R.id.titlePage);
-        subTitlePage = findViewById(R.id.subTitlePage);
-        materialToolbar = findViewById(R.id.materialToolbar);
+        btnSave = findViewById(R.id.btnSave);
+        btnReturn = findViewById(R.id.btnReturn);
         progressBar = findViewById(R.id.progressBar);
         name = findViewById(R.id.name);
         note = findViewById(R.id.note);

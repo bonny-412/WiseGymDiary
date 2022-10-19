@@ -26,14 +26,13 @@ import it.bonny.app.wisegymdiary.util.Utility;
 
 public class NewEditWorkoutPlanActivity extends AppCompatActivity {
 
-    private MaterialToolbar materialToolbar;
-    private TextView titlePage, subTitlePage;
+    private TextView titlePage;
     private EditText name, note;
     private TextView startEndDate;
     private TextInputLayout nameLayout, noteLayout;
     private WorkoutPlanBean workoutPlanBean;
     private ProgressBar progressBar;
-    private MaterialButton btnAddWorkout;
+    private MaterialButton btnAddWorkout, btnReturn;
     private MaterialDatePicker<Pair<Long, Long>> materialDatePicker;
     private final Utility utility = new Utility();
 
@@ -46,12 +45,14 @@ public class NewEditWorkoutPlanActivity extends AppCompatActivity {
 
         initElement();
 
-        materialToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        btnReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+
+
 
         startEndDate.setOnClickListener(view -> {
             materialDatePicker.show(getSupportFragmentManager(), "Date Picker");
@@ -132,8 +133,6 @@ public class NewEditWorkoutPlanActivity extends AppCompatActivity {
 
         if (idWorkoutPlan == 0) {
             titlePage.setText(getString(R.string.title_page_new_edit_workout_plan));
-            subTitlePage.setText(getString(R.string.sub_title_page_new_edit_workout_plan));
-            materialToolbar.setTitle(getString(R.string.title_page_new_edit_workout_plan));
 
             workoutPlanBean = new WorkoutPlanBean();
 
@@ -146,8 +145,6 @@ public class NewEditWorkoutPlanActivity extends AppCompatActivity {
             countWorkoutPlan();
         } else {
             titlePage.setText(getString(R.string.title_page_new_edit_workout_plan_edit));
-            subTitlePage.setText(getString(R.string.sub_title_page_new_edit_workout_plan_edit));
-            materialToolbar.setTitle(getString(R.string.title_page_new_edit_workout_plan_edit));
 
             retrieveWorkoutPlan(idWorkoutPlan);
         }
@@ -157,13 +154,12 @@ public class NewEditWorkoutPlanActivity extends AppCompatActivity {
 
     private void initElement() {
         titlePage = findViewById(R.id.titlePage);
-        subTitlePage = findViewById(R.id.subTitlePage);
         name = findViewById(R.id.name);
         startEndDate = findViewById(R.id.startEndDate);
         note = findViewById(R.id.note);
         nameLayout = findViewById(R.id.nameLayout);
         progressBar = findViewById(R.id.progressBar);
-        materialToolbar = findViewById(R.id.materialToolbar);
+        btnReturn = findViewById(R.id.btnReturn);
         noteLayout = findViewById(R.id.noteLayout);
         btnAddWorkout = findViewById(R.id.btnAddWorkout);
 
