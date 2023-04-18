@@ -54,7 +54,7 @@
             app:layout_constraintTop_toTopOf="@+id/btnReturn"
             app:layout_constraintBottom_toBottomOf="@id/btnReturn"
             app:layout_constraintStart_toEndOf="@+id/btnReturn"
-            app:layout_constraintEnd_toStartOf="@+id/btnSave"
+            app:layout_constraintEnd_toStartOf="@+id/btnDelete"
             android:ellipsize="marquee"
             android:lines="1"
             android:fadingEdge="horizontal"
@@ -63,11 +63,11 @@
             />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnSave"
+            android:id="@+id/btnDelete"
             style="@style/Widget.Material3.Button.TextButton.Icon"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            app:icon="@drawable/ic_check"
+            app:icon="@drawable/ic_delete"
             android:insetRight="0dp"
             android:insetLeft="0dp"
             android:insetTop="0dp"
@@ -75,17 +75,17 @@
             android:paddingEnd="12dp"
             android:paddingStart="12dp"
             app:iconPadding="0dp"
-            android:layout_marginEnd="4dp"
             app:iconGravity="textStart"
-            app:iconTint="@color/primary"
+            app:iconTint="@color/primary_text"
             app:layout_constraintTop_toTopOf="@+id/btnReturn"
             app:layout_constraintBottom_toBottomOf="@+id/btnReturn"
             app:layout_constraintEnd_toEndOf="parent"
-            android:contentDescription="@string/save"
+            android:contentDescription="@string/delete"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scrollbars="none"
@@ -93,7 +93,7 @@
         app:layout_constraintTop_toBottomOf="@+id/linearToolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toTopOf="@+id/btnSave">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -116,145 +116,232 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
-        <LinearLayout
-            android:id="@+id/containerForm"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_margin="8dp"
-            android:gravity="center_vertical"
-            android:background="@drawable/background_corners_rounded_big"
-            android:padding="8dp">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/nameLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                app:errorEnabled="true">
-
-                <EditText
-                    android:id="@+id/name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:autofillHints="name"
-                    android:hint="@string/edit_text_name_exercise"
-                    android:imeOptions="actionDone"
-                    android:inputType="text"
-                    android:textColor="@color/primary_text"
-                    android:textColorHint="@color/tertiary_text"
-                    android:importantForAutofill="noExcludeDescendants"
-                    tools:ignore="LabelFor,SpeakableTextPresentCheck" />
-            </com.google.android.material.textfield.TextInputLayout>
-
             <LinearLayout
-                android:id="@+id/containerChip"
+                android:id="@+id/containerForm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="8dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_margin="8dp"
+                android:gravity="center_vertical"
+                android:background="@drawable/background_corners_rounded_big"
+                android:padding="8dp">
 
-                <TextView
-                    android:id="@+id/titleChooseIconMuscle"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/containerName"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/line1"
+                    android:padding="4dp">
+                    <TextView
+                        android:id="@+id/textLabelName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/secondary_text"
+                        android:text="@string/edit_text_name_workout_plan"
+                        android:textStyle="italic"
+                        android:textSize="14sp"
+                        android:layout_marginEnd="8dp"/>
+
+                    <EditText
+                        android:id="@+id/name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="48dp"
+                        android:autofillHints="name"
+                        android:hint="@string/text_label_required"
+                        android:imeOptions="actionDone"
+                        android:inputType="text"
+                        android:singleLine="true"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginStart="8dp"
+                        android:background="@color/background_card"
+                        android:textColor="@color/primary_text"
+                        android:textColorHint="@color/tertiary_text"
+                        android:importantForAutofill="noExcludeDescendants"
+                        tools:ignore="LabelFor,SpeakableTextPresentCheck"/>
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/line1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="@string/text_affected_muscle"
-                    android:textColor="@color/secondary_text"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:background="@color/background"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/containerName"
+                    app:layout_constraintBottom_toTopOf="@+id/containerDate"
+                    android:padding="4dp"/>
 
-                <ProgressBar
-                    android:id="@+id/progressBarMuscle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:indeterminate="true"
-                    android:layout_gravity="center_horizontal"
-                    android:indeterminateDrawable="@drawable/progress_bg"
-                    android:progress="0" />
-
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/chipGroup"
+                <LinearLayout
+                    android:id="@+id/containerNote"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    app:selectionRequired="true"
-                    app:singleSelection="true" />
-            </LinearLayout>
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@+id/line2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:padding="4dp">
+                    <TextView
+                        android:id="@+id/textLabelNote"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="@+id/name1"
+                        android:textColor="@color/secondary_text"
+                        android:text="@string/edit_text_note_workout_plan"
+                        android:textStyle="italic"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/name1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginEnd="8dp"/>
 
-            <LinearLayout
-                android:id="@+id/containerChipExerciseBased"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="8dp"
-                android:orientation="vertical">
+                    <EditText
+                        android:id="@+id/note"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="48dp"
+                        android:autofillHints="name"
+                        android:hint="@string/text_label_optional"
+                        android:imeOptions="actionDone"
+                        android:inputType="text"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:singleLine="false"
+                        android:layout_marginStart="8dp"
+                        android:background="@color/background_card"
+                        android:textColor="@color/primary_text"
+                        android:textColorHint="@color/tertiary_text"
+                        android:importantForAutofill="noExcludeDescendants"
+                        tools:ignore="LabelFor,SpeakableTextPresentCheck"/>
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/titleChooseExerciseBased"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
                     android:layout_marginTop="8dp"
+                    android:background="@color/background"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/containerName"
+                    app:layout_constraintBottom_toTopOf="@+id/containerDate"
+                    android:padding="4dp"/>
+
+                <LinearLayout
+                    android:id="@+id/containerChip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:layout_marginBottom="8dp"
-                    android:text="@string/text_exercise_based"
-                    android:textColor="@color/secondary_text"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:orientation="vertical">
 
-                <ProgressBar
-                    android:id="@+id/progressBarExerciseBased"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:indeterminate="true"
-                    android:layout_gravity="center_horizontal"
-                    android:indeterminateDrawable="@drawable/progress_bg"
-                    android:progress="0" />
+                    <TextView
+                        android:id="@+id/titleChooseIconMuscle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/text_affected_muscle"
+                        android:textStyle="italic"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="14sp" />
 
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/chipGroupExerciseBased"
+                    <ProgressBar
+                        android:id="@+id/progressBarMuscle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:indeterminate="true"
+                        android:layout_gravity="center_horizontal"
+                        android:indeterminateDrawable="@drawable/progress_bg"
+                        android:progress="0" />
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/chipGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        app:selectionRequired="true"
+                        app:singleSelection="true" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/background"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/containerName"
+                    app:layout_constraintBottom_toTopOf="@+id/containerDate"
+                    android:padding="4dp"/>
+
+                <LinearLayout
+                    android:id="@+id/containerChipExerciseBased"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    app:selectionRequired="true"
-                    app:singleSelection="true" />
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="8dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/titleChooseExerciseBased"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:textStyle="italic"
+                        android:text="@string/text_exercise_based"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="14sp" />
+
+                    <ProgressBar
+                        android:id="@+id/progressBarExerciseBased"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:indeterminate="true"
+                        android:layout_gravity="center_horizontal"
+                        android:indeterminateDrawable="@drawable/progress_bg"
+                        android:progress="0" />
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/chipGroupExerciseBased"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        app:selectionRequired="true"
+                        app:singleSelection="true" />
+                </LinearLayout>
+
             </LinearLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/noteLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                app:layout_constraintTop_toBottomOf="@+id/startEndDate"
-                app:layout_constraintStart_toStartOf="@id/nameLayout"
-                app:layout_constraintEnd_toEndOf="@id/nameLayout">
-
-                <EditText
-                    android:id="@+id/note"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:autofillHints="name"
-                    android:hint="@string/edit_text_note_exercise"
-                    android:imeOptions="normal"
-                    android:inputType="textMultiLine"
-                    android:textColor="@color/primary_text"
-                    android:textColorHint="@color/tertiary_text"
-                    tools:ignore="LabelFor,SpeakableTextPresentCheck" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </LinearLayout>
 
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSave"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/nestedScrollView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:contentDescription="@string/save"
+        android:text="@string/save"
+        app:cornerRadius="8dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

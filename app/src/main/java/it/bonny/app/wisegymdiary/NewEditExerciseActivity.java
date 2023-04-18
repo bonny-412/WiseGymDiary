@@ -5,7 +5,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -26,6 +28,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -43,9 +46,9 @@ public class NewEditExerciseActivity extends AppCompatActivity {
     private ProgressBar progressBar, progressBarMuscle, progressBarExerciseBased;
     private EditText name, note;
     private LinearLayout containerForm;
-    private TextInputLayout nameLayout;
+    private TextView textLabelName;
     private TextView titleChooseIconMuscle, titleChooseExerciseBased;
-    private MaterialButton btnReturn, btnSave;
+    private MaterialButton btnReturn, btnSave, btnDelete;
 
     private ExerciseBean exerciseBean;
     private ChipGroup chipGroup, chipGroupExerciseBased;
@@ -62,16 +65,23 @@ public class NewEditExerciseActivity extends AppCompatActivity {
 
         btnReturn.setOnClickListener(v -> finish());
 
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAlertDelete(idExercise);
+            }
+        });
+
         btnSave.setOnClickListener(v -> {
             boolean isError = false;
             Animation shake = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shake);
 
             if(name.getText() == null || "".equals(name.getText().toString().trim())) {
                 isError = true;
-                nameLayout.setError(getString(R.string.required_field));
-                nameLayout.startAnimation(shake);
+                textLabelName.setTextColor(getColor(R.color.primary));
+                textLabelName.startAnimation(shake);
             }else
-                nameLayout.setError(null);
+                textLabelName.setTextColor(getColor(R.color.secondary_text));
 
             if(chipMuscleSelected == null) {
                 isError = true;
@@ -104,7 +114,7 @@ public class NewEditExerciseActivity extends AppCompatActivity {
             exerciseBean.setIdCategoryExercise(getString(R.string.category_exercise_weight_reps));
 
             titlePage.setText(getString(R.string.title_page_new_edit_exercise));
-
+            btnDelete.setVisibility(View.INVISIBLE);
             populateChipMuscle();
             populateChipCategoryExercise();
         }else {
@@ -119,6 +129,7 @@ public class NewEditExerciseActivity extends AppCompatActivity {
         titlePage = findViewById(R.id.titlePage);
         btnSave = findViewById(R.id.btnSave);
         btnReturn = findViewById(R.id.btnReturn);
+        btnDelete = findViewById(R.id.btnDelete);
         progressBar = findViewById(R.id.progressBar);
         name = findViewById(R.id.name);
         note = findViewById(R.id.note);
@@ -127,7 +138,7 @@ public class NewEditExerciseActivity extends AppCompatActivity {
         progressBarExerciseBased = findViewById(R.id.progressBarExerciseBased);
         chipGroup = findViewById(R.id.chipGroup);
         chipGroupExerciseBased = findViewById(R.id.chipGroupExerciseBased);
-        nameLayout = findViewById(R.id.nameLayout);
+        textLabelName = findViewById(R.id.textLabelName);
         titleChooseIconMuscle = findViewById(R.id.titleChooseIconMuscle);
         titleChooseExerciseBased = findViewById(R.id.titleChooseExerciseBased);
     }
@@ -271,6 +282,34 @@ public class NewEditExerciseActivity extends AppCompatActivity {
             progressBar.setVisibility(View.GONE);
             containerForm.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void showAlertDelete(long id) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View viewInfoDialog = View.inflate(this, R.layout.alert_delete, null);
+        builder.setCancelable(false);
+        builder.setView(viewInfoDialog);
+        MaterialButton btnCancel = viewInfoDialog.findViewById(R.id.btnCancel);
+        MaterialButton btnDelete = viewInfoDialog.findViewById(R.id.btnDelete);
+        TextView textAlert = viewInfoDialog.findViewById(R.id.textAlert);
+
+        textAlert.setText(R.string.text_delete_exercise);
+        final AlertDialog dialog = builder.create();
+        if(dialog.getWindow() != null && getApplicationContext() != null){
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(getApplicationContext(), R.color.transparent)));
+            dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        }
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
+        btnDelete.setOnClickListener(v -> {
+            AppDatabase.databaseWriteExecutor.execute(() -> {
+                ExerciseBean exerciseBeanDelete = AppDatabase.getInstance(getApplicationContext()).exerciseDAO().findExerciseById(id);
+                AppDatabase.getInstance(getApplicationContext()).exerciseDAO().delete(exerciseBeanDelete);
+                dialog.dismiss();
+                Utility.createSnackbar(getString(R.string.deleted), v, getApplicationContext());
+                finish();
+            });
+        });
+        dialog.show();
     }
 
 }

@@ -87,11 +87,11 @@
     <string name="title_page_new_edit_workout_plan_edit">Modifica scheda</string>
     <string name="sub_title_page_new_edit_workout_plan">Puoi creare la tua scheda di allenamento</string>
     <string name="sub_title_page_new_edit_workout_plan_edit">Puoi modificare la tua scheda di allenamento</string>
-    <string name="edit_text_name_workout_plan">Nome scheda</string>
+    <string name="edit_text_name_workout_plan">Nome</string>
     <string name="edit_text_date_start_workout_plan">Data inizio/fine</string>
-    <string name="edit_text_note_workout_plan">Note scheda</string>
+    <string name="edit_text_note_workout_plan">Note</string>
     <string name="label_edit_text_name_workout_plan">Dai un nome alla tua scheda</string>
-    <string name="label_edit_text_start_date_workout_plan">Scegli la data di inizio della tua scheda</string>
+    <string name="label_edit_text_start_date_workout_plan">Durata</string>
     <string name="label_edit_text_note_workout_plan">Aggiungi delle note alla tua scheda</string>
     <string name="choose_start_end_date">Scegli la data di inizio/fine</string>
     <string name="date_format">dd-MM-yyyy</string>
@@ -167,5 +167,7 @@
     <string name="deleted">Cancellato</string>
     <string name="title_alert">Attenzione!</string>
     <string name="title_alert_delete">Sei sicuro?</string>
+    <string name="text_label_required">(Obbligatorio)</string>
+    <string name="text_label_optional">(Facoltativo)</string>
 
 </resources>

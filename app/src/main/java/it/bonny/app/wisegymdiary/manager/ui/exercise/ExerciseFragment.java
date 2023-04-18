@@ -55,7 +55,6 @@ public class ExerciseFragment extends Fragment {
     private List<ExerciseBean> beanListApp;
     private TextInputLayout searchView;
     private MaterialToolbar materialToolbar;
-    private RecyclerView recyclerViewExercise;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -115,7 +114,7 @@ public class ExerciseFragment extends Fragment {
         searchView = binding.searchView;
         materialToolbar = binding.materialToolbar;
 
-        recyclerViewExercise = binding.recyclerViewExercise;
+        RecyclerView recyclerViewExercise = binding.recyclerViewExercise;
         exerciseRecyclerViewAdapter = new ExerciseRecyclerViewAdapter(getActivity(), recyclerViewOnClickItem, recyclerViewOnLongClickItem);
         recyclerViewExercise.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerViewExercise.setHasFixedSize(true);

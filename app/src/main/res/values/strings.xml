@@ -21,6 +21,8 @@
     <string name="delete">Delete</string>
     <string name="deleted">Deleted</string>
     <string name="title_alert_delete">Are you sure?</string>
+    <string name="text_label_required">(Required)</string>
+    <string name="text_label_optional">(Optional)</string>
 
     <!-- Content description button toolbar pages -->
     <string name="content_description_button_return_back">Return back</string>
@@ -105,11 +107,11 @@
     <string name="title_page_new_edit_workout_plan_edit">Edit workout plan</string>
     <string name="sub_title_page_new_edit_workout_plan">You can create your own workout plan</string>
     <string name="sub_title_page_new_edit_workout_plan_edit">You can edit your own workout plan</string>
-    <string name="edit_text_name_workout_plan">Name workout plan</string>
-    <string name="edit_text_date_start_workout_plan">Start/End date</string>
-    <string name="edit_text_note_workout_plan">Note workout plan</string>
+    <string name="edit_text_name_workout_plan">Name</string>
+    <string name="edit_text_date_start_workout_plan">Duration</string>
+    <string name="edit_text_note_workout_plan">Note</string>
     <string name="label_edit_text_name_workout_plan">Give your workout plan a name</string>
-    <string name="label_edit_text_start_date_workout_plan">Choose start date for your workout plan</string>
+    <string name="label_edit_text_start_date_workout_plan">Duration</string>
     <string name="label_edit_text_note_workout_plan">Add your workout plan a notes</string>
     <string name="choose_start_end_date">Choose start/end date</string>
     <string name="text_button_add_session_workout_plan">Add workout</string>

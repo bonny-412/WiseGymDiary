@@ -1,7 +1,11 @@
 package it.bonny.app.wisegymdiary.manager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.util.Pair;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
@@ -15,13 +19,18 @@ import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import it.bonny.app.wisegymdiary.R;
+import it.bonny.app.wisegymdiary.bean.WorkoutBean;
 import it.bonny.app.wisegymdiary.bean.WorkoutPlanBean;
+import it.bonny.app.wisegymdiary.component.RecyclerViewSessionAdapter;
 import it.bonny.app.wisegymdiary.database.AppDatabase;
+import it.bonny.app.wisegymdiary.util.RecyclerViewOnClickItem;
 import it.bonny.app.wisegymdiary.util.Utility;
 
 public class NewEditWorkoutPlanActivity extends AppCompatActivity {
@@ -29,12 +38,15 @@ public class NewEditWorkoutPlanActivity extends AppCompatActivity {
     private TextView titlePage;
     private EditText name, note;
     private TextView startEndDate;
-    private TextInputLayout nameLayout, noteLayout;
     private WorkoutPlanBean workoutPlanBean;
     private ProgressBar progressBar;
     private MaterialButton btnAddWorkout, btnReturn;
     private MaterialDatePicker<Pair<Long, Long>> materialDatePicker;
+    private ConstraintLayout containerForm;
     private final Utility utility = new Utility();
+    private RecyclerView recyclerViewWorkouts;
+    private RecyclerViewSessionAdapter recyclerViewSessionAdapter;
+    private List<WorkoutBean> workoutBeanList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,23 +169,42 @@ public class NewEditWorkoutPlanActivity extends AppCompatActivity {
         name = findViewById(R.id.name);
         startEndDate = findViewById(R.id.startEndDate);
         note = findViewById(R.id.note);
-        nameLayout = findViewById(R.id.nameLayout);
         progressBar = findViewById(R.id.progressBar);
         btnReturn = findViewById(R.id.btnReturn);
-        noteLayout = findViewById(R.id.noteLayout);
         btnAddWorkout = findViewById(R.id.btnAddWorkout);
+        containerForm = findViewById(R.id.containerForm);
+        recyclerViewWorkouts = findViewById(R.id.recyclerViewWorkouts);
+
+        recyclerViewSessionAdapter = new RecyclerViewSessionAdapter(getApplicationContext(), new RecyclerViewOnClickItem() {
+            @Override
+            public void recyclerViewItemClick(long idElement) {
+
+            }
+        });
+
+        setAdapter();
 
         showHideProgressBar(true);
+    }
+
+    void setAdapter() {
+        recyclerViewWorkouts.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        recyclerViewWorkouts.setHasFixedSize(true);
+        recyclerViewWorkouts.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewWorkouts.setAdapter(recyclerViewSessionAdapter);
     }
 
     private void retrieveWorkoutPlan(long idWorkoutPlan) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             workoutPlanBean = AppDatabase.getInstance(getApplicationContext()).workoutPlanDAO().findWorkoutPlanByPrimaryKey(idWorkoutPlan);
+            workoutBeanList = AppDatabase.getInstance(getApplicationContext()).workoutDayDAO().getAllWorkoutByIdWorkPlanNoLiveData(idWorkoutPlan);
             runOnUiThread(() -> {
                 name.setText(workoutPlanBean.getName());
                 note.setText(workoutPlanBean.getNote());
                 getTimeInMillisCustom();
                 showHideProgressBar(false);
+
+                recyclerViewSessionAdapter.updateSessionList(workoutBeanList);
             });
         });
     }
@@ -197,15 +228,11 @@ public class NewEditWorkoutPlanActivity extends AppCompatActivity {
     private void showHideProgressBar(boolean show) {
         if (show) {
             progressBar.setVisibility(View.VISIBLE);
-            nameLayout.setVisibility(View.GONE);
-            noteLayout.setVisibility(View.GONE);
-            startEndDate.setVisibility(View.GONE);
+            containerForm.setVisibility(View.GONE);
             btnAddWorkout.setVisibility(View.GONE);
         }else {
             progressBar.setVisibility(View.GONE);
-            nameLayout.setVisibility(View.VISIBLE);
-            noteLayout.setVisibility(View.VISIBLE);
-            startEndDate.setVisibility(View.VISIBLE);
+            containerForm.setVisibility(View.VISIBLE);
             btnAddWorkout.setVisibility(View.VISIBLE);
         }
     }
